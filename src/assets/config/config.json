@@ -1,0 +1,91 @@
+
+{
+  "apiServices": [
+    {
+      "serviceName": "PostPatientList",
+      "serviceUrl": "https://DYNAMIC_API_URL/List/GetListDataByPost/"
+    },
+    {
+      "serviceName": "GetUserPersona",
+      "serviceUrl": "https://DYNAMIC_API_URL/Metadata/GetUserPersona"
+    },
+    {
+      "serviceName": "GetMyPatientList",
+      "serviceUrl": "https://DYNAMIC_API_URL/List/GetListDataByPost/d365889c-e76a-44ab-8e4a-81878273dc69"
+    },
+    {
+      "serviceName": "GetApplications",
+      "serviceUrl": "https://DYNAMIC_API_URL/GetList/meta/application"
+    },
+    {
+      "serviceName": "GetApplicationList",
+      "serviceUrl": "https://DYNAMIC_API_URL/GetList/meta/applicationlist"
+    },
+    {
+      "serviceName": "PostPatientSearch",
+      "serviceUrl": "https://DYNAMIC_API_URL/GetBaseViewListByPost/terminus_patientsearch"
+    },
+    {
+      "serviceName": "GetModulesList",
+      "serviceUrl": "https://DYNAMIC_API_URL/GetBaseViewListByAttribute/meta_modulelist"
+    },
+    {
+      "serviceName": "PostMyPatients",
+      "serviceUrl": "https://DYNAMIC_API_URL/PostObject?synapsenamespace=terminus&synapseentityname=mypatients"
+    },
+    {
+      "serviceName": "DeleteMyPatient",
+      "serviceUrl": "https://DYNAMIC_API_URL/DeleteObject?synapsenamespace=terminus&synapseentityname=mypatients&id="
+    },
+    {
+      "serviceName": "CheckMyPatient",
+      "serviceUrl": "https://DYNAMIC_API_URL/GetObject?synapsenamespace=terminus&synapseentityname=mypatients&id="
+    }
+  ],
+  "ENVIdentificationTemplate": [
+    {
+      "environment": "dev",
+      "colour": "#bc0b56"
+    },
+    {
+      "environment": "test",
+      "colour": "#87CEEB"
+    },
+    {
+      "environment": "stage",
+      "colour": "#cd5c5c"
+    },
+    {
+      "environment": "training",
+      "colour": "#FFA500"
+    },
+    {
+      "environment": "preproduction",
+      "colour": "#82cbde"
+    },
+    {
+      "environment": "production",
+      "colour": "#f6f2f2"
+    }
+  ],
+  "OIDCConfig": {
+    "authority": "IDENTITY_SERVER_URL",
+    "client_id": "terminus-framework",
+    "client_secret": "secret",
+    "redirect_uri": "https://TERMINUS_DOMAIN/oidc-callback",
+    "post_logout_redirect_uri": "https://TERMINUS_DOMAIN/oidc-logout?oidccallback=true",
+    "response_type": "id_token token",
+    "scope": "openid profile dynamicapi.read",
+    "automaticSilentRenew": true,
+    "silent_redirect_uri": "https://TERMINUS_DOMAIN/assets/silent-refresh.html",
+    "accessTokenExpiringNotificationTime": 60
+  },
+  "userIdle": {
+    "idle": 3600,
+    "timeout": 5,
+    "ping": 5
+  },
+  "mrnTypeCode": "MRN",
+  "empiTypeCode": "NHS",
+  "currentEnvironment":"production"
+}

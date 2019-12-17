@@ -1,0 +1,228 @@
+{
+  "mainBanner": {
+    "endpointUri": "https://DYNAMIC_API_URL/GetBaseViewListByAttribute/patientbanner_mainbanner?synapseattributename=person_id&attributevalue=",
+    "data": {
+      "leftSideTopRow": {
+        "label": "",
+        "dataColumn": "fullname",
+        "endpointUri": ""
+      },
+      "leftSideBottomRowFirst": {
+        "label": "NHS",
+        "dataColumn": "nhsnumber",
+        "endpointUri": ""
+      },
+      "leftSideBottomRowMiddle": {
+        "label": "HOSPITAL No.",
+        "dataColumn": "hospitalnumber",
+        "endpointUri": ""
+      },
+      "leftSideBottomRowLast": {
+        "label": "",
+        "dataColumn": "",
+        "endpointUri": ""
+      },
+      "extLeftSideBottomRowFirst": {
+        "label": "CONSULTANT NAME",
+        "dataColumn": "consultingdoctortext",
+        "endpointUri": ""
+      },
+      "extLeftSideBottomRowLast": {
+        "label": "",
+        "dataColumn": "currentlyadmittedto",
+        "endpointUri": ""
+      },
+      "rightSideTopRowFirst": {
+        "label": "BORN",
+        "dataColumn": "born",
+        "endpointUri": ""
+      },
+      "rightSideTopRowMiddle": {
+        "label": "GENDER",
+        "dataColumn": "gender",
+        "endpointUri": ""
+      },
+      "rightSideTopRowLast": {
+        "label": "CONTACT",
+        "dataColumn": "contactdetails",
+        "endpointUri": ""
+      },
+      "rightSideBottomRowFirst": {
+        "label": "ALLERGIES",
+        "dataColumn": "",
+        "endpointUri": ""
+      },
+      "rightSideBottomRowMiddle": {
+        "label": "RISKS",
+        "dataColumn": "",
+        "endpointUri": ""
+      },
+      "rightSideBottomRowLast": {
+        "label": "",
+        "dataColumn": "",
+        "endpointUri": ""
+      }
+    }
+  },
+  "columns": [
+    {
+      "header": "PERSONAL INFORMATION",
+      "data": [
+        {
+          "label": "PREFERRED NAME",
+          "dataColumn": "preferredname",
+          "endpointUri": ""
+        },
+        {
+          "label": "ADDRESS",
+          "dataColumn": "address",
+          "endpointUri": ""
+        },
+        {
+          "label": "TELEPHONE",
+          "dataColumn": "contactdetails",
+          "endpointUri": "https://DYNAMIC_API_URL/GetBaseViewListByAttribute/patientbanner_personcontactinfo?synapseattributename=person_id&attributevalue="
+        },
+        {
+          "label": "EMAIL",
+          "dataColumn": "",
+          "endpointUri": ""
+        },
+        {
+          "label": "ETHNIC GROUP",
+          "dataColumn": "ethnicgroup",
+          "endpointUri": ""
+        },
+        {
+          "label": "RELIGION",
+          "dataColumn": "religion",
+          "endpointUri": ""
+        },
+        {
+          "label": "MARITAL STATUS",
+          "dataColumn": "maritalstatus",
+          "endpointUri": ""
+        },
+        {
+          "label": "FIRST LANGUAGE",
+          "dataColumn": "firstlanguage",
+          "endpointUri": ""
+        }
+      ],
+      "endpointUri": "https://DYNAMIC_API_URL/GetBaseViewListByAttribute/patientbanner_mainbanner?synapseattributename=person_id&attributevalue="
+    },
+    {
+      "header": "",
+      "data": [
+        {
+          "label": "SENSITIVE RECORD",
+          "dataColumn": "",
+          "endpointUri": ""
+        },
+        {
+          "label": "HOSPITAL No.",
+          "dataColumn": "hospitalnumber",
+          "endpointUri": ""
+        },
+        {
+          "label": "PROGRAMMES",
+          "dataColumn": "",
+          "endpointUri": ""
+        },
+        {
+          "label": "WARD / CLINIC",
+          "dataColumn": "ward",
+          "endpointUri": ""
+        },
+        {
+          "label": "BED",
+          "dataColumn": "bed",
+          "endpointUri": ""
+        },
+        {
+          "label": "INTENDED DISCHARGE DATE",
+          "dataColumn": "intendeddischargedate",
+          "endpointUri": ""
+        },
+        {
+          "label": "HEIGHT",
+          "dataColumn": "height",
+          "endpointUri": ""
+        },
+        {
+          "label": "WEIGHT",
+          "dataColumn": "weight",
+          "endpointUri": ""
+        },
+        {
+          "label": "BMI",
+          "dataColumn": "bmi",
+          "endpointUri": ""
+        },
+        {
+          "label": "PROCEDURES",
+          "dataColumn": "",
+          "endpointUri": ""
+        }
+      ],
+      "endpointUri": "https://DYNAMIC_API_URL/GetBaseViewListByAttribute/patientbanner_column2?synapseattributename=person_id&attributevalue="
+    },
+    {
+      "header": "CARE TEAM",
+      "data": [
+        {
+          "label": "GP",
+          "dataColumn": "name",
+          "endpointUri": ""
+        },
+        {
+          "label": "GP ADDRESS",
+          "dataColumn": "",
+          "endpointUri": ""
+        },
+        {
+          "label": "GP PHONE NUMBER",
+          "dataColumn": "",
+          "endpointUri": ""
+        },
+        {
+          "label": "GP EMAIL",
+          "dataColumn": "",
+          "endpointUri": ""
+        },
+        {
+          "label": "NEXT OF KIN",
+          "dataColumn": "",
+          "endpointUri": ""
+        }
+      ],
+      "endpointUri": ""
+    },
+    {
+      "header": "CLINICAL INFORMATION",
+      "data": [
+        {
+          "label": "KNOWN ALLERGIES",
+          "dataColumn": "",
+          "endpointUri": ""
+        },
+        {
+          "label": "ADMINISTRATIVE",
+          "dataColumn": "",
+          "endpointUri": ""
+        },
+        {
+          "label": "CLINICAL",
+          "dataColumn": "",
+          "endpointUri": ""
+        },
+        {
+          "label": "NON CLINICAL",
+          "dataColumn": "",
+          "endpointUri": ""
+        }
+      ],
+      "endpointUri": ""
+    }
+  ]
+}

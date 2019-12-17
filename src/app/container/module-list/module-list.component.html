@@ -1,0 +1,53 @@
+<!-- Interneuron Terminus
+Copyright(C) 2019  Interneuron CIC
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program.If not, see<http://www.gnu.org/licenses/>. -->
+
+
+<!--<ol class="breadcrumb">
+  <li class="breadcrumb-item" *ngFor="let module of moduleList">
+    <a class="btn  text-info" href="javascript:void(0);" (click)="notifySelectedModule(module)">{{module.modulename}}</a>
+  </li>
+</ol>-->
+
+<!-- <ul class="nav nav-tabs">
+  <li class="nav-item" *ngFor="let module of moduleList">
+    <a class="nav-link" [ngClass]="{'active' : module.isdefaultmodule}" data-toggle="tab" href="javascript:void(0);" (click)="notifySelectedModule(module)">{{module.modulename}}</a>
+  </li>
+</ul> -->
+
+<!-- 
+Select module: 
+<select class='select-option'
+    #mySelect
+    (change)='notifySelectedModule(myjson.parse(mySelect.value))'>
+   <option class='option' 
+   *ngFor='let module of moduleList' 
+   [value]="myjson.stringify(module)">{{module.modulename}}</option>
+</select>
+-->
+
+  <div class="row">
+    <div class="col-md-12 h4 text-info">
+<div class="btn-group btn-group-lg btn-block">
+
+      <button class="btn dropdown-toggle btn-info text-white btn-block"  *ngIf="moduleList.length >0"  type="button" id="ddlTerminusAppModules" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <span>{{selectedModule}}</span>
+      </button>
+      <ul class="dropdown-menu" style="width: 100%;">
+        <li class="dropdown-item" *ngFor="let module of moduleList">
+          <a href="#" (click)="notifySelectedModule(module)" style="display:block; font-size: 1em; width: 100%; text-align:center;">{{ module.modulename }}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

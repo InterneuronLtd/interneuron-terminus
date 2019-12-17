@@ -1,0 +1,48 @@
+/* Interneuron Terminus
+Copyright(C) 2019  Interneuron CIC
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program.If not, see<http://www.gnu.org/licenses/>. */
+
+#expandedListOverlay {
+  position: fixed; /* Sit on top of the page content */
+  display: block;
+  width: 100%; /* Full width (cover the whole page) */
+  height: 100%; /* Full height (cover the whole page) */
+  top: 50px;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.95); /* Black background with opacity */
+  z-index: 2000; /* Specify a stack order in case you're using a different order for other elements */
+  cursor: pointer; /* Add a pointer on hover */
+  color: #f7f1f1;
+  overflow-y: scroll;
+  padding: 25px;
+}
+
+.my-pagination /deep/ .ngx-pagination {
+  text-align: right;
+}
+
+.my-pagination /deep/ .ngx-pagination a {
+  color: #20a8d8;
+}
+
+.my-pagination /deep/ .ngx-pagination .current {
+  /*background: red;*/
+}
+.Selected{
+  background-color:#20a8d8 !important;
+  color: white !important;
+  
+  }
+
+

@@ -1,0 +1,22 @@
+.terminus_score3 {
+    background-color: #EB907A;
+  }
+  
+.terminus_score2 {
+    background-color: #F6C587;
+  }
+  
+  .terminus_score1 {
+    background-color: #FFF1A7;
+  }
+  
+  .terminus_score0 {
+    background-color: #FFFFFF;
+  }
+
+
+  .dropdown-menu
+  {    
+   max-height: 600px;
+   overflow-y: scroll;
+  }

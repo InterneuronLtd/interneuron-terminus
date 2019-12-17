@@ -1,0 +1,144 @@
+<!-- Interneuron Terminus
+Copyright(C) 2019  Interneuron CIC
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program.If not, see<http://www.gnu.org/licenses/>. -->
+
+
+
+<div *ngIf="showPatientBanner">
+  <div class="" style="background-color: #fff; margin-bottom:0px; padding: 5px; color: #535e7e;">
+    <div class="">
+      <div class="row">
+        <div class="col-sm-6">
+          <span class="h1">
+            {{ leftSideTopRow }}
+          </span>
+          <div class="row">
+            <div class="col-sm-12">
+              <span class="h6">
+                {{ leftSideBottomRowFirstLabel }}
+              </span>
+              <span>
+                {{ leftSideBottomRowFirstValue }}
+              </span>
+              <span>&nbsp;&nbsp;&nbsp;</span>
+              <span class="h6">
+                {{ leftSideBottomRowMiddleLabel }}
+              </span>
+              <span>
+                {{ leftSideBottomRowMiddleValue }}
+              </span>
+              <span>&nbsp;&nbsp;&nbsp;</span>
+              <span class="h6">
+                {{ leftSideBottomRowLastLabel }}
+              </span>
+              <span>
+                {{ leftSideBottomRowLastValue }}
+              </span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <span class="h6">
+                {{ extLeftSideBottomRowFirstLabel }}
+              </span>
+              <span>
+                {{ extLeftSideBottomRowFirstValue }}
+              </span>
+              <br />
+              <span class="badge badge-info text-white text-left text-wrap" style="font-size:0.875rem;font-weight:400;line-height:1.5;" *ngIf="extLeftSideBottomRowLastValue != ' '">
+                {{ extLeftSideBottomRowLastValue != " " ? 'Currently admitted to ' + extLeftSideBottomRowLastValue : "" }}
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-5 ">
+          <div class="d-sm-down-none">
+            <div class="row">
+              <div class="col-sm-12">
+                <span class="h6">
+                  {{ rightSideTopRowFirstLabel }}
+                </span>
+                <span>
+                  {{ rightSideTopRowFirstValue }}
+                </span>
+                <br />
+                <span class="h6">
+                  {{ rightSideTopRowMiddleLabel }}
+                </span>
+                <span>
+                  {{ rightSideTopRowMiddleValue }}
+                </span>
+                <br />
+                <span class="h6">
+                  {{ rightSideTopRowLastLabel }}
+                </span>
+                <span>
+                  {{ rightSideTopRowLastValue }}
+                </span>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <span class="h6">
+                  {{ rightSideBottomRowFirstLabel }}
+                </span>
+                <span>
+                  {{ rightSideBottomRowFirstValue }}
+                </span>
+                <br />
+                <span class="h6">
+                  {{ rightSideBottomRowMiddleLabel }}
+                </span>
+                <span>
+                  {{ rightSideBottomRowMiddleValue }}
+                </span>
+                <br />
+                <span class="h6">
+                  {{ rightSideBottomRowLastLabel }}
+                </span>
+                <span>
+                  {{ rightSideBottomRowLastValue }}
+                </span>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-1">
+            <div class="btn btn-linkedin text-white btn-sm panel-heading collapsed float-right" data-toggle="collapse" data-target="#collapseDiv">
+              <i class="icon-arrow-up"></i>
+              <i class="icon-arrow-down"></i>
+            </div>
+          <span class="float-right">
+            &nbsp;
+          </span>
+          <span class="float-right">
+            <button type="button" class="btn btn-default btn-google-plus bg-white text-danger btn-sm float-right" (click)="insertPatientIntoMyPatients();" *ngIf="!showRemoveButton">
+              <i class="icon-star" data-toggle="tooltip" title="Add to my patients"></i>
+            </button>
+            <button type="button" class="btn btn-default btn-google-plus text-white btn-sm float-right" (click)="removePatientFromMyPatients();" *ngIf="showRemoveButton">
+              <i class="icon-star" data-toggle="tooltip" title="Remove from my patients"></i>
+            </button>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="panel-body">
+      <div id="collapseDiv" class="collapse">
+        <div class="bg-white" style="color: #535e7e; padding:5px;" [innerHTML]="columns">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

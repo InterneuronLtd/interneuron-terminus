@@ -1,0 +1,125 @@
+<!-- Interneuron Terminus
+Copyright(C) 2019  Interneuron CIC
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program.If not, see<http://www.gnu.org/licenses/>. -->
+
+<button type="button" class="btn btn-dark text-white btn-sm btn-block" data-toggle="modal" data-target="#modalSearch" (click)="resetModal()">
+  <i class="icon-magnifier"> </i> Patient Search
+</button>
+
+<div class="modal" id="modalSearch" style="margin-top: 300px;">
+  <div class="modal-dialog  modal-lg">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <!--<div class="modal-header">
+      </div>-->
+      <!-- Modal body -->
+      <div class="modal-body">
+        <div class="bg-white text-dark" style="padding: 7px;">
+          <br />
+          <h2> &nbsp; <i class="icon-magnifier"> </i> Patient Search</h2>
+          <hr />
+          <table class="table table-borderless table-sm  text-dark">
+            <tr>
+              <td style="width: 30%;">Surname</td>
+              <td style="width: 70%;">
+                <input id="txtSurname" name="txtSurname" type="text" class="form-control form-control-sm" [(ngModel)]="surname" (keydown.enter)="patientSearch()">
+              </td>
+            </tr>
+            <tr>
+              <td style="width: 30%;">First name</td>
+              <td style="width: 70%;">
+                <input id="txtFirstName" name="txtFirstName" type="text" class="form-control form-control-sm" [(ngModel)]="firstName" (keydown.enter)="patientSearch()">
+              </td>
+            </tr>
+            <tr>
+              <td style="width: 30%;">DOB (DD/MM/YYYY)</td>
+              <td style="width: 70%;">
+                <input id="txtDOB" name="txtDOB" type="text" class="form-control form-control-sm" [(ngModel)]="dob" (keydown.enter)="patientSearch()">
+              </td>
+            </tr>
+            <tr>
+              <td style="width: 30%;">Hospital Number</td>
+              <td style="width: 70%;">
+                <input id="txtMRN" name="txtMRN" type="text" class="form-control form-control-sm" [(ngModel)]="mrn" (keydown.enter)="patientSearch()">
+              </td>
+            </tr>
+            <tr>
+              <td style="width: 30%;">NHS Number</td>
+              <td style="width: 70%;">
+                <input id="txtNHS" name="txtNHS" type="text" class="form-control form-control-sm" [(ngModel)]="nhs" (keydown.enter)="patientSearch()">
+              </td>
+            </tr>
+            <tr>
+              <td style="width: 30%;">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </td>
+              <td style="width: 70%;">
+                <button class="btn btn-success float-right" type="button" id="btnSearch" (click)="patientSearch()">
+                  <i class="icon-magnifier"> Search</i>
+                </button>
+            </tr>
+          </table>
+       
+
+        <div *ngIf="searchMessage === 'Searching...' && filterClause && filterParams; else elseBlock" class="text-center">
+          <div class="spinner-border spinner-border-sm"></div>
+        </div>
+        <div  *ngIf="searchMessage==='Error'" class="alert alert-danger" role="alert">
+          <a href="#" class="alert-link">Error: </a> Unable to search patients
+      </div>
+        <ng-template #elseBlock>
+          <div id="searchResults" class="bg-white text-dark" style="overflow: scroll;" *ngIf="show && searchMessage === 'Patients found'">
+            <table class="table table-striped text-dark">
+              <thead>
+                <tr>
+                  <th>
+                    Name
+                  </th>
+                  <th>
+                    DOB (DD/MM/YYYY)
+                  </th>
+                  <th>
+                    Hospital Number
+                  </th>
+                  <th>
+                    NHS Number
+                  </th>                 
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let person of persons" data-dismiss="modal" (click)="selectedPatient(person)" style="cursor: pointer;">
+                  <td>{{ person.fullname }}</td>
+                  <td>{{ person.dateofbirth }}</td>
+                  <td>{{ person.mrn }}</td>
+                  <td>{{ person.empi | slice:0:3 }}  {{ person.empi | slice:3:6 }}  {{ person.empi | slice:6:10 }}</td>
+                  <!-- <td><button class="btn btn-primary text-white" type="button" data-dismiss="modal" (click)="selectedPatient(person)">Select</button></td> -->
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="bg-dark text-white text-center" *ngIf="!show && searchMessage === 'No patients found'">
+            <table class="table table-borderless table-sm text-white">
+              <tbody>
+                <tr>
+                  <td>No records found</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </ng-template>
+
+      </div>
+      </div>
+    </div>
+  </div>
+</div>

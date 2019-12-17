@@ -1,0 +1,74 @@
+{
+  "apiServices": [
+    {
+      "serviceName": "Getfluidbalanceobservationbyid",
+      "serviceUrl": "https://DYNAMIC_API_URL/GetObject?synapsenamespace=core&synapseentityname=fluidbalanceobservation&id="
+    },
+    {
+      "serviceName": "GetChartbyfilter",
+      "serviceUrl": "https://DYNAMIC_API_URL/GetBaseViewListByPost/bv_core_fluidbalancechart"
+    },
+    {
+      "serviceName": "GetFBChartData",
+      "serviceUrl": "https://DYNAMIC_API_URL/GetBaseViewListByPost/terminus_fluidbalancechart"
+    },
+    {
+      "serviceName": "GetChartListByEncounterId",
+      "serviceUrl": "https://DYNAMIC_API_URL/GetListByAttribute?synapsenamespace=core&synapseentityname=fluidbalancechart&synapseattributename=encounter_id&attributevalue="
+    },
+    {
+      "serviceName": "GetEncounterListByPersonID",
+      "serviceUrl": "https://DYNAMIC_API_URL/GetBaseViewListByPost/bv_core_inpatientencountersforfluidbalance"
+    },
+    {
+      "serviceName": "PostChart",
+      "serviceUrl": "https://DYNAMIC_API_URL/PostObject?synapsenamespace=core&synapseentityname=fluidbalancechart"
+    },
+    {
+      "serviceName": "PostNewChartEvent",
+      "serviceUrl": "https://DYNAMIC_API_URL/PostObjectArray?synapsenamespace=core&synapseentityname=fluidbalanceevent"
+    },
+    {
+      "serviceName": "GetRoutes",
+      "serviceUrl": "https://DYNAMIC_API_URL/GetBaseViewListByPost/"
+    },
+    {
+      "serviceName": "GetTypes",
+      "serviceUrl": "https://DYNAMIC_API_URL/GetListByAttribute?synapsenamespace=meta&synapseentityname=fluidbalancetype&synapseattributename=fluidintakeoroutputtype&attributevalue="
+    },
+    {
+      "serviceName": "GetTimeSlots",
+      "serviceUrl": "https://DYNAMIC_API_URL/GetList?synapsenamespace=meta&synapseentityname=fluidbalancetimeslot"
+    },
+    {
+      "serviceName": "PostObservation",
+      "serviceUrl": "https://DYNAMIC_API_URL/PostObject?synapsenamespace=core&synapseentityname=fluidbalanceobservation"
+    },
+    {
+      "serviceName": "GetIntakeFluidBalanceEvents",
+      "serviceUrl": "https://DYNAMIC_API_URL/GetBaseViewListByPost/bv_core_intakefluidbalanceevents"
+    },
+    {
+      "serviceName": "GetOutputFluidBalanceEvents",
+      "serviceUrl": "https://DYNAMIC_API_URL/GetBaseViewListByPost/bv_core_outputfluidbalanceevents"
+    },
+    {
+      "serviceName": "GetFluidBalanceObservationHistory",
+      "serviceUrl": "https://DYNAMIC_API_URL/GetBaseViewListByPost/bv_core_fluidbalanceobservationhistory"
+    },
+    {
+      "serviceName": "DeleteFluidBalanceObservation",
+      "serviceUrl": "https://DYNAMIC_API_URL/DeleteObject?synapsenamespace=core&synapseentityname=fluidbalanceobservation&id="
+    }
+  ],
+  "intakeTypeOther": "Other",
+  "intakeRoute1": "1",
+  "intakeRoute2": "2",
+  "outputTypeOther": "Other",
+  "outputRoute1": "3",
+  "outputRoute2": "4",
+  "outputRouteParameter": "output",
+  "outputTypeParameter": "output",
+  "intakeRouteParameter": "intake",
+  "intakeTypeParameter": "intake"
+}

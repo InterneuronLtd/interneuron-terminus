@@ -1,0 +1,86 @@
+<!-- Interneuron Terminus
+Copyright(C) 2019  Interneuron CIC
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program.If not, see<http://www.gnu.org/licenses/>. -->
+
+<div style="padding: 3px;">
+
+  <ul class="nav" style="width: 100%;">
+    <li class="nav-item">
+      <app-patient-search></app-patient-search>
+    </li>
+    <li class="nav-item">
+      <app-my-patients></app-my-patients>
+    </li>
+  </ul>
+
+</div>
+
+<div class="h6 text-dark" style="margin-top:2px; margin-bottom: 2px; padding: 3px;">
+  {{personaContext.displayname}}<br />{{selectedApplicationPatientlist}}</div>
+
+<div [ngStyle]="setDisplay()" style="padding: 3px;">
+
+  <ul class="nav" style="width: 100%;">
+    <li class="nav-item">
+      <button id="btnExpandList" type="button" class="btn btn-info text-white btn-sm btn-block"
+        (click)="showMyPatientList()">
+        <i class="icon-list"></i> Expand List
+      </button>
+    </li>
+  </ul>
+
+</div>
+
+<div class="nav-item" *ngIf="messageDisplay==='Loading...';else elsetemplate" style="color: black">
+  <!-- <span >Loading</span> -->
+  <div class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></div>
+  <div class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></div>
+  <div class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></div>
+</div>
+<ng-template #elsetemplate>
+  <div class="" *ngIf="messageDisplay!==''">
+    <div class="text-dark font-weight-bold" *ngIf="messageDisplay!=='Error'" role="alert">
+      &nbsp;No Patients.
+    </div>
+
+    <div *ngIf="messageDisplay==='Error'" class="alert alert-danger" role="alert">
+      <a href="#" class="alert-link">Error: </a> Unable to load patient list
+    </div>
+  </div>
+</ng-template>
+
+
+
+<ul class="nav" style="padding: 3px;">
+  <li class="nav-item" *ngFor="let dataRow of dataRows; let idx = index">
+
+    <div class="nav-link" href="index.html" (click)="selectedPatient(dataRow)"
+      [class.Selected]="dataRow.columns[0].matchedcontext === selectedPatientvalue" [ngClass]="dataRow.columns[0].rowcssfield" style="padding:3px;">
+
+      <table style="width:100%">
+        <tr>
+          <td [innerHtml]="dataRow.columns[0].snapshottemplateline1"></td>
+          <td style="width:40px; text-align:center;" [innerHtml]="dataRow.columns[0].snapshottemplatebadge"></td>
+        </tr>
+      </table>
+
+      <table style="width:100%">
+        <tr>
+          <td [innerHtml]="dataRow.columns[0].snapshottemplateline2"></td>
+         
+        </tr>
+      </table>
+
+    </div>
+  </li>
+</ul>

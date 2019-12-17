@@ -1,0 +1,31 @@
+<!-- Interneuron Terminus
+Copyright(C) 2019  Interneuron CIC
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program.If not, see<http://www.gnu.org/licenses/>. -->
+
+         <div class="bg-dark text-white">
+            &nbsp;{{username  | titlecase}}
+         </div>
+         
+         <ul class="list-group">
+            <li class="list-group-item"><app-applications></app-applications></li>
+            <li class="list-group-item"><app-personas></app-personas></li>
+            <li class="list-group-item"><app-persona-contexts></app-persona-contexts></li>
+            <li class="list-group-item"><app-lists></app-lists></li>
+            <li class="list-group-item"><app-patient-search></app-patient-search></li>
+            <li class="list-group-item"><app-my-patients></app-my-patients></li>
+            <li class="list-group-item">
+               <a (click)="oidcLogout()"  href="#" class="btn btn-default">
+                <i class="icon-lock"></i> Logout
+              </a>
+            </li>
+          </ul>

@@ -1,0 +1,84 @@
+<!-- Interneuron Terminus
+Copyright(C) 2019  Interneuron CIC
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program.If not, see<http://www.gnu.org/licenses/>. -->
+
+<div class="bg-white text-dark" style="padding:0px 5px 5px 5px;">
+ 
+  <div id="componentLoader"></div>
+  <!--Start of patient list popup-->
+  <div id="expandedListOverlay" *ngIf="show">
+
+      <div class="bg-white text-dark" style="margin: 3px; padding: 7px; border-radius: 8px; height: 90%;">
+    <nav>
+      <div class="nav-label">
+        <div class="nav-title">
+          <div class="row">
+            <div class="col-md-6">
+                <span class="h2">{{patientListHeader}}</span>
+            </div>
+           
+            <div class="col-md-3">
+                <div *ngIf="showPatientList; else elseBlock" style="height: 90%;">
+                    <input type="text"
+                           name="search"
+                           class="search__input"Sure
+                           placeholder="search"
+                           class="form-control"
+                           [(ngModel)]="filter">
+                </div>  
+            </div>
+            <div class="col-md-3">
+                <button id="btnCloseList" type="button" class="btn btn-info text-white btn-sm btn-block" (click)="hideMyPatientList()">
+                    <i class="icon-close"></i> Close List
+                  </button>
+            </div>
+          </div>
+          
+
+        </div>
+      <div style="margin-top: 4px;">
+        <pagination-controls (pageChange)="p = $event" class="my-pagination"></pagination-controls>
+      </div>
+      </div>
+      
+    </nav>
+
+    <div *ngIf="showPatientList; else elseBlock" style="height: 90%; overflow: scroll;">
+  
+
+      <table class="table table-striped text-dark" >
+        <thead>
+          <tr *ngFor="let dataRow of dataRows; let i = index">
+            <ng-container *ngIf="i === 0">
+              <th *ngFor="let dataColumn of dataRow.columns">{{ dataColumn.displayname ? dataColumn.displayname : dataColumn.attributename }}</th>
+            </ng-container>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let dataRow of dataRows | stringFilter: filter | paginate: { itemsPerPage: 10, currentPage: p }" (click)="selectedPatient(dataRow)" [class.Selected]="dataRow.columns[0].matchedcontext === selectedPatientvalue" [ngClass]="dataRow.columns[0].rowcssfield">
+            <td *ngFor="let dataColumn of dataRow.columns" [innerHTML]="dataColumn.attributevalue | keepHtml"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <ng-template #elseBlock>
+      <div class="nav-title">
+        <span class="h2">No Patients </span>
+        <hr>
+      </div>
+    </ng-template>
+
+    </div>
+
+  </div>
+</div>
