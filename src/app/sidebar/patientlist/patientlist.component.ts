@@ -13,15 +13,26 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { PatientListService } from 'src/app/services/patient-list.service';
 import { HeaderService } from 'src/app/services/header.service';
+import { patientlist } from '../../Models/Patientlist.model';
+import { ApirequestService } from '../../services/apirequest.service';
+import { AppConfig } from '../../app.config';
 import { ErrorHandlerService } from 'src/app/services/error-handler.service';
 import { DataRow } from 'src/app/Models/dataRow.model';
 import { PersonaContext } from '../../Models/personaContext.model';
 import { WebStorageService } from "../../services/webstorage.service"
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import * as jwt_decode from "jwt-decode";
+import { DataColumn } from 'src/app/Models/dataColumn.model';
+import { LoadNotifyService } from '../../services/load-notify.service';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/timer';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/merge';
+import 'rxjs/add/operator/do';
+
 
 @Component({
   selector: 'app-patientlist',
@@ -30,9 +41,9 @@ import * as jwt_decode from "jwt-decode";
 })
 
 
-
 export class PatientlistComponent implements OnInit, OnDestroy {
   patientlst: any = [];
+  patientlistname: patientlist[] = [];
   showExportList: boolean = false;
   persona: string;
   personaContext: PersonaContext = new PersonaContext();
@@ -43,15 +54,31 @@ export class PatientlistComponent implements OnInit, OnDestroy {
 
   selectedApplicationPatientlist: string = "";
 
+  updatePatientListTrigger = Observable.merge(this.LoadNotifyService.requestLoad);
+
+  patientList = this.updatePatientListTrigger.subscribe(() => this.reloadPatientList());
+
   constructor(
     private patientListService: PatientListService,
     private errorHandlerService: ErrorHandlerService,
     private webStorageService: WebStorageService,
+    private reqService: ApirequestService,
     private authService: AuthenticationService,
-    private headerService: HeaderService) {
+    private headerService: HeaderService,
+    private LoadNotifyService: LoadNotifyService
+  ) {
 
   }
+
+  @ViewChild('patientlistDropdownMenu')
+  private patientlistDropdownMenu: ElementRef
   ngOnInit() {
+
+    this.getPatientlists();
+
+    //document.getElementById('patientlistDropdownMenu').innerHTML = "<i class='icon-list'>&nbsp</i>Patient List";
+
+    this.patientlistDropdownMenu.nativeElement.innerHTML = "<i class='icon-list'>&nbsp</i>Team Lists";
     let decodedToken = this.decodeAccessToken(this.authService.user.access_token);
     if (decodedToken != null) {
 
@@ -69,7 +96,13 @@ export class PatientlistComponent implements OnInit, OnDestroy {
       },
       error => this.errorHandlerService.handleError(error)
     );
+    this.headerService.PatientListUpdated.subscribe(
+      (text: string) => {
+        this.getPatientlists();
 
+      },
+      error => this.errorHandlerService.handleError(error)
+    );
     this.headerService.selectedPersonaContext.subscribe(
       (personaContext: PersonaContext) => {
         this.personaContext = personaContext;
@@ -78,6 +111,20 @@ export class PatientlistComponent implements OnInit, OnDestroy {
       error => this.errorHandlerService.handleError(error)
     );
   }
+
+
+  getPatientlists() {
+    this.reqService.getRequest(AppConfig.settings.apiServices.find(x => x.serviceName == 'GetPatientListbyCount').serviceUrl)
+      .then(
+        (patientlist) => {
+          this.patientlistname = <patientlist[]>JSON.parse(patientlist);
+
+
+        },
+        error => this.errorHandlerService.handleError(error)
+      )
+  }
+
   decodeAccessToken(token: string): any {
     try {
       return jwt_decode(token);
@@ -87,6 +134,7 @@ export class PatientlistComponent implements OnInit, OnDestroy {
     }
   }
   setDisplay() {
+
     let styles = {
       'display': this.showExportList ? 'block' : 'none'
     }
@@ -105,27 +153,19 @@ export class PatientlistComponent implements OnInit, OnDestroy {
               this.webStorageService.setLocalStorageItem("Terminus:" + this.logedinUserID + ":Patient", this.selectedPatientvalue);
             }
             else {
-
-              // let checkApplicationExits = this.dataRows.find(x => x.columns[0].matchedcontext == this.webStorageService.getLocalStorageItem("Terminus:" + this.logedinUserID + ":Patient"));
-
-              // if (checkApplicationExits == null) {
-              // this.selectedPatientvalue = DataRow[0].columns[0].matchedcontext;
-              // this.headerService.myPatientSelected.next(DataRow[0].columns[0].matchedcontext);
-              // this.webStorageService.setLocalStorageItem("Terminus:" + this.logedinUserID + ":Patient", this.selectedPatientvalue);
-              // }
-              // else {
               this.selectedPatientvalue = this.webStorageService.getLocalStorageItem("Terminus:" + this.logedinUserID + ":Patient");
               this.headerService.myPatientSelected.next(this.selectedPatientvalue);
-              // }
             }
 
           }
           this.showExportList = true;
 
         } else {
-          if (this.webStorageService.getLocalStorageItem("Terminus:" + this.logedinUserID + ":Patient") != null) {
-            this.selectedPatientvalue = this.webStorageService.getLocalStorageItem("Terminus:" + this.logedinUserID + ":Patient");
-            this.headerService.myPatientSelected.next(this.selectedPatientvalue);
+          if (this.selectedPatientvalue == "") {
+            if (this.webStorageService.getLocalStorageItem("Terminus:" + this.logedinUserID + ":Patient") != null) {
+              this.selectedPatientvalue = this.webStorageService.getLocalStorageItem("Terminus:" + this.logedinUserID + ":Patient");
+              this.headerService.myPatientSelected.next(this.selectedPatientvalue);
+            }
           }
           this.showExportList = false;
         }
@@ -166,8 +206,64 @@ export class PatientlistComponent implements OnInit, OnDestroy {
     this.headerService.myPatient.next(true);
   }
 
+  onRefresh() {
+    this.patientListService.getList('')
+  }
 
+  getpatientExpandedList(personlistitem: patientlist) {
 
+    let postBody = `[
+      {
+        "filters": [{
+            "filterClause": "patientlist_id = @patientlist_id"
+         }]
+      },
+      {
+        "filterparams": [{"paramName": "patientlist_id", "paramValue": "` + personlistitem.patientlist_id + `"}]
+      },
+      {
+        "selectstatement": "SELECT *"
+      }
+    ]`;
 
+    this.reqService.postRequest(AppConfig.settings.apiServices.find(x => x.serviceName == 'GetMyPatientExpandedList').serviceUrl, postBody)
+      .then(
+        (response: any[]) => {
+          if (response.length > 0) {
+            let Rows: DataRow[] = [];
+            let properties = Object.keys(response[0]);
+            for (let res of response) {
+              let Row: DataRow = new DataRow;
+              for (let property of properties) {
+                let Column: DataColumn;
+                Column = JSON.parse(res[property]);
+                Row.columns.push(Column);
+              }
+              Rows.push(Row);
+            }
+            this.headerService.PatientListsTabularData.next(Rows);
+            this.headerService.myPatient.next(true);
+            this.headerService.PatientListHeaderDisplay.next(personlistitem.patientlistname);
+          }
+          else {
+            this.headerService.PatientListsTabularData.next([]);
+            this.headerService.myPatient.next(true);
+            this.headerService.PatientListHeaderDisplay.next(personlistitem.patientlistname);
+          }
+
+        },
+        error => {
+          this.errorHandlerService.handleError(error),
+            this.headerService.PatientListsTabularData.next([])
+
+        }
+      );
+
+  }
+
+  reloadPatientList() {
+    this.patientListService.getList("");
+    this.updatePatientListTrigger.do(this.LoadNotifyService.loadComplete);
+  }
 
 }

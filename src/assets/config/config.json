@@ -1,6 +1,33 @@
-
 {
   "apiServices": [
+    {
+      "serviceName": "GetPatientListByPerson_id",
+      "serviceUrl": "http://DYNAMIC_API_URL/GetListByAttribute?synapsenamespace=terminus&synapseentityname=personpatientlist&synapseattributename=person_id&attributevalue="
+    },
+    {
+      "serviceName": "GetMyPatientExpandedList",
+      "serviceUrl": "https://DYNAMIC_API_URL/List/GetListDataByPost/a49ef45c-ed24-4e9b-9b77-c85e4172854f"
+    },
+    {
+      "serviceName": "GetPatientListbyCount",
+      "serviceUrl": "http://DYNAMIC_API_URL/GetBaseViewList/terminus_patientlist"
+    },
+    {
+      "serviceName": "GetPatientList",
+      "serviceUrl": "https://synapsedynamicapi.azurewebsites.net/GetList?synapsenamespace=terminus&synapseentityname=patientlist"
+    },
+    {
+      "serviceName": "DeleteALLPatientList",
+      "serviceUrl": "http://DYNAMIC_API_URL/DeleteObjectByAttribute?synapsenamespace=terminus&synapseentityname=personpatientlist&synapseattributename=person_id&attributevalue="
+    },
+    {
+      "serviceName": "DeletePatientList",
+      "serviceUrl": "http://DYNAMIC_API_URL/DeleteObject?synapsenamespace=terminus&synapseentityname=personpatientlist&id="
+    },
+    {
+      "serviceName": "Postpersonpatientlist",
+      "serviceUrl": "http://DYNAMIC_API_URL/PostObject?synapsenamespace=terminus&synapseentityname=personpatientlist"
+    },
     {
       "serviceName": "PostPatientList",
       "serviceUrl": "https://DYNAMIC_API_URL/List/GetListDataByPost/"
@@ -87,5 +114,5 @@
   },
   "mrnTypeCode": "MRN",
   "empiTypeCode": "NHS",
-  "currentEnvironment":"production"
+  "currentEnvironment": "production"
 }

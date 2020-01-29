@@ -23,13 +23,13 @@ import { PersonaContext } from '../Models/personaContext.model';
   styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent implements OnInit, OnDestroy {
- 
+
   show: boolean = false;
-  personaContext:PersonaContext = new PersonaContext();
-  selectedApplicationPatientlist:string="";
-  setDisplay(){
-    let styles={
-      'display':this.show? 'none':'block'
+  personaContext: PersonaContext = new PersonaContext();
+  selectedApplicationPatientlist: string = "";
+  setDisplay() {
+    let styles = {
+      'display': this.show ? 'none' : 'block'
     }
     return styles;
   }
@@ -41,12 +41,11 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
     this.headerService.selectedApplicationPatientlistName.subscribe(
       (selectedApplicationPatientlist: string) => {
-        if(selectedApplicationPatientlist=="")
-        {
-          this.selectedApplicationPatientlist="Please select a list. "
+        if (selectedApplicationPatientlist == "") {
+          this.selectedApplicationPatientlist = "Please select a list. "
         }
-        else{
-        this.selectedApplicationPatientlist=selectedApplicationPatientlist;
+        else {
+          this.selectedApplicationPatientlist = selectedApplicationPatientlist;
         }
       },
       error => this.errorHandlerService.handleError(error)
@@ -55,7 +54,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.headerService.selectedPersonaContext.subscribe(
       (personaContext: PersonaContext) => {
         this.personaContext = personaContext;
-       
+
       },
       error => this.errorHandlerService.handleError(error)
     );
@@ -65,13 +64,13 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.headerService.myPatient.subscribe(
       (show: boolean) => {
         this.show = show;
-        this.headerService.PatientListHeaderDisplay.next(this.personaContext);
+        this.headerService.PatientListHeaderDisplay.next(this.personaContext.displayname);
       },
       error => this.errorHandlerService.handleError(error)
     );
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.headerService.selectedPersonaContext.unsubscribe();
   }
 

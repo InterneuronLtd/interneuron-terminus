@@ -28,6 +28,8 @@ export class HeaderService {
 
   selectedPersona = new Subject();
 
+  selectedPersonaID = new Subject();
+
   personaContext = new Subject();
 
   selectedPersonaContext = new Subject();
@@ -42,13 +44,17 @@ export class HeaderService {
 
   wardPatientTabularData = new Subject();
 
+  PatientListsTabularData = new Subject();
+
+  PatientListUpdated = new Subject();
+
   selectedModule = new Subject();
 
   PatientListHeaderDisplay = new Subject();
 
   componentLoaded = new Subject();
 
-  selectedApplicationPatientlist=new Subject();
+  selectedApplicationPatientlist = new Subject();
 
   selectedApplicationPatientlistName = new Subject();
 

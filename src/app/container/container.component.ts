@@ -51,7 +51,17 @@ export class ContainerComponent implements OnInit, OnDestroy {
       error => this.errorHandlerService.handleError(error)
     );
 
-    //Load data from  SideBar patient List
+    //Load data from  SideBar patient List PatientListsTabularData
+    this.headerService.PatientListsTabularData.subscribe(
+      (DataRow: DataRow[]) => {
+        if (this.patientListHeader != "My Patients") {
+          this.dataRows = DataRow;
+          this.showPatientList = this.dataRows.length > 0 ? true : false;
+        }
+      },
+      error => this.errorHandlerService.handleError(error)
+    );
+    //Load data from patient list
     this.headerService.wardPatientTabularData.subscribe(
       (DataRow: DataRow[]) => {
         if (this.patientListHeader != "My Patients") {
@@ -61,7 +71,7 @@ export class ContainerComponent implements OnInit, OnDestroy {
       },
       error => this.errorHandlerService.handleError(error)
     );
-    //Load data from  My favorite patient List
+    //Load data from  My favorite patient List 
     this.headerService.MyPatientTabularData.subscribe(
       (DataRow: DataRow[]) => {
         this.dataRows = DataRow;
@@ -72,8 +82,8 @@ export class ContainerComponent implements OnInit, OnDestroy {
     );
     // subscribe to dropdown personacontext 
     this.headerService.PatientListHeaderDisplay.subscribe(
-      (personaContext: PersonaContext) => {
-        this.patientListHeader = personaContext.displayname;
+      (headerText: string) => {
+        this.patientListHeader = headerText;
 
       },
       error => this.errorHandlerService.handleError(error)
@@ -106,7 +116,7 @@ export class ContainerComponent implements OnInit, OnDestroy {
   }
 
   hideMyPatientList() {
-    this.filter="";
+    this.filter = "";
     this.headerService.myPatient.next(false);
   }
 

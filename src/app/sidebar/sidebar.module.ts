@@ -21,10 +21,11 @@ import { AppnavComponent } from './appnav/appnav.component';
 import { RightsidebarComponent } from './rightsidebar/rightsidebar.component';
 import { HeaderComponent } from '../header/header.component';
 import { HeaderModule } from '../header/header.module';
+import { PullToRefreshComponent } from './pull-to-refresh/pull-to-refresh.component';
 
 
 @NgModule({
-  declarations: [SidebarComponent, FeedbackComponent, PatientlistComponent, AppnavComponent, RightsidebarComponent],
+  declarations: [SidebarComponent, FeedbackComponent, PatientlistComponent, AppnavComponent, RightsidebarComponent, PullToRefreshComponent],
   imports: [
     CommonModule, HeaderModule
   ],

@@ -31,8 +31,7 @@ import { UserIdleModule } from 'angular-user-idle';
 import { AngularWebStorageModule } from 'angular-web-storage';
 import { PatientBannerComponent } from './container/patient-banner/patient-banner.component';
 import { ModuleListComponent } from './container/module-list/module-list.component';
-
-
+import { FormsModule } from '@angular/forms';
 
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
@@ -55,6 +54,7 @@ export function initializeApp(appConfig: AppConfig) {
     FooterModule,
     HttpClientModule,
     UserIdleModule.forRoot({ idle: 3600, timeout: 5, ping: 5 }),
+    FormsModule,
     AngularWebStorageModule
   ],
   providers: [

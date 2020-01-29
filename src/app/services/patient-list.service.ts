@@ -32,8 +32,9 @@ export class PatientListService implements OnInit, OnDestroy {
   dataRows: DataRow[] = [];
   personaContexts: PersonaContext[];
   selectedpersona: string;
-  selectedpersonaContext: string="";
-  selectedApplicationPatientlist: string="";
+  selectedpersonaID: string;
+  selectedpersonaContext: string = "";
+  selectedApplicationPatientlist: string = "";
   constructor(
     private apicaller: ApirequestService,
     private errorHandlerService: ErrorHandlerService,
@@ -46,13 +47,20 @@ export class PatientListService implements OnInit, OnDestroy {
       },
       error => this.errorHandlerService.handleError(error)
     );
+    //Read persona from Persona Header DropDown Selected
+    this.headerService.selectedPersonaID.subscribe(
+      (selectedPersonaID: string) => {
 
+        this.selectedpersonaID = selectedPersonaID;
+      },
+      error => this.errorHandlerService.handleError(error)
+    );
 
     this.headerService.selectedPersonaContext.subscribe(
       (personaContext: PersonaContext) => {
         this.selectedpersonaContext = personaContext.contextname;
-        if(this.selectedApplicationPatientlist!="")
-        this.getList(this.selectedApplicationPatientlist);
+        if (this.selectedApplicationPatientlist != "")
+          this.getList(this.selectedApplicationPatientlist);
       },
       error => this.errorHandlerService.handleError(error)
     );
@@ -60,8 +68,8 @@ export class PatientListService implements OnInit, OnDestroy {
     this.headerService.selectedApplicationPatientlist.subscribe(
       (selectedApplicationPatientlist: string) => {
         this.selectedApplicationPatientlist = selectedApplicationPatientlist;
-        if(this.selectedpersonaContext!="")
-        this.getList(this.selectedApplicationPatientlist);
+        if (this.selectedpersonaContext != "")
+          this.getList(this.selectedApplicationPatientlist);
       },
       error => this.errorHandlerService.handleError(error)
     );
@@ -76,55 +84,45 @@ export class PatientListService implements OnInit, OnDestroy {
 
   }
 
-  
-  
+
+
   getList(selectedApplicationPatientList: string) {
-    if (this.selectedApplicationPatientlist == "")
-   {
-    this.dataRows = [];
-    this.headerService.patientMessage.next("No Patients");
-   this.headerService.wardPatientTabularData.next(this.dataRows);
-   return;
-   }
-    // getting  filters parameter name tablecolumn
-    let filtervalue = (this.selectedpersona == "Clinical Unit") ? "@cupcf" :
-      (this.selectedpersona == "Specialty") ? "@spcf" :
-        (this.selectedpersona == "Ward") ? "@wpcf" : "@tpcf";
-
-    // getting  filters column name
-    let tablecolumn = (this.selectedpersona == "Clinical Unit") ? "clinicalunitpersonacontextfield" :
-      (this.selectedpersona == "Specialty") ? "specialtypersonacontextfield" :
-        (this.selectedpersona == "Ward") ? "wardpersonacontextfield" : "teampersonacontextfield";
-
+    if (this.selectedApplicationPatientlist == "") {
+      this.dataRows = [];
+      this.headerService.patientMessage.next("No Patients");
+      this.headerService.wardPatientTabularData.next(this.dataRows);
+      return;
+    }
     //json body/data for filter
-    let postBody = [{
-      "filters": [{
-        "filterClause": tablecolumn + " = " + filtervalue
-      }]
-    }, {
-      "filterparams": [{
-        "paramName": filtervalue.slice(1),//Remove @ adding only cupf inseterd @cupf
-        "paramValue": this.selectedpersonaContext
-      }]
-    }, {
-      "selectstatement": "SELECT *"
-    }];
-    
-if(this.selectedpersona == "Hospital"){
+    let postBody = ` [{
+                    "filters": [{
+                      "filterClause": "\\\"`+ this.selectedpersonaID + `\\\" = @value"
+                    }]
+                  }, {
+                    "filterparams": [{
+                      "paramName": "value",
+                      "paramValue": "`+ this.selectedpersonaContext + `"
+                    }]
+                  }, {
+                    "selectstatement": "SELECT *"
+                  }]`;
 
-  postBody= [{
-    "filters": [{
-      "filterClause": "'1' = @hosp"
-    }]
-  }, { 
-    "filterparams": [{
-      "paramName": "@hosp",
-      "paramValue": "1"
-    }]
-  }, {
-    "selectstatement": "SELECT *"
+
+    if (this.selectedpersona == "Hospital") {
+
+      postBody = `[{
+  "filters": [{
+    "filterClause": "'1' = @hosp"
   }]
-}
+}, { 
+  "filterparams": [{
+    "paramName": "@hosp",
+    "paramValue": "1"
+  }]
+}, {
+  "selectstatement": "SELECT *"
+}]`
+    }
 
 
 
@@ -147,16 +145,17 @@ if(this.selectedpersona == "Hospital"){
 
             this.dataRows = Rows;
             this.headerService.wardPatientTabularData.next(this.dataRows);
-             this.headerService.patientMessage.next("");
+            this.headerService.patientMessage.next("");
           }
           else {
             this.dataRows = [];
-             this.headerService.patientMessage.next("No Patients");
+            this.headerService.patientMessage.next("No Patients");
             this.headerService.wardPatientTabularData.next(this.dataRows);
           }
         },
-        error=>{ this.errorHandlerService.handleError(error),
-          this.dataRows = []
+        error => {
+          this.errorHandlerService.handleError(error),
+            this.dataRows = []
           this.headerService.wardPatientTabularData.next(this.dataRows)
           this.headerService.patientMessage.next("Error")
         }

@@ -34,16 +34,16 @@ export class PersonasComponent implements OnInit {
   selectedPersona: string;
   logedinUserID: string;
   constructor(private headerService: HeaderService,
-     private errorHandlerService: ErrorHandlerService,
-     private reqService: ApirequestService,
-     private authService: AuthenticationService,
-     private webStorageService: WebStorageService
-     
-     ) { }
+    private errorHandlerService: ErrorHandlerService,
+    private reqService: ApirequestService,
+    private authService: AuthenticationService,
+    private webStorageService: WebStorageService
+
+  ) { }
 
   ngOnInit() {
 
-    
+
     let decodedToken = this.decodeAccessToken(this.authService.user.access_token);
     if (decodedToken != null) {
 
@@ -51,7 +51,7 @@ export class PersonasComponent implements OnInit {
     }
     this.getPersonaData();
   }
-  decodeAccessToken(token: string): any { 
+  decodeAccessToken(token: string): any {
     try {
       return jwt_decode(token);
     }
@@ -81,7 +81,7 @@ export class PersonasComponent implements OnInit {
                 this.selectedPersona = this.personas[0].displayName;
                 this.webStorageService.setLocalStorageItem("Terminus:" + this.logedinUserID + ":Persona", this.personas[0]);
               }
-              else {               
+              else {
                 this.personaSelection(checkApplicationExits);
                 this.selectedPersona = checkApplicationExits.displayName;
               }
@@ -92,7 +92,7 @@ export class PersonasComponent implements OnInit {
       );
   }
 
-  personaSelection(persona: Persona) {   
+  personaSelection(persona: Persona) {
     //console.log("persona.displayName:" + this.selectedPersona);
     if (persona) {
       if (document.getElementById('personaDropdownMenu').innerHTML != persona.displayName) {
@@ -102,11 +102,12 @@ export class PersonasComponent implements OnInit {
         this.selectedPersona = persona.displayName;
         //console.log("persona.displayName1:" + this.selectedPersona);
         this.headerService.selectedPersona.next(persona.displayName);
+        this.headerService.selectedPersonaID.next(persona.persona_id);
         this.headerService.persona.next(persona.personaContext);
         this.webStorageService.setLocalStorageItem("Terminus:" + this.logedinUserID + ":Persona", persona);
-        
+
       }
     }
   }
- 
+
 }

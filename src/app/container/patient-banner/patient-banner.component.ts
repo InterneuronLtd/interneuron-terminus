@@ -11,10 +11,11 @@
 // GNU General Public License for more details.
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
+
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as jwt_decode from "jwt-decode";
-
+import { patientlist, personPatientlist } from '../../Models/Patientlist.model';
 import { PatientBanner, Column, MainBannerData } from '../../Models/patientBanner.model';
 import { PatientBannerColumnLabelData } from '../../Models/patientBannerColumnLabelData.model';
 import { ApirequestService } from '../../services/apirequest.service';
@@ -24,12 +25,26 @@ import { AppConfig } from '../../app.config';
 import { AuthenticationService } from '../../services/authentication.service';
 import { WebStorageService } from "../../services/webstorage.service";
 
+
 @Component({
+  host: {
+    '(document:click)': 'onClickCustomdropdown($event)',
+  },
   selector: 'app-patient-banner',
   templateUrl: './patient-banner.component.html',
   styleUrls: ['./patient-banner.component.css']
 })
 export class PatientBannerComponent implements OnInit, OnDestroy {
+
+  patientlistname: patientlist[] = [];
+
+  showPatientdropdown: string = 'false';
+
+  itemList = [];
+
+  selectedItems = [];
+
+  dropdownSettings = {};
 
   logedinUserID: string;
 
@@ -93,11 +108,12 @@ export class PatientBannerComponent implements OnInit, OnDestroy {
 
   showPatientBanner: boolean = false;
 
-  constructor( private webStorageService: WebStorageService,private httpClient: HttpClient, private reqService: ApirequestService, private headerService: HeaderService, private errorHandlerService: ErrorHandlerService, private authService: AuthenticationService) {
+  constructor(private webStorageService: WebStorageService, private httpClient: HttpClient, private reqService: ApirequestService, private headerService: HeaderService, private errorHandlerService: ErrorHandlerService, private authService: AuthenticationService) {
 
     this.headerService.myPatientSelected.subscribe(
       (myPatientSelected: string) => {
-        this.webStorageService.setLocalStorageItem("Terminus:" + this.logedinUserID + ":Patient",myPatientSelected); 
+        this.webStorageService.setLocalStorageItem("Terminus:" + this.logedinUserID + ":Patient", myPatientSelected);
+        this.getPatientlists();
         this.loadBanner(myPatientSelected);
       },
       error => this.errorHandlerService.handleError(error)
@@ -105,13 +121,34 @@ export class PatientBannerComponent implements OnInit, OnDestroy {
 
     this.headerService.loadPatientBanner.subscribe(
       (myPatientSelected: string) => {
-       
+
         this.loadBanner(myPatientSelected);
       },
       error => this.errorHandlerService.handleError(error)
     );
   }
 
+  onClickCustomdropdown(event) {
+    console.log(event.target.parentNode.id);
+    if (event.target.parentNode.parentNode.id == "ddlPatientlistCustomDropdown" || event.target.id == "btnpatientCustomDropdown" || event.target.parentNode.id == "btnpatientCustomDropdown" || event.target.parentNode.parentNode.parentNode.id == "ddlPatientlistCustomDropdown") {
+      if (event.target.id == "btnpatientCustomDropdown" || event.target.parentNode.id == "btnpatientCustomDropdown") {
+        if (this.showPatientdropdown == 'true') {
+          this.showPatientdropdown = 'false'
+        }
+        else {
+          this.showPatientdropdown = 'true'
+        }
+      }
+      else {
+        this.showPatientdropdown = 'true'
+      }
+
+    }
+    else {
+      this.showPatientdropdown = 'false'
+    }
+
+  }
   loadBanner(personId: string) {
     this.showPatientBanner = false;
 
@@ -146,16 +183,111 @@ export class PatientBannerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.dropdownSettings = {
+      singleSelection: false,
+      text: "Select Patient List",
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      enableSearchFilter: false,
+      classes: "myclass custom-class"
+    };
+
     let UserdecodedToken = this.decodeAccessToken(this.authService.user.access_token);
     if (UserdecodedToken != null) {
-
       this.logedinUserID = UserdecodedToken.IPUId;
     }
   }
-  
+
 
   ngOnDestroy() {
     this.headerService.myPatientSelected.unsubscribe();
+  }
+
+
+
+  getPatientlists() {
+    this.itemList = [];
+    this.reqService.getRequest(AppConfig.settings.apiServices.find(x => x.serviceName == 'GetPatientList').serviceUrl)
+      .then(
+        (patientlist) => {
+          this.patientlistname = <patientlist[]>JSON.parse(patientlist);
+          for (let patientlistnameitem of this.patientlistname) {
+            this.itemList.push({ "id": patientlistnameitem.patientlist_id, "itemName": patientlistnameitem.patientlistname });
+          }
+          this.getPatientlistsSelected();
+        },
+        error => this.errorHandlerService.handleError(error)
+      )
+  }
+
+  getPatientlistsSelected() {
+    this.selectedItems = [];
+    let id: string = this.personId;
+    this.reqService.getRequest(AppConfig.settings.apiServices.find(x => x.serviceName == 'GetPatientListByPerson_id').serviceUrl + id)
+      .then(
+        (personPatientlist) => {
+          let personPatientlistitems = <personPatientlist[]>JSON.parse(personPatientlist);
+          this.patientlistname.sort((a, b) => (a.patientlistname > b.patientlistname) ? 1 : -1)
+          for (let i = 0; i < this.patientlistname.length; i++) {
+            this.patientlistname[i].selected = false;
+            for (let j = 0; j < personPatientlistitems.length; j++) {
+
+              if (personPatientlistitems[j].patientlist_id == this.patientlistname[i].patientlist_id) {
+
+                this.patientlistname[i].selected = true;
+
+              }
+              else {
+
+              }
+            }
+          }
+          // grouping selected tiems
+          //  this.patientlistname.sort((a, b) => (a.selected > b.selected) ? -1 : 1)
+
+        },
+        error => this.errorHandlerService.handleError(error)
+      )
+  }
+
+  onItemSelect(item: any) {
+    this.postBody = `{"personpatientlist_id" : "` + item.patientlist_id + `|` + this.personId + `", "person_id" : "` + this.personId + `", "patientlist_id" : "` + item.patientlist_id + `"}`;
+
+    this.reqService.postRequest(AppConfig.settings.apiServices.find(x => x.serviceName == 'Postpersonpatientlist').serviceUrl, this.postBody)
+      .then(
+        () => {
+          this.headerService.PatientListUpdated.next("");
+        }
+      )
+  }
+
+  OnItemclick(item: any) {
+    for (let i = 0; i < this.patientlistname.length; i++) {
+
+      if (item.patientlist_id == this.patientlistname[i].patientlist_id) {
+        if (item.selected == true) {
+          this.patientlistname[i].selected = false;
+          this.OnItemDeSelect(item);
+        }
+        else {
+          this.patientlistname[i].selected = true;
+          this.onItemSelect(item);
+        }
+      }
+
+    }
+
+
+  }
+  OnItemDeSelect(item: any) {
+    let id: string = item.patientlist_id + `|` + this.personId;
+
+    this.reqService.deleteRequest(AppConfig.settings.apiServices.find(x => x.serviceName == 'DeletePatientList').serviceUrl + id)
+      .then(
+        () => {
+          this.headerService.PatientListUpdated.next("");
+        }
+      )
   }
 
   getUserId() {
@@ -177,7 +309,6 @@ export class PatientBannerComponent implements OnInit, OnDestroy {
     let id: string = this.userId.replace("\\\\", "\\") + '|' + this.personId;
 
     let data: any
-
     this.reqService.getRequest(AppConfig.settings.apiServices.find(x => x.serviceName == 'CheckMyPatient').serviceUrl + id)
       .then(
         (response) => {

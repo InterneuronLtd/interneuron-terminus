@@ -21,19 +21,35 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
     <li class="nav-item">
       <app-my-patients></app-my-patients>
     </li>
+    <li class="nav-item">
+      <button class="btn btn-sm btn-default dropdown-toggle btn-info text-white btn-block" type="button"
+              id="patientlistDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" #patientlistDropdownMenu>
+        <!-- <span>Application</span> -->
+      </button>
+      <ul class="dropdown-menu" style="max-width: 300%; min-width: 100%; text-align: center;">
+        <li class="dropdown-item" *ngFor="let patientlistname of patientlistname" style="width: 100%;">
+          <a href="#" (click)="getpatientExpandedList(patientlistname)" style="display:block">{{ patientlistname.patientlistname}} <b>{{" ("+patientlistname.counts +")"}}</b></a>
+        </li>
+      </ul>
+    </li>
   </ul>
 
 </div>
 
 <div class="h6 text-dark" style="margin-top:2px; margin-bottom: 2px; padding: 3px;">
-  {{personaContext.displayname}}<br />{{selectedApplicationPatientlist}}</div>
+  {{personaContext.displayname}}
+  <span (click)="onRefresh()" style="margin-right: 20px; cursor: pointer;" class="btn btn-danger bg-white text-danger btn-sm float-right">
+    <i class="icon-refresh" data-toggle="tooltip" title="Refresh Patient List"></i>
+  </span>
+  <br />{{selectedApplicationPatientlist}}
+</div>
 
 <div [ngStyle]="setDisplay()" style="padding: 3px;">
 
   <ul class="nav" style="width: 100%;">
     <li class="nav-item">
       <button id="btnExpandList" type="button" class="btn btn-info text-white btn-sm btn-block"
-        (click)="showMyPatientList()">
+              (click)="showMyPatientList()">
         <i class="icon-list"></i> Expand List
       </button>
     </li>
@@ -59,13 +75,16 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
   </div>
 </ng-template>
 
-
+<div class="nav-item" *ngIf="showExportList">
+  <app-pull-to-refresh></app-pull-to-refresh>
+</div>
 
 <ul class="nav" style="padding: 3px;">
   <li class="nav-item" *ngFor="let dataRow of dataRows; let idx = index">
 
     <div class="nav-link" href="index.html" (click)="selectedPatient(dataRow)"
-      [class.Selected]="dataRow.columns[0].matchedcontext === selectedPatientvalue" [ngClass]="dataRow.columns[0].rowcssfield" style="padding:3px;">
+         [class.Selected]="dataRow.columns[0].matchedcontext === selectedPatientvalue"
+         [ngClass]="dataRow.columns[0].rowcssfield" style="padding:3px;">
 
       <table style="width:100%">
         <tr>
@@ -77,7 +96,7 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
       <table style="width:100%">
         <tr>
           <td [innerHtml]="dataRow.columns[0].snapshottemplateline2"></td>
-         
+
         </tr>
       </table>
 
