@@ -1,16 +1,23 @@
-// Interneuron Terminus
-// Copyright(C) 2019  Interneuron CIC
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-// See the
-// GNU General Public License for more details.
-// You should have received a copy of the GNU General Public License
-// along with this program.If not, see<http://www.gnu.org/licenses/>.
+//BEGIN LICENSE BLOCK 
+//Interneuron Terminus
+
+//Copyright(C) 2021  Interneuron CIC
+
+//This program is free software: you can redistribute it and/or modify
+//it under the terms of the GNU General Public License as published by
+//the Free Software Foundation, either version 3 of the License, or
+//(at your option) any later version.
+
+//This program is distributed in the hope that it will be useful,
+//but WITHOUT ANY WARRANTY; without even the implied warranty of
+//MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+//See the
+//GNU General Public License for more details.
+
+//You should have received a copy of the GNU General Public License
+//along with this program.If not, see<http://www.gnu.org/licenses/>.
+//END LICENSE BLOCK 
 
 import { Injectable, OnInit, OnDestroy } from '@angular/core';
 import { DataRow } from '../Models/dataRow.model';
@@ -126,41 +133,41 @@ export class PatientListService implements OnInit, OnDestroy {
 
 
 
-    this.headerService.patientMessage.next("Loading...");
-    this.apicaller.postRequest(AppConfig.settings.apiServices.find(x => x.serviceName == 'PostPatientList').serviceUrl + this.selectedApplicationPatientlist, postBody)
-      .then(
-        (response: any[]) => {
-          if (response.length > 0) {
-            let Rows: DataRow[] = [];
-            let properties = Object.keys(response[0]);
-            for (let res of response) {
-              let Row: DataRow = new DataRow;
-              for (let property of properties) {
-                let Column: DataColumn;
-                Column = JSON.parse(res[property]);
-                Row.columns.push(Column);
+      this.headerService.patientMessage.next("Loading...");
+      this.apicaller.postRequest(AppConfig.settings.apiServices.find(x => x.serviceName == 'PostPatientList').serviceUrl + this.selectedApplicationPatientlist, postBody)
+        .then(
+          (response: any[]) => {
+            if (response.length > 0) {
+              let Rows: DataRow[] = [];
+              let properties = Object.keys(response[0]);
+              for (let res of response) {
+                let Row: DataRow = new DataRow;
+                for (let property of properties) {
+                  let Column: DataColumn;
+                  Column = JSON.parse(res[property]);
+                  Row.columns.push(Column);
+                }
+                Rows.push(Row);
               }
-              Rows.push(Row);
+
+              this.dataRows = Rows;
+              this.headerService.wardPatientTabularData.next(this.dataRows);
+              this.headerService.patientMessage.next("");
             }
-
-            this.dataRows = Rows;
-            this.headerService.wardPatientTabularData.next(this.dataRows);
-            this.headerService.patientMessage.next("");
-          }
-          else {
-            this.dataRows = [];
-            this.headerService.patientMessage.next("No Patients");
-            this.headerService.wardPatientTabularData.next(this.dataRows);
-          }
-        },
-        error => {
-          this.errorHandlerService.handleError(error),
+            else {
+              this.dataRows = [];
+              this.headerService.patientMessage.next("No Patients");
+              this.headerService.wardPatientTabularData.next(this.dataRows);
+            }
+          },
+          error => {
+            this.errorHandlerService.handleError(error),
             this.dataRows = []
-          this.headerService.wardPatientTabularData.next(this.dataRows)
-          this.headerService.patientMessage.next("Error")
-        }
-      );
+            this.headerService.wardPatientTabularData.next(this.dataRows)
+            this.headerService.patientMessage.next("Error")
+          }
+        );
 
+    }
   }
-}
 

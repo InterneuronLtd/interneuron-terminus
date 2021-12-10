@@ -1,0 +1,65 @@
+<!--BEGIN LICENSE BLOCK--> 
+<!--Interneuron Terminus
+
+Copyright(C) 2021  Interneuron CIC
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.If not, see<http://www.gnu.org/licenses/>. -->
+<!--END LICENSE BLOCK--> 
+<div *ngIf="mainEncounter" style="height: 44px;">
+
+  <div *ngIf="mainEncounter.warddisplay != ''">
+
+    <div class="" *ngIf="displayPort === 'Desktop'" >
+      <div class="badge text-info border border-info rounded" style="font-size: 0.85em; color: #535e7e; line-height: 1.2; ">
+        <strong>Current Admission</strong> &nbsp;
+        <span *ngIf="mainEncounter.warddisplay != ''">
+          {{mainEncounter.warddisplay}}
+        </span>
+        <span *ngIf="mainEncounter.baydisplay != ''">
+          {{mainEncounter.baydisplay}}
+        </span>
+        <span *ngIf="mainEncounter.beddisplay != ''">
+          {{mainEncounter.beddisplay}}
+        </span>
+        <span *ngIf="mainEncounter.consultingdoctortext != ''">
+          - {{mainEncounter.consultingdoctortext}}
+        </span>
+      </div>
+    </div>
+
+    <div class="" *ngIf="displayPort === 'Tablet'" >
+      <div class="badge text-info border border-info rounded" style="font-size: 0.85em; color: #535e7e; line-height: 1.2; ">
+        <span *ngIf="mainEncounter.warddisplay != ''">
+          {{mainEncounter.warddisplay}}
+        </span>
+        <span *ngIf="mainEncounter.consultingdoctortext != ''">
+          - {{mainEncounter.consultingdoctortext}}
+        </span>
+      </div>
+    </div>
+
+    <div class="" *ngIf="displayPort === 'Mobile'" >
+      <div class="badge text-info border border-info rounded" style="font-size: 0.85em; color: #535e7e; line-height: 1.2; ">
+        <span *ngIf="mainEncounter.warddisplay != ''">
+          {{mainEncounter.warddisplay}}
+        </span>
+      </div>
+    </div>
+
+
+  </div>
+
+

@@ -1,0 +1,103 @@
+<!--BEGIN LICENSE BLOCK--> 
+<!--Interneuron Terminus
+
+Copyright(C) 2021  Interneuron CIC
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.If not, see<http://www.gnu.org/licenses/>. -->
+<!--END LICENSE BLOCK--> 
+
+<div class="" *ngIf="displayPort != 'Mobile'" style="font-size: 0.85em; color: #535e7e; text-align: right;">
+  <div
+    *ngIf="mainBadges"
+    style="font-size: 0.85em; color: #535e7e"
+    style="width: 100%; text-align: right"
+  >
+    <div class="dropdown" style="width: 100%">
+      <div class="dropbtn">
+        <div>
+          <span style="display: inline-block" *ngFor="let badge of mainBadges">
+            <span style="float: right" [innerHTML]="badge.badgeimagetag"></span>
+          </span>
+        </div>
+      </div>
+
+      <div
+        class="dropdown-content float-left"
+        style="z-index: 5; text-align: left; width: 100%"
+      >
+        <table
+          class="list-group table table-borderless table-sm"
+          *ngFor="let badge of mainBadges"
+        >
+          <tr class="list-group-item">
+            <td>
+              <span [innerHTML]="badge.badgeimagetag"></span>
+            </td>
+            <td>
+              {{ badge.labeltext }} <br />
+              <strong> {{ badge.badgetext }}</strong>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<span *ngIf="displayPort === 'Mobile'"  style="font-size: 0.85em; color: #535e7e; text-align: right; width: 100%;">
+
+
+    <span
+      *ngIf="mainBadges"
+      style="font-size: 0.85em; color: #535e7e"
+    >
+
+
+      <span class="dropdown" style="width: 100%">
+        <div class="dropbtn">
+          <div>
+            <strong class="text-info">
+              <i
+                class="fa fa-info-circle"
+                aria-hidden="true"
+              ></i></strong
+            >&nbsp;
+          </div>
+        </div>
+
+        <span
+          class="dropdown-content float-left"
+          style="z-index: 5; text-align: left; width: 100%"
+        >
+          <table
+            class="list-group table table-borderless table-sm"
+            *ngFor="let badge of mainBadges"
+          >
+            <tr class="list-group-item">
+              <td>
+                <span [innerHTML]="badge.badgeimagetag"></span>
+              </td>
+              <td>
+                {{ badge.labeltext }} <br />
+                <strong> {{ badge.badgetext }}</strong>
+              </td>
+            </tr>
+          </table>
+        </span>
+      </span>
+    </span>
+  </span>

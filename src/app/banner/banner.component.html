@@ -1,0 +1,168 @@
+<!--BEGIN LICENSE BLOCK--> 
+<!--Interneuron Terminus
+
+Copyright(C) 2021  Interneuron CIC
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.If not, see<http://www.gnu.org/licenses/>. -->
+<!--END LICENSE BLOCK--> 
+  <!-- <div class="patientBannerHolder" style="min-height: 102px; max-height: 102px;"> -->
+
+
+
+
+    <div class="patientBannerHolder" *ngIf="showPatientBanner">
+
+        <div class="" *ngIf="displayPort === 'Desktop'" >
+          <div class="row">
+            <div class="col-md-9">
+              <app-main-demographics [value]="personId" (returnDemographicsResponse)="receiveBannerDemographicResponse($event)">
+              </app-main-demographics>
+            </div>
+            <div class="col-md-3">
+              <app-banner-actions [value]="personId" *ngIf="demographicsReturned">
+              </app-banner-actions>
+            </div>
+          </div>
+
+          <div class="row" style="margin-top: -12px;" *ngIf="demographicsReturned">
+            <div class="col-md-9">
+              <div class="row">
+                <div class="col-md-6">
+                  <app-main-encounter [value]="personId">
+                  </app-main-encounter>
+                </div>
+                <div class="col-md-3">
+                  <app-main-allergies [value]="personId">
+                  </app-main-allergies>
+                </div>
+                <div class="col-md-3">
+                  <app-main-warnings  [value]="personId">
+                  </app-main-warnings>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <app-main-badges [value]="personId">
+              </app-main-badges>
+            </div>
+          </div>
+
+          <div class="row"  *ngIf="!showPatientBanner && !unableToLoadPatient">
+          <div class="col-md-6">
+            <h3 class="text-secondary">Loading patient ....</h3>
+          </div>
+          </div>
+
+          <div class="row"  *ngIf="unableToLoadPatient">
+            <div class="col-md-12">
+              <div class="alert alert-danger">
+                <h3 >Unable to load selected patient</h3>
+            <h5>Please select a different patient</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="" *ngIf="displayPort === 'Tablet'" >
+          <div class="row">
+            <div class="col-md-9">
+              <app-main-demographics [value]="personId" (returnDemographicsResponse)="receiveBannerDemographicResponse($event)">
+              </app-main-demographics>
+            </div>
+            <div class="col-md-3">
+              <app-banner-actions [value]="personId" *ngIf="demographicsReturned">
+              </app-banner-actions>
+            </div>
+          </div>
+
+          <div class="row" style="margin-top: -12px;" *ngIf="demographicsReturned">
+            <div class="col-md-9">
+              <div class="row">
+                <div class="col-md-6">
+                  <app-main-encounter [value]="personId">
+                  </app-main-encounter>
+                </div>
+                <div class="col-md-3">
+                  <app-main-allergies [value]="personId">
+                  </app-main-allergies>
+                </div>
+                <div class="col-md-3">
+                  <app-main-warnings  [value]="personId">></app-main-warnings>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <app-main-badges [value]="personId">
+              </app-main-badges>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="" *ngIf="displayPort === 'Mobile'" style="padding-left: 12px;">
+
+          <div class="row">
+            <div class="col-10">
+              <app-main-demographics [value]="personId" (returnDemographicsResponse)="receiveBannerDemographicResponse($event)">
+              </app-main-demographics>
+            </div>
+            <div class="col-2" style="text-align: right;">
+              <app-banner-actions [value]="personId" *ngIf="demographicsReturned">
+              </app-banner-actions>
+            </div>
+          </div>
+          <div class="row" style="margin-top: -6px;">
+            <div class="col-9">
+              <app-main-allergies [value]="personId">
+              </app-main-allergies>
+            </div>
+            <div class="col-3" style="text-align: right;">
+              <table style="float: right;">
+                <tr>
+                  <td>
+                    <app-main-warnings [value]="personId">
+                    </app-main-warnings>
+                  </td>
+                  <td>&nbsp;</td>
+                  <td>
+                    <app-main-badges [value]="personId">
+                    </app-main-badges>
+                  </td>
+                </tr>
+              </table>
+
+
+            </div>
+          </div>
+        </div>
+
+
+
+
+      </div>
+
+
+
+<!-- Expanded Banner -->
+<div class="panel-body">
+  <div id="collapseDiv" class="collapse">
+    <div class="bg-white" style="color: #535e7e; padding:5px;" >
+      <h1 class="text-info">Expanded Banner</h1>
+    </div>
+  </div>
+</div>
+
+

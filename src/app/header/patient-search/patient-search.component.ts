@@ -1,16 +1,24 @@
-// Interneuron Terminus
-// Copyright(C) 2019  Interneuron CIC
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-// See the
-// GNU General Public License for more details.
-// You should have received a copy of the GNU General Public License
-// along with this program.If not, see<http://www.gnu.org/licenses/>.
+//BEGIN LICENSE BLOCK 
+//Interneuron Terminus
+
+//Copyright(C) 2021  Interneuron CIC
+
+//This program is free software: you can redistribute it and/or modify
+//it under the terms of the GNU General Public License as published by
+//the Free Software Foundation, either version 3 of the License, or
+//(at your option) any later version.
+
+//This program is distributed in the hope that it will be useful,
+//but WITHOUT ANY WARRANTY; without even the implied warranty of
+//MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+//See the
+//GNU General Public License for more details.
+
+//You should have received a copy of the GNU General Public License
+//along with this program.If not, see<http://www.gnu.org/licenses/>.
+//END LICENSE BLOCK 
+
 
 import { Component, OnInit } from '@angular/core';
 import { Person } from '../../Models/person.model';
@@ -19,7 +27,8 @@ import { AppConfig } from '../../app.config';
 import { ApirequestService } from '../../services/apirequest.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import * as jwt_decode from "jwt-decode";
-import { WebStorageService } from "../../services/webstorage.service"
+import { WebStorageService } from '../../services/webstorage.service';
+import { SharedDataContainerService } from '../../services/shared-data-container.service';
 
 @Component({
   selector: 'app-patient-search',
@@ -52,24 +61,17 @@ export class PatientSearchComponent implements OnInit {
 
   logedinUserID: string;
 
-  constructor(private apicaller: ApirequestService,   private authService: AuthenticationService, private webStorageService: WebStorageService, private headerService: HeaderService) {
+  constructor(private apicaller: ApirequestService, private authService: AuthenticationService, private webStorageService: WebStorageService, private headerService: HeaderService, private sharedData: SharedDataContainerService) {
   }
 
   ngOnInit() {
-    let decodedToken = this.decodeAccessToken(this.authService.user.access_token);
+    let decodedToken = this.authService.decodeAccessToken(this.authService.user.access_token);
     if (decodedToken != null) {
 
       this.logedinUserID = decodedToken.IPUId;
     }
   }
-  decodeAccessToken(token: string): any {
-    try {
-      return jwt_decode(token);
-    }
-    catch (Error) {
-      return null;
-    }
-  }
+ 
   patientSearch() {
 
     this.searchMessage = "Searching...";
@@ -175,8 +177,15 @@ export class PatientSearchComponent implements OnInit {
     }
   }
 
-  selectedPatient(person: Person) {    
-    this.webStorageService.setLocalStorageItem("Terminus:" + this.logedinUserID + ":Patient",person.person_id); 
+  selectedPatient(person: Person) {
+    if (this.sharedData.contexts != null) {
+      this.sharedData.contexts = null;
+      this.sharedData.contextField = "";
+      this.webStorageService.removeLocalStorageItem("Terminus:" + this.logedinUserID + ":Contexts");
+      this.webStorageService.removeLocalStorageItem("Terminus:" + this.logedinUserID + ":ContextField");
+    }
+    this.sharedData.personId = person.person_id;
+    this.webStorageService.setLocalStorageItem("Terminus:" + this.logedinUserID + ":Patient", person.person_id);
     this.headerService.myPatientSelected.next(person.person_id);
   }
 

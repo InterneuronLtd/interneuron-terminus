@@ -1,60 +1,131 @@
-<!-- Interneuron Terminus
-Copyright(C) 2019  Interneuron CIC
+<!--BEGIN LICENSE BLOCK--> 
+<!--Interneuron Terminus
+
+Copyright(C) 2021  Interneuron CIC
+
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
+
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
 See the
 GNU General Public License for more details.
+
 You should have received a copy of the GNU General Public License
 along with this program.If not, see<http://www.gnu.org/licenses/>. -->
+<!--END LICENSE BLOCK--> 
+
 
 <header class="app-header navbar">
-   
-  <div class="nav navbar" [style.background-color]="headertemplatecolour"  style="width: 100%;">
-      <table style="width: 100%;">
-        <tr>
-          <td>
-              <img src="assets/images/brand/InterneuronLogo.svg" width="132" height="30" alt="Interneuron Terminus Logo">      
-          </td>
-          <td>
-              <button id="btnToggleNav" type="button" class="navbar-toggler sidebar-toggler">
-                  <span class="navbar-toggler-icon"></span>
-              </button> 
-          </td>
-          <td class="nav-item" >
-              <app-applications></app-applications>
-          </td>
-          <td class="nav-item" >
-              <app-personas></app-personas>
-          </td>
-          <td class="nav-item" >
-              <app-persona-contexts></app-persona-contexts>
-          </td>
-          <td class="nav-item" >
-              <app-lists></app-lists>
-          </td>
-          <td class="nav-item" >
-              <a  data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" style=" text-align: center;">
-                  <span class="img-avatar"><i class="icon-user"></i> </span>
-                </a>
-          
-                <div class="dropdown-menu dropdown-menu-right" style="text-align: left; overflow-y:hidden;">
-          
-                  <a (click)="oidcLogout()" class="dropdown-item" href="#">
-                      <span Class="text-wrap"><b>  {{username  | titlecase}}</b></span><br/>
-                    <i class="icon-lock"></i>Logout
-                  </a>
-                </div>
-          </td>
-        </tr>
-      </table>
+
+  <div class="nav navbar" [style.background-color]="headertemplatecolour" style="width: 100%;">
+    <table style="width: 100%;">
+      <tr>
+        <td>
+          <img src="assets/images/brand/ClinicalPortal.png" width="130" height="30" alt="Clinical Portal">
+        </td>
+        <td>
+          <button id="btnToggleNav" type="button" class="navbar-toggler sidebar-toggler" (click)="togglePatientList()">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </td>
+        <td class="nav-item">
+          <app-applications></app-applications>
+        </td>
+        <td class="nav-item">
+          <app-personas></app-personas>
+        </td>
+        <td class="nav-item">
+          <app-persona-contexts></app-persona-contexts>
+        </td>
+        <td class="nav-item">
+          <app-lists></app-lists>
+        </td>
+
+        <td class="nav-item">
+          <!-- <a href="#" data-toggle="modal" data-target="#qmsModal"><span style="margin-right: 15px"><i class="icon-info"></i></span></a> -->
+          <a data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" style=" text-align: center;">
+            <span class="img-avatar"><i class="icon-user"></i> </span>
+          </a>
+
+          <div class="dropdown-menu dropdown-menu-right" style="text-align: left; overflow-y:hidden;">
+
+            <a (click)="oidcLogout()" class="dropdown-item" href="#">
+              <span Class="text-wrap"><b>  {{username  | titlecase}}</b></span><br />
+              <i class="icon-lock"></i>Logout
+            </a>
+          </div>
+        </td>
+      </tr>
+    </table>
 
   </div>
 
 
 
 </header>
+
+<!-- Modal -->
+<div class="modal fade" id="qmsModal" tabindex="-1" role="dialog" aria-labelledby="qmsModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="container">
+          <div class="row">
+            <div class="col">
+              <div class="text-center">
+                <img src="assets/images/brand/ClinicalPortal.png" height="40">
+              </div>
+            </div>
+          </div>
+        </div>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <div class="row">
+            <div class="col">
+              <div class="text-center">
+                <img src="assets/images/brand/MedicalDeviceLogo.png">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<button type="button" style="display:none" data-toggle="modal" data-target="#timeoutModal" data-backdrop="static" data-keyboard="false" #openTimeoutModal></button>
+
+<div class="modal fade" id="timeoutModal" tabindex="-1" aria-labelledby="timeoutModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <!-- <div class="modal-header">
+      </div> -->
+      <div class="modal-body">
+        <button type="button" class="btn btn-default btn-outline-dark" data-dismiss="modal" (click)="oidcLogout()">Logout</button>
+        <div class="h5 text-secondary" style="text-align: right;">{{username}}</div>
+        <br />
+        <div class="h4 text-center text-dark">You are about to be signed out in</div>
+        <br /> 
+        <div class="h1 text-center text-info">{{ timeout }} sec(s)</div>
+        <br />
+        <div class="h4 text-center text-dark">Please click 'Continue' to carry on with your session</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-info text-white btn-lg btn-block" data-dismiss="modal" (click)="continueSession()">Continue</button>
+      </div>
+    </div>
+  </div>
+</div>

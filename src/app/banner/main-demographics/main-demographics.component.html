@@ -1,0 +1,104 @@
+<!--BEGIN LICENSE BLOCK--> 
+<!--Interneuron Terminus
+
+Copyright(C) 2021  Interneuron CIC
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.If not, see<http://www.gnu.org/licenses/>. -->
+<!--END LICENSE BLOCK--> 
+<div *ngIf="mainDemographics" style="height: 44px;">
+
+
+  <div class="" *ngIf="displayPort === 'Desktop'" >
+    <div class="row">
+      <div class="col-md-6">
+        <span class="h3" style="color: #535e7e;">
+          {{ mainDemographics.fullname }}
+          <i class="fa fa-mars" aria-hidden="true" *ngIf="mainDemographics.gender === 'Female'"></i>
+          <i class="fa fa-mars" aria-hidden="true" *ngIf="mainDemographics.gender === 'Male'"></i>
+          {{mainDemographics.age}}
+        </span>
+      </div>
+      <div class="col-md-3" >
+        <p style="line-height:1.0; color: #535e7e; font-size: 0.85em;">
+          <strong>{{bornLabel}} :</strong> {{ mainDemographics.born }}
+          <br />
+          <strong>{{genderLabel}} :</strong> {{ mainDemographics.gender }}
+        </p>
+      </div>
+      <div class="col-md-3">
+        <p style="line-height:1.0; color: #535e7e; font-size: 0.85em;">
+          <strong>{{hospitalNumberLabel}} :</strong> &nbsp; <span id="patientMRN">{{ mainDemographics.hospitalnumber }}</span>
+          <br />
+          <strong>{{nhsNumberLabel}} :</strong> &nbsp; <span id="patientNHSNumber">{{ mainDemographics.nhsnumber }}</span>
+          </p>
+      </div>
+    </div>
+</div>
+
+<div class="" *ngIf="displayPort === 'Tablet'" >
+  <div class="row">
+      <div class="col-md-6">
+        <span class="h3" style="color: #535e7e;">
+          {{ mainDemographics.fullname }}
+          <i class="fa fa-mars" aria-hidden="true" *ngIf="mainDemographics.gender === 'Female'"></i>
+          <i class="fa fa-mars" aria-hidden="true" *ngIf="mainDemographics.gender === 'Male'"></i>
+          {{mainDemographics.age}}
+        </span>
+      </div>
+      <div class="col-md-3" >
+        <p style="line-height:1.0; color: #535e7e; font-size: 0.85em;">
+          {{ mainDemographics.born }}
+          <br />
+          {{ mainDemographics.gender }}
+        </p>
+      </div>
+      <div class="col-md-3">
+        <p style="line-height:1.0; color: #535e7e; font-size: 0.85em;">
+          <span id="patientMRN">{{ mainDemographics.hospitalnumber }}</span>
+          <br />
+            <span id="patientNHSNumber">{{ mainDemographics.nhsnumber }}</span>
+          </p>
+      </div>
+    </div>
+</div>
+
+
+<div class="" *ngIf="displayPort === 'Mobile'" >
+    <div class="row">
+      <div class="col-md-12">
+        <span class="h4" style="color: #535e7e;">
+          {{ mainDemographics.fullname }}
+          <i class="fa fa-mars" aria-hidden="true" *ngIf="mainDemographics.gender === 'Female'"></i>
+          <i class="fa fa-mars" aria-hidden="true" *ngIf="mainDemographics.gender === 'Male'"></i>
+        </span>
+        </div>
+    </div>
+    <div style="display: block;">
+      <p style="line-height:1.0; color: #535e7e; font-size: 0.8em;">
+
+        <span id="patientMRN">{{ mainDemographics.hospitalnumber }}</span>
+        &nbsp;|&nbsp;
+        <span id="patientNHSNumber">{{ mainDemographics.nhsnumber }}</span>
+        &nbsp;|&nbsp;
+        <span>DOB: </span><span>{{ mainDemographics.born }}</span>
+        </p>
+    </div>
+</div>
+
+
+
+</div>
+

@@ -1,72 +1,125 @@
 {
   "apiServices": [
     {
+      "serviceName": "GetRBACAction",
+      "serviceUrl": "SYNAPSE_DYNAMIC_URI/GetBaseViewListByPost/rbac_actions"
+    },
+    {
+      "serviceName": "GetRBACmodule",
+      "serviceUrl": "SYNAPSE_DYNAMIC_URI/GetBaseViewListByPost/rbac_module"
+    },
+    {
+      "serviceName": "GetRBAClist",
+      "serviceUrl": "SYNAPSE_DYNAMIC_URI/GetBaseViewListByPost/rbac_list"
+    },
+    {
+      "serviceName": "GetRBACpersona",
+      "serviceUrl": "SYNAPSE_DYNAMIC_URI/GetBaseViewListByPost/rbac_persona"
+    },
+    {
+      "serviceName": "GetRBACpersona",
+      "serviceUrl": "SYNAPSE_DYNAMIC_URI/GetBaseViewListByPost/rbac_persona"
+    },
+    {
+      "serviceName": "GetRBACApplication",
+      "serviceUrl": "SYNAPSE_DYNAMIC_URI/GetBaseViewListByPost/rbac_applications"
+    },
+    {
       "serviceName": "GetPatientListByPerson_id",
-      "serviceUrl": "http://DYNAMIC_API_URL/GetListByAttribute?synapsenamespace=terminus&synapseentityname=personpatientlist&synapseattributename=person_id&attributevalue="
+      "serviceUrl": "SYNAPSE_DYNAMIC_URI/GetListByAttribute?synapsenamespace=terminus&synapseentityname=personpatientlist&synapseattributename=person_id&attributevalue="
     },
     {
       "serviceName": "GetMyPatientExpandedList",
-      "serviceUrl": "https://DYNAMIC_API_URL/List/GetListDataByPost/a49ef45c-ed24-4e9b-9b77-c85e4172854f"
+      "serviceUrl": "SYNAPSE_DYNAMIC_URI/List/GetListDataByPost/a49ef45c-ed24-4e9b-9b77-c85e4172854f"
     },
     {
       "serviceName": "GetPatientListbyCount",
-      "serviceUrl": "http://DYNAMIC_API_URL/GetBaseViewList/terminus_patientlist"
+      "serviceUrl": "SYNAPSE_DYNAMIC_URI/GetBaseViewList/terminus_patientlist"
     },
     {
       "serviceName": "GetPatientList",
-      "serviceUrl": "https://synapsedynamicapi.azurewebsites.net/GetList?synapsenamespace=terminus&synapseentityname=patientlist"
+      "serviceUrl": "SYNAPSE_DYNAMIC_URI/GetList?synapsenamespace=terminus&synapseentityname=patientlist"
     },
     {
       "serviceName": "DeleteALLPatientList",
-      "serviceUrl": "http://DYNAMIC_API_URL/DeleteObjectByAttribute?synapsenamespace=terminus&synapseentityname=personpatientlist&synapseattributename=person_id&attributevalue="
+      "serviceUrl": "SYNAPSE_DYNAMIC_URI/DeleteObjectByAttribute?synapsenamespace=terminus&synapseentityname=personpatientlist&synapseattributename=person_id&attributevalue="
     },
     {
       "serviceName": "DeletePatientList",
-      "serviceUrl": "http://DYNAMIC_API_URL/DeleteObject?synapsenamespace=terminus&synapseentityname=personpatientlist&id="
+      "serviceUrl": "SYNAPSE_DYNAMIC_URI/DeleteObject?synapsenamespace=terminus&synapseentityname=personpatientlist&id="
     },
     {
       "serviceName": "Postpersonpatientlist",
-      "serviceUrl": "http://DYNAMIC_API_URL/PostObject?synapsenamespace=terminus&synapseentityname=personpatientlist"
+      "serviceUrl": "SYNAPSE_DYNAMIC_URI/PostObject?synapsenamespace=terminus&synapseentityname=personpatientlist"
     },
     {
       "serviceName": "PostPatientList",
-      "serviceUrl": "https://DYNAMIC_API_URL/List/GetListDataByPost/"
+      "serviceUrl": "SYNAPSE_DYNAMIC_URI/List/GetListDataByPost/"
     },
     {
       "serviceName": "GetUserPersona",
-      "serviceUrl": "https://DYNAMIC_API_URL/Metadata/GetUserPersona"
+      "serviceUrl": "SYNAPSE_DYNAMIC_URI/Metadata/GetUserPersona"
     },
     {
       "serviceName": "GetMyPatientList",
-      "serviceUrl": "https://DYNAMIC_API_URL/List/GetListDataByPost/d365889c-e76a-44ab-8e4a-81878273dc69"
+      "serviceUrl": "SYNAPSE_DYNAMIC_URI/List/GetListDataByPost/d365889c-e76a-44ab-8e4a-81878273dc69"
     },
     {
       "serviceName": "GetApplications",
-      "serviceUrl": "https://DYNAMIC_API_URL/GetList/meta/application"
+      "serviceUrl": "SYNAPSE_DYNAMIC_URI/GetList/meta/application"
     },
     {
       "serviceName": "GetApplicationList",
-      "serviceUrl": "https://DYNAMIC_API_URL/GetList/meta/applicationlist"
+      "serviceUrl": "SYNAPSE_DYNAMIC_URI/GetList/meta/applicationlist"
     },
     {
       "serviceName": "PostPatientSearch",
-      "serviceUrl": "https://DYNAMIC_API_URL/GetBaseViewListByPost/terminus_patientsearch"
+      "serviceUrl": "SYNAPSE_DYNAMIC_URI/GetBaseViewListByPost/terminus_patientsearch"
     },
     {
       "serviceName": "GetModulesList",
-      "serviceUrl": "https://DYNAMIC_API_URL/GetBaseViewListByAttribute/meta_modulelist"
+      "serviceUrl": "SYNAPSE_DYNAMIC_URI/GetBaseViewListByAttribute/meta_modulelist"
     },
     {
       "serviceName": "PostMyPatients",
-      "serviceUrl": "https://DYNAMIC_API_URL/PostObject?synapsenamespace=terminus&synapseentityname=mypatients"
+      "serviceUrl": "SYNAPSE_DYNAMIC_URI/PostObject?synapsenamespace=terminus&synapseentityname=mypatients"
     },
     {
       "serviceName": "DeleteMyPatient",
-      "serviceUrl": "https://DYNAMIC_API_URL/DeleteObject?synapsenamespace=terminus&synapseentityname=mypatients&id="
+      "serviceUrl": "SYNAPSE_DYNAMIC_URI/DeleteObject?synapsenamespace=terminus&synapseentityname=mypatients&id="
     },
     {
       "serviceName": "CheckMyPatient",
-      "serviceUrl": "https://DYNAMIC_API_URL/GetObject?synapsenamespace=terminus&synapseentityname=mypatients&id="
+      "serviceUrl": "SYNAPSE_DYNAMIC_URI/GetObject?synapsenamespace=terminus&synapseentityname=mypatients&id="
+    },
+    {
+      "serviceName": "GetContext",
+      "serviceUrl": "SYNAPSE_DYNAMIC_URI/List/GetContext/"
+    },
+    {
+      "serviceName": "GetBannerMainDemographics",
+      "serviceUrl": "SYNAPSE_DYNAMIC_URI/GetBaseViewListByAttribute/patientbanner_maindemographics"
+    },
+    {
+      "serviceName": "GetBannerMainAllergies",
+      "serviceUrl": "SYNAPSE_DYNAMIC_URI/GetBaseViewListByAttribute/patientbanner_mainallergies"
+    },
+    {
+      "serviceName": "GetPerson",
+      "serviceUrl": "SYNAPSE_DYNAMIC_URI/GetObject?synapsenamespace=core&synapseentityname=person"
+    },
+    {
+      "serviceName": "GetBannerMainEncounter",
+      "serviceUrl": "SYNAPSE_DYNAMIC_URI/GetBaseViewListByAttribute/patientbanner_mainencounter"
+    },
+    {
+      "serviceName": "GetBannerMainWarnings",
+      "serviceUrl": "SYNAPSE_DYNAMIC_URI/GetBaseViewListByAttribute/patientbanner_mainwarnings"
+    }
+    ,
+    {
+      "serviceName": "GetBannerMainBadges",
+      "serviceUrl": "SYNAPSE_DYNAMIC_URI/GetBaseViewListByAttribute/patientbanner_mainbadges"
     }
   ],
   "ENVIdentificationTemplate": [
@@ -96,20 +149,20 @@
     }
   ],
   "OIDCConfig": {
-    "authority": "IDENTITY_SERVER_URL",
+    "authority": "SYNAPSE_IDENTITY_URI",
     "client_id": "terminus-framework",
     "client_secret": "secret",
-    "redirect_uri": "https://TERMINUS_DOMAIN/oidc-callback",
-    "post_logout_redirect_uri": "https://TERMINUS_DOMAIN/oidc-logout?oidccallback=true",
+    "redirect_uri": "http://localhost:4200/oidc-callback",
+    "post_logout_redirect_uri": "http://localhost:4200/oidc-logout?oidccallback=true",
     "response_type": "id_token token",
-    "scope": "openid profile dynamicapi.read",
+    "scope": "openid profile dynamicapi.read carerecordapi.read terminologyapi.read",
     "automaticSilentRenew": true,
-    "silent_redirect_uri": "https://TERMINUS_DOMAIN/assets/silent-refresh.html",
+    "silent_redirect_uri": "http://localhost:4200/assets/silent-refresh.html",
     "accessTokenExpiringNotificationTime": 60
   },
   "userIdle": {
-    "idle": 3600,
-    "timeout": 5,
+    "idle": 7200,
+    "timeout": 60,
     "ping": 5
   },
   "mrnTypeCode": "MRN",

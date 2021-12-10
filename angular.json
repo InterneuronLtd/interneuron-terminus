@@ -28,7 +28,8 @@
               "src/assets/styles/simple-line-icons/css/simple-line-icons.css",
               "src/assets/styles/style.css",
               "src/assets/styles/terminus.css",
-              "src/assets/scripts/pace-progress/css/pace.min.css"
+              "src/assets/scripts/pace-progress/css/pace.min.css",
+              "node_modules/@fortawesome/fontawesome-free/css/all.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",

@@ -1,20 +1,29 @@
-// Interneuron Terminus
-// Copyright(C) 2019  Interneuron CIC
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-// See the
-// GNU General Public License for more details.
-// You should have received a copy of the GNU General Public License
-// along with this program.If not, see<http://www.gnu.org/licenses/>.
+//BEGIN LICENSE BLOCK 
+//Interneuron Terminus
+
+//Copyright(C) 2021  Interneuron CIC
+
+//This program is free software: you can redistribute it and/or modify
+//it under the terms of the GNU General Public License as published by
+//the Free Software Foundation, either version 3 of the License, or
+//(at your option) any later version.
+
+//This program is distributed in the hope that it will be useful,
+//but WITHOUT ANY WARRANTY; without even the implied warranty of
+//MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+//See the
+//GNU General Public License for more details.
+
+//You should have received a copy of the GNU General Public License
+//along with this program.If not, see<http://www.gnu.org/licenses/>.
+//END LICENSE BLOCK 
+
 
 import { Injectable } from '@angular/core';
 import { UserManager, User } from 'oidc-client';
 import { AppConfig } from '../app.config';
+import * as jwt_decode from "jwt-decode";
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +34,7 @@ export class AuthenticationService {
 
   constructor() {
     //var settings = {
-    //  authority: 'https://synapseidentityserver.azurewebsites.net',
+    //  authority: 'SYNAPSE_IDENTITY_URI',
     //  client_id: 'terminus-framework',
     //  client_secret: 'secret',
     //  redirect_uri: 'http://localhost:4200/oidc-callback',
@@ -49,7 +58,14 @@ export class AuthenticationService {
     this.manager.events.addAccessTokenExpired(() => { this.logout() })
 
   }
-
+  decodeAccessToken(token: string): any {
+    try {
+      return jwt_decode(token);
+    }
+    catch (Error) {
+      return null;
+    }
+  }
   public getUser(): Promise<User> {
     return this.manager.getUser();
   }
@@ -90,7 +106,7 @@ export class AuthenticationService {
 
   //getClientSettings(): UserManagerSettings {
   //  return {
-  //    authority: 'https://demo.identityserver.io/', //'https://synapseidentityserver.azurewebsites.net',
+  //    authority: 'https://demo.identityserver.io/', //'SYNAPSE_IDENTITY_URI',
   //    client_id: 'implicit',//terminus-framework',
   //    client_secret: 'secret',
   //    redirect_uri: 'http://localhost:4200/oidc-callback',

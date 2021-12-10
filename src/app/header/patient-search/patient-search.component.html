@@ -1,29 +1,37 @@
-<!-- Interneuron Terminus
-Copyright(C) 2019  Interneuron CIC
+<!--BEGIN LICENSE BLOCK--> 
+<!--Interneuron Terminus
+
+Copyright(C) 2021  Interneuron CIC
+
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
+
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
 See the
 GNU General Public License for more details.
+
 You should have received a copy of the GNU General Public License
 along with this program.If not, see<http://www.gnu.org/licenses/>. -->
+<!--END LICENSE BLOCK--> 
+
 
 <button type="button" class="btn btn-dark text-white btn-sm btn-block" data-toggle="modal" data-target="#modalSearch" (click)="resetModal()">
   <i class="icon-magnifier"> </i> Patient Search
 </button>
 
-<div class="modal" id="modalSearch" style="margin-top: 300px;">
-  <div class="modal-dialog  modal-lg">
+<div class="modal" id="modalSearch">
+  <div class="modal-dialog modal-dialog-centered modal-lg" style="overflow-y: initial !important">
     <div class="modal-content">
       <!-- Modal Header -->
       <!--<div class="modal-header">
       </div>-->
       <!-- Modal body -->
-      <div class="modal-body">
+      <div class="modal-body" style="height: 500px; overflow-y: auto !important;">
         <div class="bg-white text-dark" style="padding: 7px;">
           <br />
           <h2> &nbsp; <i class="icon-magnifier"> </i> Patient Search</h2>
@@ -78,7 +86,7 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
           <a href="#" class="alert-link">Error: </a> Unable to search patients
       </div>
         <ng-template #elseBlock>
-          <div id="searchResults" class="bg-white text-dark" style="overflow: scroll;" *ngIf="show && searchMessage === 'Patients found'">
+          <div id="searchResults" class="bg-white text-dark" *ngIf="show && searchMessage === 'Patients found'">
             <table class="table table-striped text-dark">
               <thead>
                 <tr>

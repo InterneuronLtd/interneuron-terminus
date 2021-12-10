@@ -1,20 +1,28 @@
-<!-- Interneuron Terminus
-Copyright(C) 2019  Interneuron CIC
+<!--BEGIN LICENSE BLOCK--> 
+<!--Interneuron Terminus
+
+Copyright(C) 2021  Interneuron CIC
+
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
+
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
 See the
 GNU General Public License for more details.
+
 You should have received a copy of the GNU General Public License
 along with this program.If not, see<http://www.gnu.org/licenses/>. -->
+<!--END LICENSE BLOCK--> 
 
 
 
-<div *ngIf="showPatientBanner">
+
+<div *ngIf="showPatientBanner" style="border-bottom:1px solid #756b6b;">
   <div class="" style="background-color: #fff; margin-bottom:0px; padding: 5px; color: #535e7e;">
     <div class="">
       <div class="row">
@@ -22,13 +30,18 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
           <span class="h1">
             {{ leftSideTopRow }}
           </span>
+          <fa-icon [icon]="faVenus" class="fa-2x" *ngIf="rightSideTopRowMiddleValue == 'Female'"></fa-icon>
+          <fa-icon [icon]="faMars" class="fa-2x" *ngIf="rightSideTopRowMiddleValue == 'Male'"></fa-icon>
+          <span class="h1">
+            {{ rightSideTopRowFirstValue | slice:12 }}
+          </span>
           <div class="row">
             <div class="col-sm-12">
               <span class="h6">
                 {{ leftSideBottomRowFirstLabel }}
               </span>
-              <span>
-                {{ leftSideBottomRowFirstValue }}
+              <span [innerHTML]="leftSideBottomRowFirstValue">
+                <!-- {{ leftSideBottomRowFirstValue }} -->
               </span>
               <span>&nbsp;&nbsp;&nbsp;</span>
               <span class="h6">
@@ -67,11 +80,12 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
           <div class="d-sm-down-none">
             <div class="row">
               <div class="col-sm-12">
-                <span class="h6">
-                  {{ rightSideTopRowFirstLabel }}
+                <span class="h6 text-danger"[innerHTML]="rightSideTopRowFirstLabel">
+                  <!-- {{ rightSideTopRowFirstLabel }} -->
                 </span>
-                <span>
-                  {{ rightSideTopRowFirstValue }}
+                &nbsp;
+                <span [innerHTML]="rightSideTopRowFirstValue | slice:0:11">
+                  <!-- {{ rightSideTopRowFirstValue | slice:0:11 }} -->
                 </span>
                 <br />
                 <span class="h6">
@@ -92,8 +106,7 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
 
             <div class="row">
               <div class="col-sm-12">
-                <span class="h6">
-                  {{ rightSideBottomRowFirstLabel }}
+                <span class="h6 text-info" [innerHTML]="rightSideBottomRowFirstLabel">
                 </span>
                 <span>
                   {{ rightSideBottomRowFirstValue }}
@@ -119,7 +132,7 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
         </div>
         <div class="col-sm-3">
           <div class="btn btn-linkedin text-white btn-sm panel-heading collapsed float-right" data-toggle="collapse"
-               data-target="#collapseDiv">
+            data-target="#collapseDiv">
             <i class="icon-arrow-up"></i>
             <i class="icon-arrow-down"></i>
           </div>
@@ -128,11 +141,11 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
           </span>
           <span class="float-right">
             <button type="button" class="btn btn-default btn-google-plus bg-white text-danger btn-sm float-right"
-                    (click)="insertPatientIntoMyPatients();" *ngIf="!showRemoveButton">
+              (click)="insertPatientIntoMyPatients();" *ngIf="!showRemoveButton">
               <i class="icon-star" data-toggle="tooltip" title="Add to my patients"></i>
             </button>
             <button type="button" class="btn btn-default btn-google-plus text-white btn-sm float-right"
-                    (click)="removePatientFromMyPatients();" *ngIf="showRemoveButton">
+              (click)="removePatientFromMyPatients();" *ngIf="showRemoveButton">
               <i class="icon-star" data-toggle="tooltip" title="Remove from my patients"></i>
             </button>
           </span>
@@ -141,15 +154,15 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
           </span>
           <span class="float-right">
             <div class="dropdown">
-              <button id="btnpatientCustomDropdown" class="btn btn-sm btn-default  btn-info text-white" title="Team Lists" data-toggle="tooltip" type="button">
+              <button id="btnpatientCustomDropdown"  *ngIf="RbacService.authoriseAction('Add to teamlist')" class="btn btn-sm btn-default dropbtn btn-info text-white"  title="Team Lists" data-toggle="tooltip" type="button">
                 <i class='icon-list'></i>
               </button>
-              <div id="ddlPatientlistCustomDropdown" *ngIf="showPatientdropdown==='true'" class="dropdown-content float-left">
-                <li class="dropdown-item" (click)="OnItemclick(patientlistname)"
-                    *ngFor="let patientlistname of patientlistname" style="width: 100%;">
+              <div id="ddlPatientlistCustomDropdown" class="dropdown-content float-left" style=" z-index: 5;">
+                <li  class="dropdown-item" (click)="OnItemclick(patientlistname)"
+                  *ngFor="let patientlistname of patientlistname" style="width: 100%;">
                   <div class="custom-control  custom-checkbox my-1 mr-sm-2">
                     <input type="checkbox" [(ngModel)]="patientlistname.selected" class="custom-control-input"
-                           data-md-icheck (change)="addprop1($event)" />
+                      data-md-icheck (change)="addprop1($event)"/>
 
                     <label class="custom-control-label">{{ patientlistname.patientlistname}}</label>
                   </div>

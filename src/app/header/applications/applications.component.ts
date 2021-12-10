@@ -1,16 +1,23 @@
-// Interneuron Terminus
-// Copyright(C) 2019  Interneuron CIC
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-// See the
-// GNU General Public License for more details.
-// You should have received a copy of the GNU General Public License
-// along with this program.If not, see<http://www.gnu.org/licenses/>.
+//BEGIN LICENSE BLOCK 
+//Interneuron Terminus
+
+//Copyright(C) 2021  Interneuron CIC
+
+//This program is free software: you can redistribute it and/or modify
+//it under the terms of the GNU General Public License as published by
+//the Free Software Foundation, either version 3 of the License, or
+//(at your option) any later version.
+
+//This program is distributed in the hope that it will be useful,
+//but WITHOUT ANY WARRANTY; without even the implied warranty of
+//MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+//See the
+//GNU General Public License for more details.
+
+//You should have received a copy of the GNU General Public License
+//along with this program.If not, see<http://www.gnu.org/licenses/>.
+//END LICENSE BLOCK 
 
 import { Component, OnInit } from '@angular/core';
 import { HeaderService } from '../../services/header.service';
@@ -20,7 +27,9 @@ import { ErrorHandlerService } from '../../services/error-handler.service';
 import { ApirequestService } from '../../services/apirequest.service';
 import { AuthenticationService } from '../../services/authentication.service';
 import { WebStorageService } from "../../services/webstorage.service"
-import * as jwt_decode from "jwt-decode";
+import { RbacService } from "../../services/rbac.service"
+import {  Rbacobject } from '../../Models/Filter.model';
+
 @Component({
   selector: 'app-applications',
   templateUrl: './applications.component.html',
@@ -31,31 +40,28 @@ export class ApplicationsComponent implements OnInit {
   applications: Application[];
   logedinUserID: string;
   selectedApplication: string;
-
+  public RbacApplivations: Rbacobject[] = [];
   constructor(
     private headerService: HeaderService,
     private errorHandlerService: ErrorHandlerService,
     private reqService: ApirequestService,
     private authService: AuthenticationService,
-    private webStorageService: WebStorageService
-  ) { }
-
-  ngOnInit() {
-    let decodedToken = this.decodeAccessToken(this.authService.user.access_token);
+    private webStorageService: WebStorageService,
+    private RbacService:RbacService
+  ) {
+    let decodedToken = this.authService.decodeAccessToken(this.authService.user.access_token);
     if (decodedToken != null) {
-
+      this.GetRoleBaseddata(decodedToken);
       this.logedinUserID = decodedToken.IPUId;
     }
-    this.getApplications();
+
   }
-  decodeAccessToken(token: string): any {
-    try {
-      return jwt_decode(token);
-    }
-    catch (Error) {
-      return null;
-    }
+
+  ngOnInit() {
+    
+  
   }
+
   appSelection(application: Application) {
     if (application) {
       if (document.getElementById('appDropdownMenu').innerHTML != application.applicationname) {
@@ -66,12 +72,38 @@ export class ApplicationsComponent implements OnInit {
       }
     }
   }
-
+  GetRoleBaseddata(decodedToken: any)
+  {
+   
+    this.RbacService.GetRoleBaseddata(decodedToken,'GetRBACApplication')
+    .then(
+      (response: Rbacobject[]) => {
+        this.RbacApplivations = response;
+        this.getApplications();
+      },
+     
+    )
+   
+  } 
+ 
+  
   getApplications() {
+   
     this.reqService.getRequest(AppConfig.settings.apiServices.find(x => x.serviceName == 'GetApplications').serviceUrl)
       .then(
         (applications) => {
-          this.applications = <Application[]>JSON.parse(applications);
+          this.applications=[];
+          let allapplivation = <Application[]>JSON.parse(applications);
+     
+           for (var i = 0; i < allapplivation.length; i++) {
+            let length=   this.RbacApplivations.filter(x => x.objectname.toLowerCase() ==allapplivation[i].applicationname.toLowerCase()).length;
+         
+           if(length>0)
+           {
+            this.applications.push(allapplivation[i]);
+           }
+          }
+          
           if (this.applications.length > 0) {
             if (this.webStorageService.getLocalStorageItem("Terminus:" + this.logedinUserID + ":Application") == null) {//check local storage is null
 
