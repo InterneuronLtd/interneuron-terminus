@@ -30,7 +30,7 @@
     "babel-polyfill": "^6.26.0",
     "bootstrap": "^4.3.1",
     "core-js": "^2.6.9",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "jwt-decode": "^2.2.0",
     "ngx-pagination": "^5.1.1",
     "oidc-client": "^1.7.1",
