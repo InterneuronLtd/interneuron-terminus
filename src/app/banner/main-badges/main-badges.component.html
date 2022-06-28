@@ -1,7 +1,7 @@
 <!--BEGIN LICENSE BLOCK--> 
 <!--Interneuron Terminus
 
-Copyright(C) 2021  Interneuron CIC
+Copyright(C) 2022  Interneuron CIC
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,10 +19,11 @@ You should have received a copy of the GNU General Public License
 along with this program.If not, see<http://www.gnu.org/licenses/>. -->
 <!--END LICENSE BLOCK--> 
 
-<div class="" *ngIf="displayPort != 'Mobile'" style="font-size: 0.85em; color: #535e7e; text-align: right;">
+<div *ngIf="mainBadges">
+<div class="" *ngIf="displayPort != 'Mobile'" style="font-size: 1em; color: #535e7e; text-align: right;">
   <div
-    *ngIf="mainBadges"
-    style="font-size: 0.85em; color: #535e7e"
+    *ngIf="mainBadges.length > 0"
+    style="font-size: 1em; color: #535e7e"
     style="width: 100%; text-align: right"
   >
     <div class="dropdown" style="width: 100%">
@@ -36,7 +37,7 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
 
       <div
         class="dropdown-content float-left"
-        style="z-index: 5; text-align: left; width: 100%"
+        style="z-index: 5; text-align: left; width: 100%; font-size: 1em; color: #535e7e; "
       >
         <table
           class="list-group table table-borderless table-sm"
@@ -46,7 +47,7 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
             <td>
               <span [innerHTML]="badge.badgeimagetag"></span>
             </td>
-            <td>
+            <td style="vertical-align: middle;">
               {{ badge.labeltext }} <br />
               <strong> {{ badge.badgetext }}</strong>
             </td>
@@ -58,12 +59,12 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
 </div>
 
 
-<span *ngIf="displayPort === 'Mobile'"  style="font-size: 0.85em; color: #535e7e; text-align: right; width: 100%;">
+<span *ngIf="displayPort === 'Mobile'"  style="font-size: 1em; color: #535e7e; text-align: right; width: 100%;">
 
 
     <span
-      *ngIf="mainBadges"
-      style="font-size: 0.85em; color: #535e7e"
+      *ngIf="mainBadges.length > 0"
+      style="font-size: 1em; color: #535e7e"
     >
 
 
@@ -81,14 +82,13 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
 
         <span
           class="dropdown-content float-left"
-          style="z-index: 5; text-align: left; width: 100%"
-        >
+          style="z-index: 5; text-align: left; width: 100%; font-size: 1em; color: #535e7e; ">
           <table
             class="list-group table table-borderless table-sm"
             *ngFor="let badge of mainBadges"
           >
             <tr class="list-group-item">
-              <td>
+              <td style="vertical-align: middle;">
                 <span [innerHTML]="badge.badgeimagetag"></span>
               </td>
               <td>
@@ -100,4 +100,6 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
         </span>
       </span>
     </span>
-  </span>
+
+</span>
+</div>

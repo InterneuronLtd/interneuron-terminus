@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2021  Interneuron CIC
+//Copyright(C) 2022  Interneuron CIC
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -22,7 +22,6 @@ import { Injectable } from '@angular/core';
 import { AppConfig } from '../app.config';
 import { ApirequestService } from '../services/apirequest.service';
 import { filters, filterParams, filterparam, filter, selectstatement, orderbystatement, Rbacobject } from '../Models/Filter.model';
-import { isArray } from 'util';
 
 @Injectable({
   providedIn: 'root'
@@ -63,7 +62,7 @@ export class RbacService {
     let condition = "";
     let pm = new filterParams();
 
-    if (!isArray(decodedToken.SynapseRoles)) {
+    if (!Array.isArray(decodedToken.SynapseRoles)) {
       condition = "rolename = @rolename";
       pm.filterparams.push(new filterparam("rolename", decodedToken.SynapseRoles));
     }

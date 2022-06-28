@@ -1,7 +1,7 @@
 <!--BEGIN LICENSE BLOCK--> 
 <!--Interneuron Terminus
 
-Copyright(C) 2021  Interneuron CIC
+Copyright(C) 2022  Interneuron CIC
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -20,12 +20,7 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
 <!--END LICENSE BLOCK--> 
 
 
-<button class="btn btn-sm btn-default dropdown-toggle btn-light text-white btn-block" type="button" id="personaContextDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-  <!-- <span>Persona Context</span> -->
-  {{selectedPersonaContext.displayname}}
-</button>
-<ul class="dropdown-menu" *ngIf="personaContexts" style="max-width: 300%; min-width: 100%; text-align: center;">
-  <li class="dropdown-item" *ngFor="let personaContext of personaContexts" >
-    <a href="#" (click)="personaContextSelection(personaContext)" style="display:block">{{ personaContext.displayname }}</a>
-  </li>
-</ul>
+<li class="dropdown-item" *ngFor="let personaContext of personaContexts">
+  <a href="#" (click)="personaContextSelection(personaContext)" style="display:block">{{ personaContext.displayname
+    }}</a>
+</li>

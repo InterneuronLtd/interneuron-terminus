@@ -36,3 +36,11 @@
 .dropdown:hover .dropdown-content {display: block;}
 
 .badge { margin-right: 8px; padding: 7px !important;}
+
+@media (max-height: 500px) {
+  .dropdown-content{
+    border: 2px solid #535e7e;
+    max-height:250px;
+      overflow-y:auto;
+  }
+}

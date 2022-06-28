@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2021  Interneuron CIC
+//Copyright(C) 2022  Interneuron CIC
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -41,12 +41,18 @@ import { SharedDataContainerService } from '../services/shared-data-container.se
 })
 export class ContainerComponent implements OnInit, OnDestroy {
 
-  show: boolean = false;
+
+
+
+  showExpandedList: boolean = false;
   showPatientList: boolean = false;
   filter: string = '';
   patientListHeader: string = '';
   dataRows: DataRow[] = [];
   selectedValue: string;
+  p: number; //current page
+
+
 
   logedinUserID: string;
 
@@ -73,10 +79,11 @@ export class ContainerComponent implements OnInit, OnDestroy {
   }
 
   subscribeEvents() {
+
     //Subscribe to show or hide patient detail popup from Mypatient and sideBar
     this.headerService.myPatient.subscribe(
       (show: boolean) => {
-        this.show = show;
+        this.showExpandedList = show;
       },
       error => this.errorHandlerService.handleError(error)
     );
@@ -91,7 +98,7 @@ export class ContainerComponent implements OnInit, OnDestroy {
       },
       error => this.errorHandlerService.handleError(error)
     );
-   //Load data from patient list
+    //Load data from patient list
     this.headerService.wardPatientTabularData.subscribe(
       (DataRow: DataRow[]) => {
         if (this.patientListHeader != "My Patients") {
@@ -101,7 +108,7 @@ export class ContainerComponent implements OnInit, OnDestroy {
       },
       error => this.errorHandlerService.handleError(error)
     );
-    //Load data from  My favorite patient List 
+    //Load data from  My favorite patient List
     this.headerService.MyPatientTabularData.subscribe(
       (DataRow: DataRow[]) => {
         this.dataRows = DataRow;
@@ -110,7 +117,8 @@ export class ContainerComponent implements OnInit, OnDestroy {
       },
       error => this.errorHandlerService.handleError(error)
     );
-    // subscribe to dropdown personacontext 
+
+    // subscribe to dropdown personacontext
     this.headerService.PatientListHeaderDisplay.subscribe(
       (headerText: string) => {
         this.patientListHeader = headerText;
@@ -178,8 +186,11 @@ export class ContainerComponent implements OnInit, OnDestroy {
 
   }
 
+
+
+
   hideMyPatientList() {
-    this.filter="";
+    this.filter = "";
     this.headerService.myPatient.next(false);
   }
 

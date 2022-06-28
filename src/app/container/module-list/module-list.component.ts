@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2021  Interneuron CIC
+//Copyright(C) 2022  Interneuron CIC
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -25,12 +25,12 @@ import { ApirequestService } from '../../services/apirequest.service';
 import { AppConfig } from '../../app.config';
 import { ErrorHandlerService } from '../../services/error-handler.service';
 import { HeaderService } from '../../services/header.service';
-import { Module } from '../../Models/application.model';
+import { Application, Module } from '../../Models/application.model';
 import { filters, filterParams, filterparam, filter, selectstatement, orderbystatement, Rbacobject } from '../../Models/Filter.model';
-import { isArray } from 'util';
 import { RbacService } from "../../services/rbac.service";
 import { AuthenticationService } from '../../services/authentication.service';
 import * as jwt_decode from "jwt-decode";
+import { SharedDataContainerService } from 'src/app/services/shared-data-container.service';
 
 @Component({
   selector: 'app-module-list',
@@ -44,8 +44,20 @@ export class ModuleListComponent implements OnInit {
   selectedModule: string = "";
   Rbacmodule: Rbacobject[] = [];
   applicationId: string;
-  constructor(private apiCaller: ApirequestService,private RbacService:RbacService, private authService: AuthenticationService, private errorHandlerService: ErrorHandlerService, private headerService: HeaderService) {
+
+
+  constructor(private apiCaller: ApirequestService, private RbacService: RbacService, private authService: AuthenticationService, private errorHandlerService: ErrorHandlerService, private headerService: HeaderService, private sharedData: SharedDataContainerService) {
     this.getApplicationId();
+
+    //Read Selected Module from Header Service
+    this.headerService.selectedModule.subscribe(
+      (value: any) => {
+        this.selectedModule = value;
+      },
+      (error) => {
+        //
+      }
+    );
   }
 
   getApplicationId() {
@@ -62,10 +74,11 @@ export class ModuleListComponent implements OnInit {
     let decodedToken = this.authService.decodeAccessToken(this.authService.user.access_token);
     if (decodedToken != null) {
       this.GetRoleBaseddata(decodedToken);
-     
+
+      this.getAllModules();
     }
   }
-  decodeAccessToken(token: string): any { 
+  decodeAccessToken(token: string): any {
     try {
       return jwt_decode(token);
     }
@@ -79,24 +92,23 @@ export class ModuleListComponent implements OnInit {
     this.headerService.selectedModule.next(e)
   }
 
-  GetRoleBaseddata(decodedToken: any)
-  {
-    this.RbacService.GetRoleBaseddata(decodedToken,'GetRBACmodule')
-    .then(
-      (response: Rbacobject[]) => {
-        this.Rbacmodule = response;
-      },
-     
-    )
-   
-  } 
+  GetRoleBaseddata(decodedToken: any) {
+    this.RbacService.GetRoleBaseddata(decodedToken, 'GetRBACmodule')
+      .then(
+        (response: Rbacobject[]) => {
+          this.Rbacmodule = response;
+        },
+
+      )
+
+  }
 
   createRoleFilter(decodedToken: any) {
 
     let condition = "";
     let pm = new filterParams();
 
-    if (!isArray(decodedToken.SynapseRoles)) {
+    if (!Array.isArray(decodedToken.SynapseRoles)) {
       condition = "rolename = @rolename";
       pm.filterparams.push(new filterparam("rolename", decodedToken.SynapseRoles));
     }
@@ -129,28 +141,43 @@ export class ModuleListComponent implements OnInit {
         (response) => {
           this.moduleList = []
           let responseArray = JSON.parse(response);
-          
+
           let hasdefaultmodule: boolean = false;
 
 
           for (let r of responseArray) {
-            let length=   this.Rbacmodule.filter(x => x.objectname.toLowerCase() ==r.modulename.toLowerCase()).length;
-            if(length>0)
-           {
-            if (r.isdefaultmodule) {
+            let length = this.Rbacmodule.filter(x => x.objectname.toLowerCase() == r.modulename.toLowerCase()).length;
+            if (length > 0) {
+              if (r.isdefaultmodule) {
 
-              hasdefaultmodule = true;
-              this.headerService.selectedModule.next(r);
-              this.selectedModule = r.modulename;
+                hasdefaultmodule = true;
+                this.headerService.selectedModule.next(r);
+                this.selectedModule = r.modulename;
+              }
+              //console.log(r);
+              this.moduleList.push(<Module>r);
             }
-            //console.log(r);
-            this.moduleList.push(<Module>r);
-          }
           }
           if (!hasdefaultmodule && this.moduleList.length > 0) {
             this.headerService.selectedModule.next(this.moduleList[0])
             this.moduleList[0].isdefaultmodule = true;
             this.selectedModule = this.moduleList[0].modulename;
+          }
+
+
+        },
+        error => this.errorHandlerService.handleError(error)
+      );
+  }
+
+  getAllModules() {
+    this.apiCaller.getRequest(AppConfig.settings.apiServices.find(x => x.serviceName == 'GetAllModulesList').serviceUrl)
+      .then(
+        (response) => {
+          this.sharedData.allModules = []
+          let responseArray = JSON.parse(response);
+          for (let r of responseArray) {
+            this.sharedData.allModules.push(<Module>r);
           }
         },
         error => this.errorHandlerService.handleError(error)

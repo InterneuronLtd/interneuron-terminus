@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2021  Interneuron CIC
+//Copyright(C) 2022  Interneuron CIC
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ import { PersonaContext } from '../Models/personaContext.model';
   styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent implements OnInit, OnDestroy {
- 
+
   show: boolean = false;
   personaContext:PersonaContext = new PersonaContext();
   selectedApplicationPatientlist:string="";
@@ -62,7 +62,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.headerService.selectedPersonaContext.subscribe(
       (personaContext: PersonaContext) => {
         this.personaContext = personaContext;
-       
+
       },
       error => this.errorHandlerService.handleError(error)
     );

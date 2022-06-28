@@ -81,6 +81,10 @@
       "serviceUrl": "SYNAPSE_DYNAMIC_URI/GetBaseViewListByAttribute/meta_modulelist"
     },
     {
+      "serviceName": "GetAllModulesList",
+      "serviceUrl": "SYNAPSE_DYNAMIC_URI/GetBaseViewList/meta_modulelist"
+    },
+    {
       "serviceName": "PostMyPatients",
       "serviceUrl": "SYNAPSE_DYNAMIC_URI/PostObject?synapsenamespace=terminus&synapseentityname=mypatients"
     },

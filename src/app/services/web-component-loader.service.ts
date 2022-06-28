@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2021  Interneuron CIC
+//Copyright(C) 2022  Interneuron CIC
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -121,15 +121,41 @@ export class WebComponentLoaderService {
   }
 
   handleFrameworkActionfromComponent(action) {
+    console.log("Framework action called:", action);
     //console.log(action.detail);
-    if (action.detail == "UPDATE_EWS") {
+    if (action.detail == "REFRESH_LIST") {
+      //Refreshes the selected snapshot and expanded list
+      this.patientListService.getList("");
+    }
+    else if (action.detail == "REFRESH_BANNER") {
+      //Reloads the person banner
+      this.headerService.loadPatientBanner.next(this.webStorage.getSessionStorageItem("terminus:personcontext"));
+    }
+    else if (action.detail == "COLLAPSE_PATIENT_LIST") {
+      //Collapses the snapshot list
+      this.headerService.collapsePatientList.next();
+    }
+    else if (action.detail == "EXPAND_PATIENT_LIST") {
+      //Collapses the snapshot list
+      this.headerService.expandPatientList.next();
+    }
+    else if (action.detail.indexOf("LOAD_SECONDARY_MODULE_") != -1) {
+      //Load secondary module
+      let module = action.detail.replace("LOAD_SECONDARY_MODULE_", "");
+      this.headerService.loadSecondaryModule.next(module);
+    }
+    else if (action.detail == "HIDE_SECONDARY_MODULE") {
+      //Hide secondary module
+      this.headerService.hideSecondaryModule.next();
+    }
+    // LEGACY ACTIONS
+    else if (action.detail == "UPDATE_EWS") {
+      //Refreshes the selected snapshot and expanded list
       this.patientListService.getList("");
     }
     else if (action.detail == "UPDATE_HEIGHT_WEIGHT") {
+      //Reloads the person banner
       this.headerService.loadPatientBanner.next(this.webStorage.getSessionStorageItem("terminus:personcontext"));
-    }
-    else if (action.detail == "COLLAPSE_PATIENT_LIST"){
-      this.headerService.collapsePatientList.next();
     }
   }
 
@@ -164,6 +190,7 @@ export class WebComponentLoaderService {
       element["contexts"] = dataContract.contexts;
     }
 
+    dataContract.moduleAction = this.headerService.moduleAction;
     element["datacontract"] = dataContract;
 
     element.id = "ID" + Math.round(Math.random() * 100)
@@ -204,6 +231,11 @@ export class WebComponentLoaderService {
     //}, 0)
 
   }
+
+
+
+
+
 
   ngOnDestroy() {
     this.headerService.myPatientSelected.unsubscribe();

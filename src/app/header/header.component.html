@@ -1,7 +1,7 @@
 <!--BEGIN LICENSE BLOCK--> 
 <!--Interneuron Terminus
 
-Copyright(C) 2021  Interneuron CIC
+Copyright(C) 2022  Interneuron CIC
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -23,50 +23,378 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
 <header class="app-header navbar">
 
   <div class="nav navbar" [style.background-color]="headertemplatecolour" style="width: 100%;">
-    <table style="width: 100%;">
+
+
+    <!-- <table style="width: 100%;">
       <tr>
-        <td>
-          <img src="assets/images/brand/ClinicalPortal.png" width="130" height="30" alt="Clinical Portal">
-        </td>
-        <td>
-          <button id="btnToggleNav" type="button" class="navbar-toggler sidebar-toggler" (click)="togglePatientList()">
+        <td style="width:30px;">
+          <button id="btnToggleNav" type="button" class="navbar-toggler sidebar-toggler" (click)="togglePatientList()" style="text-align: left !important;">
             <span class="navbar-toggler-icon"></span>
           </button>
         </td>
-        <td class="nav-item">
-          <app-applications></app-applications>
+        <td style="width: 140px;">
+          <img src="assets/images/brand/.InterneuronLogo.png" width="130px" height="30px" alt="Clinical Portal">
+        </td>
+      </tr>
+    </table> -->
+
+    <table style="width: 100%;" [className]="desktopDisplayClass">
+      <tr>
+        <td style="width:30px;">
+          <button id="btnToggleNav" type="button" class="navbar-toggler sidebar-toggler" (click)="togglePatientList()"
+            style="text-align: left !important;">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </td>
+        <td style="width: 140px;">
+          <img src="assets/images/brand/InterneuronLogo.png" width="130px" height="30px" alt="Clinical Portal">
         </td>
         <td class="nav-item">
-          <app-personas></app-personas>
+          <div class="dropdown" style="width: 100% !important;">
+            <button class="btn btn-sm btn-default dropdown-toggle btn-info text-white btn-block" type="button"
+              id="appDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+              (click)="renderTemplates('applicationstemplate','applicationstemplate_desktop')">
+              <span *ngIf="selectedApplication">{{selectedApplication.applicationname}}</span>
+            </button>
+            <div #applicationstemplate_desktop>
+            </div>
+          </div>
+        </td>
+        <!-- <td class="nav-item">
+          <div class="dropdown" style="width: 100% !important;">
+            <button class="btn btn-sm dropdown-toggle btn-info text-white btn-block" type="button"
+              id="ddlTerminusAppModules" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+              (click)="renderTemplates('modulestemplate','modulestemplate_desktop')">
+              <span *ngIf="selectedModule">{{selectedModule.modulename}}</span>
+              <span *ngIf="!selectedModule">No Modules</span>
+            </button>
+            <div #modulestemplate_desktop>
+            </div>
+          </div>
+        </td> -->
+        <td class="nav-item">
+          <div class="dropdown" style="width: 100% !important;">
+            <button class="btn btn-sm btn-default dropdown-toggle btn-info text-white btn-block" type="button"
+              id="personaDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+              (click)="renderTemplates('personatemplate','personatemplate_desktop')">
+              {{selectedPersona}}
+            </button>
+            <div #personatemplate_desktop>
+            </div>
+          </div>
         </td>
         <td class="nav-item">
-          <app-persona-contexts></app-persona-contexts>
+
+          <div class="dropdown" style="width: 100% !important;">
+            <button class="btn btn-sm btn-default dropdown-toggle btn-light text-white btn-block" type="button"
+              id="personaContextDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+              (click)="renderTemplates('personacontexttemplate','personacontexttemplate_desktop')">
+              {{selectedPersonaContext}}
+            </button>
+            <div #personacontexttemplate_desktop>
+            </div>
+          </div>
         </td>
         <td class="nav-item">
-          <app-lists></app-lists>
+          <div class="dropdown" style="width: 100% !important;">
+            <button class="btn btn-sm btn-default dropdown-toggle btn-success text-white btn-block" type="button"
+              id="listDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+              (click)="renderTemplates('liststemplate','liststemplate_desktop')">
+              <span *ngIf="selectedList">{{selectedList}}</span>
+            </button>
+            <div #liststemplate_desktop>
+            </div>
+          </div>
+
+
         </td>
 
-        <td class="nav-item">
-          <!-- <a href="#" data-toggle="modal" data-target="#qmsModal"><span style="margin-right: 15px"><i class="icon-info"></i></span></a> -->
-          <a data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" style=" text-align: center;">
-            <span class="img-avatar"><i class="icon-user"></i> </span>
-          </a>
 
-          <div class="dropdown-menu dropdown-menu-right" style="text-align: left; overflow-y:hidden;">
-
-            <a (click)="oidcLogout()" class="dropdown-item" href="#">
-              <span Class="text-wrap"><b>  {{username  | titlecase}}</b></span><br />
-              <i class="icon-lock"></i>Logout
+        <td style="width:50px;">
+          <div class="nav-item">
+            <a data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"
+              style=" text-align: center;">
+              <span class="img-avatar"><i class="icon-user"></i> </span>
             </a>
+
+            <div class="dropdown-menu dropdown-menu-right" style="text-align: left; overflow-y:hidden;">
+
+              <a (click)="oidcLogout()" class="dropdown-item" href="#">
+                <span Class="text-wrap"><b> {{username | titlecase}}</b></span><br />
+                <i class="icon-lock"></i>Logout
+              </a>
+            </div>
           </div>
         </td>
       </tr>
     </table>
 
+    <table style="width: 100%;" [className]="mobileDisplayClass">
+      <tr>
+        <td style="width:30px;">
+          <button id="btnToggleNav" type="button" class="navbar-toggler sidebar-toggler" (click)="togglePatientList()"
+            style="text-align: left !important;">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </td>
+        <td style="width: 200px;" class="nav-item">
+          <img src="assets/images/brand/InterneuronLogo.png" class="float-left" height="25px" alt="Clinical Portal">
+        </td>
+        <td class="nav-item">
+          <span class="dropdown">
+            <span class="dropbtn float-right">
+              <span class="dropdown-toggle" style="color: #535e7e;">
+                <i class="fa fa-gear"></i>
+              </span>
+            </span>
+
+            <span class="dropdown-content mobile-dropdown-content">
+              <ul class="list-group">
+                <li class="list-group-item">
+                  <span style="float: left; font-size: 0.9em;">
+                    Application :
+                  </span>
+                  <div class="dropdown" style="width: 100%;">
+                    <button class="btn btn-sm btn-default dropdown-toggle btn-info text-white btn-block"
+                      style="width: 100% !important;" type="button" id="appDropdownMenu" data-toggle="dropdown"
+                      aria-haspopup="true" aria-expanded="false"
+                      (click)="renderTemplates('applicationstemplate','applicationstemplate_mobile')">
+                      <span *ngIf="selectedApplication">{{selectedApplication.applicationname}}</span>
+                    </button>
+                    <div #applicationstemplate_mobile style="width: 100% !important;">
+                    </div>
+                  </div>
+                </li>
+                <!-- <li class="list-group-item">
+                  <span style="float: left; font-size: 0.9em;">
+                    Module :
+                  </span>
+                  <div class="dropdown" style="width: 100% !important;">
+                    <button class="btn btn-sm dropdown-toggle btn-info text-white btn-block" type="button"
+                      id="ddlTerminusAppModules" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                      (click)="renderTemplates('modulestemplate','modulestemplate_mobile')">
+                      <span *ngIf="selectedModule">{{selectedModule.modulename}}</span>
+                      <span *ngIf="!selectedModule">No Modules</span>
+                    </button>
+                    <div #modulestemplate_mobile>
+                    </div>
+                  </div>
+                </li> -->
+                <li class="list-group-item">
+                  <span style="float: left; font-size: 0.9em;">
+                    List:
+                  </span>
+                  <div class="dropdown" style="width: 100% !important;">
+                    <button class="btn btn-sm btn-default dropdown-toggle btn-success text-white btn-block"
+                      type="button" id="listDropdownMenu" data-toggle="dropdown" aria-haspopup="true"
+                      aria-expanded="false" (click)="renderTemplates('liststemplate','liststemplate_mobile')">
+                      <span *ngIf="selectedList">{{selectedList}}</span>
+                    </button>
+                    <div #liststemplate_mobile>
+                    </div>
+                  </div>
+                </li>
+                <li class="list-group-item">
+                  <span style="float: left; font-size: 0.9em;">
+                    Filter by:
+                  </span>
+                  <div class="dropdown" style="width: 100% !important;">
+                    <button class="btn btn-sm btn-default dropdown-toggle btn-info text-white btn-block" type="button"
+                      id="personaDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                      (click)="renderTemplates('personatemplate','personatemplate_mobile')">
+                      {{selectedPersona}}
+                    </button>
+                    <div #personatemplate_mobile>
+                    </div>
+                  </div>
+                </li>
+                <li class="list-group-item">
+                  <span style="float: left; font-size: 0.9em;">
+                    Selected filter:
+                  </span>
+                  <div class="dropdown" style="width: 100% !important;">
+                    <button class="btn btn-sm btn-default dropdown-toggle btn-light text-white btn-block" type="button"
+                      id="personaContextDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                      (click)="renderTemplates('personacontexttemplate','personacontexttemplate_mobile')">
+                      {{selectedPersonaContext}}
+                    </button>
+                    <div #personacontexttemplate_mobile>
+                    </div>
+                  </div>
+                </li>
+                <li class="list-group-item">
+                </li>
+              </ul>
+            </span>
+
+          </span>
+
+        </td>
+
+        <td [className]="desktopDisplayClass">
+          <div class="nav-item" style="width:50px;">
+            <a data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"
+              style=" text-align: center;">
+              <span class="img-avatar"><i class="icon-user"></i> </span>
+            </a>
+
+            <div class="dropdown-menu dropdown-menu-right" style="text-align: left; overflow-y:hidden;">
+
+              <a (click)="oidcLogout()" class="dropdown-item" href="#">
+                <span Class="text-wrap"><b> {{username | titlecase}}</b></span><br />
+                <i class="icon-lock"></i>Logout
+              </a>
+            </div>
+          </div>
+        </td>
+
+        <td [className]="mobileDisplayClass">
+          <div class="nav-item float-right" style="width:50px;">
+            <span data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"
+              style=" text-align: center; color: #535e7e;">
+              <span class="img-avatar"><i class="icon-user"></i> </span>
+            </span>
+
+            <div class="dropdown-menu dropdown-menu-right" style="text-align: left; overflow-y:hidden;">
+              &nbsp;<span Class="text-wrap"><b> {{username | titlecase}}</b></span> <BR />
+              <a (click)="oidcLogout()" class="dropdown-item" href="#">
+                <i class="icon-lock"></i>Logout
+              </a>
+            </div>
+          </div>
+        </td>
+
+
+      </tr>
+    </table>
+    <!--
+      <table style="width: 100%;">
+        <tr>
+          <td style="width:30px;">
+            <button id="btnToggleNav" type="button" class="navbar-toggler sidebar-toggler" (click)="togglePatientList()" style="text-align: left !important;">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+          </td>
+          <td [className]="desktopDisplayClass" style="width: 140px;">
+            <img src="assets/images/brand/InterneuronLogo.png" width="130px" height="30px" alt="Clinical Portal">
+          </td>
+          <td style="width: 200px;" class="nav-item" [className]="mobileDisplayClass">
+            <img src="assets/images/brand/InterneuronLogo.png" class="float-left"  height="25px" alt="Clinical Portal">
+          </td>
+
+          <td class="nav-item">
+
+            <span class="dropdown">
+              <span class="dropbtn float-right">
+                <span class="dropdown-toggle" style="color: #535e7e;">
+                 <i class="fa fa-gear"></i>
+                </span>
+                </span>
+
+                <span class="dropdown-content float-left" style="z-index: 5; ">
+                    <ul class="list-group">
+                      <li class="list-group-item">
+                        <span style="float: left; font-size: 0.9em;">
+                          Application :
+                        </span>
+                        <app-applications></app-applications>
+                      </li>
+                      <li class="list-group-item">
+                        <span style="float: left; font-size: 0.9em;">
+                          Module :
+                        </span>
+                        <app-module-list></app-module-list>
+                      </li>
+                      <li class="list-group-item">
+                        <span style="float: left; font-size: 0.9em;">
+                          List:
+                        </span>
+                        <app-lists></app-lists>
+                      </li>
+                      <li class="list-group-item">
+                        <span style="float: left; font-size: 0.9em;">
+                          Filter by:
+                        </span>
+                        <app-personas></app-personas>
+
+                      </li>
+                      <li class="list-group-item">
+                        <span style="float: left; font-size: 0.9em;">
+                          Selected filter:
+                        </span>
+                        <app-persona-contexts></app-persona-contexts>
+
+                      </li>
+                    </ul>
+                  </span>
+
+                </span>
+
+          </td>
+
+          <td  [className]="desktopDisplayClass">
+            <div class="nav-item" style="width:50px;">
+              <a data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" style=" text-align: center;">
+                <span class="img-avatar"><i class="icon-user"></i> </span>
+              </a>
+
+              <div class="dropdown-menu dropdown-menu-right" style="text-align: left; overflow-y:hidden;">
+
+                <a (click)="oidcLogout()" class="dropdown-item" href="#">
+                  <span Class="text-wrap"><b>  {{username  | titlecase}}</b></span><br />
+                  <i class="icon-lock"></i>Logout
+                </a>
+              </div>
+            </div>
+          </td>
+
+          <td  [className]="mobileDisplayClass">
+            <div class="nav-item float-right" style="width:50px;">
+              <span data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" style=" text-align: center; color: #535e7e;">
+                <span class="img-avatar"><i class="icon-user"></i> </span>
+              </span>
+
+              <div class="dropdown-menu dropdown-menu-right" style="text-align: left; overflow-y:hidden;">
+                &nbsp;<span Class="text-wrap"><b>  {{username  | titlecase}}</b></span> <BR />
+                <a (click)="oidcLogout()" class="dropdown-item" href="#">
+                  <i class="icon-lock"></i>Logout
+                </a>
+              </div>
+            </div>
+          </td>
+
+
+        </tr>
+      </table>
+ -->
+
   </div>
 
-
-
+  <div #applicationstemplate>
+    <ul class="dropdown-menu" style="width: 100%; text-align: center;">
+      <app-applications></app-applications>
+    </ul>
+  </div>
+  <div #modulestemplate>
+    <ul class="dropdown-menu" style="width: 100%; text-align: center;">
+      <app-module-list></app-module-list>
+    </ul>
+  </div>
+  <div #personatemplate>
+    <ul class="dropdown-menu" style="width: 100%; text-align: center;">
+      <app-personas></app-personas>
+    </ul>
+  </div>
+  <div #personacontexttemplate>
+    <ul class="dropdown-menu" style="width: 100%; text-align: center;">
+      <app-persona-contexts></app-persona-contexts>
+    </ul>
+  </div>
+  <div #liststemplate>
+    <ul class="dropdown-menu" style="width: 100%; text-align: center;">
+      <app-lists></app-lists>
+    </ul>
+  </div>
 </header>
 
 <!-- Modal -->
@@ -78,7 +406,7 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
           <div class="row">
             <div class="col">
               <div class="text-center">
-                <img src="assets/images/brand/ClinicalPortal.png" height="40">
+                <img src="assets/images/brand/InterneuronLogo.png" height="40">
               </div>
             </div>
           </div>
@@ -106,7 +434,8 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
 </div>
 
 
-<button type="button" style="display:none" data-toggle="modal" data-target="#timeoutModal" data-backdrop="static" data-keyboard="false" #openTimeoutModal></button>
+<button type="button" style="display:none" data-toggle="modal" data-target="#timeoutModal" data-backdrop="static"
+  data-keyboard="false" #openTimeoutModal></button>
 
 <div class="modal fade" id="timeoutModal" tabindex="-1" aria-labelledby="timeoutModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -114,17 +443,19 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
       <!-- <div class="modal-header">
       </div> -->
       <div class="modal-body">
-        <button type="button" class="btn btn-default btn-outline-dark" data-dismiss="modal" (click)="oidcLogout()">Logout</button>
+        <button type="button" class="btn btn-default btn-outline-dark" data-dismiss="modal"
+          (click)="oidcLogout()">Logout</button>
         <div class="h5 text-secondary" style="text-align: right;">{{username}}</div>
         <br />
         <div class="h4 text-center text-dark">You are about to be signed out in</div>
-        <br /> 
+        <br />
         <div class="h1 text-center text-info">{{ timeout }} sec(s)</div>
         <br />
         <div class="h4 text-center text-dark">Please click 'Continue' to carry on with your session</div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-info text-white btn-lg btn-block" data-dismiss="modal" (click)="continueSession()">Continue</button>
+        <button type="button" class="btn btn-info text-white btn-lg btn-block" data-dismiss="modal"
+          (click)="continueSession()">Continue</button>
       </div>
     </div>
   </div>

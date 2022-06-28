@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2021  Interneuron CIC
+//Copyright(C) 2022  Interneuron CIC
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -19,7 +19,6 @@
 //along with this program.If not, see<http://www.gnu.org/licenses/>.
 //END LICENSE BLOCK 
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { async } from '@angular/core/testing';
 import { Subscription } from 'rxjs';
 import { AppConfig } from 'src/app/app.config';
 import { BannerMainEncounter } from 'src/app/Models/banner/banner.mainencounter';
@@ -35,6 +34,7 @@ export class MainEncounterComponent implements OnInit, OnDestroy {
   subscriptions: Subscription = new Subscription();
   mainEncounter: BannerMainEncounter;
   personId: string;
+  selectedView: string = "collapsed";
 
   private resizeSubscription: Subscription;
   displayPort: string;
@@ -62,11 +62,17 @@ export class MainEncounterComponent implements OnInit, OnDestroy {
       }
   };
 
+  @Input() set view(view: string) {
+    if(view) {
+      this.selectedView = view;
+    }
+};
 
-  @Output() returnDemographicsResponse: EventEmitter<boolean> = new EventEmitter();
 
-  sendDemographicsResponse(value: boolean) {
-    this.returnDemographicsResponse.emit(value);
+  @Output() returnEncounterResponse: EventEmitter<boolean> = new EventEmitter();
+
+  sendEncounterResponse(value: boolean) {
+    this.returnEncounterResponse.emit(value);
   }
 
 
@@ -77,14 +83,13 @@ export class MainEncounterComponent implements OnInit, OnDestroy {
           (response) => {
             if(response) {
               this.mainEncounter = JSON.parse(response)[0];
-              console.log('MainEncounter', this.mainEncounter);
-              this.sendDemographicsResponse(true);
+              this.sendEncounterResponse(true);
             }
           }
 
         ).catch
         {
-          this.sendDemographicsResponse(false);
+          this.sendEncounterResponse(false);
         };
   }
 

@@ -1,7 +1,7 @@
 <!--BEGIN LICENSE BLOCK--> 
 <!--Interneuron Terminus
 
-Copyright(C) 2021  Interneuron CIC
+Copyright(C) 2022  Interneuron CIC
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -51,10 +51,20 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
       </div>
     </div>
 
-    <div class="" *ngIf="displayPort === 'Mobile'" >
+    <div class="" *ngIf="displayPort === 'Mobile' && selectedView === 'expanded'" >
       <div class="badge text-info border border-info rounded" style="font-size: 0.85em; color: #535e7e; line-height: 1.2; ">
+        <strong>Current Admission</strong> &nbsp;
         <span *ngIf="mainEncounter.warddisplay != ''">
           {{mainEncounter.warddisplay}}
+        </span>
+        <span *ngIf="mainEncounter.baydisplay != ''">
+          {{mainEncounter.baydisplay}}
+        </span>
+        <span *ngIf="mainEncounter.beddisplay != ''">
+          {{mainEncounter.beddisplay}}
+        </span>
+        <span *ngIf="mainEncounter.consultingdoctortext != ''">
+          - {{mainEncounter.consultingdoctortext}}
         </span>
       </div>
     </div>

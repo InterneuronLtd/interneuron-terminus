@@ -1,2 +1,26 @@
 
 
+.app-header-hidden {
+  display: none;
+}
+
+.app-body-hidden {
+  display: none;
+}
+
+
+#secondaryModuleLoader {
+  position: fixed;
+  left: 0;
+  top: 0;
+  border: 20px solid #535353;
+  padding: 4px;
+  height: 100vh;
+  width: 100vw;
+  overflow-y: scroll;
+}
+
+
+.modal-backdrop {
+  z-index: -1;
+}

@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2021  Interneuron CIC
+//Copyright(C) 2022  Interneuron CIC
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -29,11 +29,10 @@ import { AppnavComponent } from './appnav/appnav.component';
 import { RightsidebarComponent } from './rightsidebar/rightsidebar.component';
 import { HeaderComponent } from '../header/header.component';
 import { HeaderModule } from '../header/header.module';
-import { PullToRefreshComponent } from './pull-to-refresh/pull-to-refresh.component';
 
 
 @NgModule({
-  declarations: [SidebarComponent, FeedbackComponent, PatientlistComponent, AppnavComponent, RightsidebarComponent, PullToRefreshComponent],
+  declarations: [SidebarComponent, FeedbackComponent, PatientlistComponent, AppnavComponent, RightsidebarComponent],
   imports: [
     CommonModule, HeaderModule
   ],

@@ -45,6 +45,18 @@
 
 .dropdown:hover .dropdown-content {display: block;}
 
-.badge { margin-right: 8px;}
+.badge { margin-right: 8px; margin-bottom: 3px;}
+
+@media (max-height: 500px) {
+  .dropdown-content{
+    border: 2px solid #535e7e;
+    max-height:250px;
+      overflow-y:auto;
+  }
+}
 
 
+/* Overrides list-group-item from Bootstrap */
+.list-group-item {
+  padding: 3px 10px
+}

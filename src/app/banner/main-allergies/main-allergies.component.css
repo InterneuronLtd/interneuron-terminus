@@ -20,6 +20,7 @@
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
   margin: 0px;
+  border-radius: 15px;
 }
 
 .dropdown-content a {
@@ -33,4 +34,12 @@
 .dropdown:hover .dropdown-content {display: block;}
 
 
-.badge { margin-right: 8px; padding: 7px !important;}
+.badge { margin-right: 8px; margin-bottom: 4px; padding: 7px !important;}
+
+@media (max-height: 500px) {
+  .dropdown-content{
+      border: 2px solid #535e7e;
+      max-height:250px;
+      overflow-y:auto;
+  }
+}

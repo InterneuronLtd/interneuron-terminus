@@ -1,7 +1,7 @@
 <!--BEGIN LICENSE BLOCK--> 
 <!--Interneuron Terminus
 
-Copyright(C) 2021  Interneuron CIC
+Copyright(C) 2022  Interneuron CIC
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -21,8 +21,42 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
 
 
 <div class="app" *ngIf="isLoggedIn()">
-  <app-header class="app-header navbar" style="z-index:2050;"></app-header>
-  <div class="app-body">
+
+
+  <div id="secondaryModuleLoader" *ngIf="showSecondaryModule">
+
+    <div class="" style="margin:10px; padding: 10px;">
+
+      <div class="row" style="margin-bottom: 5px;">
+        <div class="col-md-8">
+          <div class=" h3" style="color: #535e7e;">
+            <img src="assets/images/brand/InterneuronLogo.png" width="130px" height="30px" alt="Clinical Portal">
+            {{ secondaryModuleName  }}
+          </div>
+        </div>
+        <div class="col-md-4">
+          <button id="btnCloseList" type="button" class="btn btn-info text-white btn-sm float-right" (click)="hideSecondaryModuleLoader()">
+            <i class="icon-close"></i> Close
+          </button>
+
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <app-secondary-module-loader [modulename]="secondaryModuleSelector"></app-secondary-module-loader>
+        </div>
+      </div>
+
+
+
+    </div>
+
+  </div>
+
+  <app-header [className]="appHeaderCSSClass" style="z-index:2050;"></app-header>
+
+  <div id="appBody" [className]="appBodyCSSClass">
 
 
 
@@ -49,8 +83,9 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
       <div class="sticky-top" style="top:55px;z-index:1018;">
         <div>
           <!-- <app-patient-banner></app-patient-banner> -->
+
           <app-banner></app-banner>
-          <app-module-list></app-module-list>
+
         </div>
       </div>
       <app-container></app-container>
@@ -64,6 +99,13 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
 
   </div>
   <!-- <app-footer class="app-footer"></app-footer> -->
+
+
 </div>
+
+
+
+
+
 <router-outlet></router-outlet>
 

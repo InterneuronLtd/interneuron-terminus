@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2021  Interneuron CIC
+//Copyright(C) 2022  Interneuron CIC
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -22,8 +22,11 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angu
 import { Subscription } from 'rxjs';
 import { AppConfig } from 'src/app/app.config';
 import { BannerMainWarnings } from 'src/app/Models/banner/banner.mainwarnings';
+import { BrowserModel } from 'src/app/Models/browser.model';
 import { ApirequestService } from 'src/app/services/apirequest.service';
+import { HeaderService } from 'src/app/services/header.service';
 import { ResizeService } from 'src/app/services/resize.service';
+import { UserAgentService } from 'src/app/services/user-agent.service';
 
 
 @Component({
@@ -42,12 +45,20 @@ export class MainWarningsComponent implements OnInit, OnDestroy {
   private resizeSubscription: Subscription;
   displayPort: string;
 
-  constructor(private reqService: ApirequestService, private resizeService: ResizeService) { }
+  browser: BrowserModel;
+  isLatestAndGreatest: Boolean = false;
+
+  selectedView: string = "collapsed";
+
+  constructor(private reqService: ApirequestService, private resizeService: ResizeService, private headerService: HeaderService, private userAgentService: UserAgentService) { }
 
   ngOnInit() {
     this.resizeSubscription = this.resizeService.displayPort$.subscribe((value:any) => {
       this.displayPort = value;
     });
+
+    this.browser = this.userAgentService.getBrowser();
+    this.isLatestAndGreatest = this.userAgentService.checkIfLatestAndGreatest();
   }
 
 
@@ -65,6 +76,12 @@ export class MainWarningsComponent implements OnInit, OnDestroy {
       }
   };
 
+  @Input() set view(view: string) {
+    if(view) {
+      this.selectedView = view;
+    }
+  };
+
 
   @Output() returnWarningsResponse: EventEmitter<boolean> = new EventEmitter();
 
@@ -80,14 +97,12 @@ export class MainWarningsComponent implements OnInit, OnDestroy {
           (response) => {
             if(response) {
               this.mainWarnings = JSON.parse(response);
-              console.log("MainWarnings", this.mainWarnings);
               this.sendWarningsResponse(true);
 
               for(var i = 0; i < this.mainWarnings.length; i++)
               {
                 if(this.warningGroups.indexOf(this.mainWarnings[i].warninggroup) === -1) {
-                  console.log('Warning Group: ', this.mainWarnings[i].warninggroup);
-                  this.warningGroups.push(this.mainWarnings[i].warninggroup);
+                  this.warningGroups.push(this.mainWarnings[i].warningdisplaygroup);
               }
 
               }
@@ -102,6 +117,24 @@ export class MainWarningsComponent implements OnInit, OnDestroy {
         };
   }
 
+  resolveModule(module: string) {
 
+    switch(module.toUpperCase()) {
+      case "VTE":
+        this.headerService.loadSecondaryModule.next("app-assessments-module");
+        break;
+        case "ALLERGIES":
+          this.headerService.loadSecondaryModule.next("app-terminus-allergies");
+          break;
+          case "ALLERGIES OVERRIDDEN":
+            this.headerService.loadSecondaryModule.next("app-terminus-allergies");
+            break;
+        case "WEIGHT":
+            this.headerService.moduleAction.next("RECORD_WEIGHT");
+            break;
+    }
+
+
+  }
 
 }

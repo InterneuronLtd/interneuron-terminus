@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2021  Interneuron CIC
+//Copyright(C) 2022  Interneuron CIC
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -25,7 +25,6 @@ import { AuthenticationService } from '..//../services/authentication.service';
 import * as jwt_decode from "jwt-decode";
 import { UserIdleService } from 'angular-user-idle';
 import { Router } from '@angular/router';
-import { isArray } from 'util';
 import { AppConfig } from '../../app.config';
 
 @Component({
@@ -38,7 +37,7 @@ export class AppnavComponent implements OnInit {
   username: string = "";
   constructor(private authService: AuthenticationService, private router: Router, private userIdle: UserIdleService) {
     if (performance.navigation.type != 1) {
-      location.reload(true);
+      location.reload();
     }
   }
 
@@ -46,7 +45,7 @@ export class AppnavComponent implements OnInit {
     //console.log('here in header');
     let decodedToken = this.authService.decodeAccessToken(this.authService.user.access_token);
     if (decodedToken != null)
-      this.username = decodedToken.name ? (isArray(decodedToken.name) ? decodedToken.name[0] : decodedToken.name) : decodedToken.IPUId;
+      this.username = decodedToken.name ? (Array.isArray(decodedToken.name) ? decodedToken.name[0] : decodedToken.name) : decodedToken.IPUId;
 
     //set uer idle session timeout settings from config.
     this.userIdle.setConfigValues(AppConfig.settings.userIdle);

@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2021  Interneuron CIC
+//Copyright(C) 2022  Interneuron CIC
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -19,7 +19,8 @@
 //along with this program.If not, see<http://www.gnu.org/licenses/>.
 //END LICENSE BLOCK 
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject,fromEvent } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class ResizeService {
@@ -31,14 +32,14 @@ export class ResizeService {
   constructor() {
       let windowSize$ = new BehaviorSubject(getWindowSize());
 
-      this.height$ = windowSize$.map(x => x.height);
-      this.width$ = windowSize$.map(x => x.width);
-      this.displayPort$ = windowSize$.map(x => x.displayPort);
+      this.height$ = windowSize$.pipe(map(x => x.height));
+      this.width$ = windowSize$.pipe(map(x => x.width));
+      this.displayPort$ = windowSize$.pipe(map(x => x.displayPort));
 
 
 
-      Observable.fromEvent(window, 'resize')
-          .map(getWindowSize)
+      fromEvent(window, 'resize').
+          pipe(map(getWindowSize))
           .subscribe(windowSize$);
   }
 

@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2021  Interneuron CIC
+//Copyright(C) 2022  Interneuron CIC
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -42,17 +42,20 @@ export class PatientListService implements OnInit, OnDestroy {
   selectedpersonaID: string;
   selectedpersonaContext: string = "";
   selectedApplicationPatientlist: string = "";
+  selectedDisplayPort: string = "";
   constructor(
     private apicaller: ApirequestService,
     private errorHandlerService: ErrorHandlerService,
     private headerService: HeaderService
   ) {
+
     //Read persona from Persona Header DropDown Selected
     this.headerService.selectedPersona.subscribe(
       (persona: string) => {
+
         this.selectedpersona = persona;
       },
-      error => this.errorHandlerService.handleError(error)
+     error => this.errorHandlerService.handleError(error)
     );
     //Read persona from Persona Header DropDown Selected
     this.headerService.selectedPersonaID.subscribe(
@@ -92,7 +95,6 @@ export class PatientListService implements OnInit, OnDestroy {
   }
 
 
-
   getList(selectedApplicationPatientList: string) {
     if (this.selectedApplicationPatientlist == "") {
       this.dataRows = [];
@@ -121,7 +123,7 @@ export class PatientListService implements OnInit, OnDestroy {
   "filters": [{
     "filterClause": "'1' = @hosp"
   }]
-}, { 
+}, {
   "filterparams": [{
     "paramName": "@hosp",
     "paramValue": "1"

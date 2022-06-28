@@ -1,0 +1,11 @@
+.patientBannerHolder {
+  background-color: rgb(246, 242, 242);
+  padding: 7px;
+
+}
+
+.secondary-module-holder {
+  height: 100%;
+  width: 100%;
+  overflow-y: scroll;
+}

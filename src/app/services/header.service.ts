@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2021  Interneuron CIC
+//Copyright(C) 2022  Interneuron CIC
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
 
 
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -62,7 +62,7 @@ export class HeaderService {
 
   componentLoaded = new Subject();
 
-  selectedApplicationPatientlist=new Subject();
+  selectedApplicationPatientlist = new Subject();
 
   selectedApplicationPatientlistName = new Subject();
 
@@ -72,6 +72,22 @@ export class HeaderService {
 
   collapsePatientList = new Subject();
 
+  expandPatientList = new Subject();
+
+  loadSecondaryModule = new Subject();
+
+  hideSecondaryModule = new Subject();
+
+  lastSelectedDisplayPort = new Subject();
+
+  selectedApplication = new Subject();
+
+  selectedList = new Subject();
+
+  selectedPesonaContext = new Subject();
+  moduleAction = new Subject();
+
   constructor() { }
+
 
 }

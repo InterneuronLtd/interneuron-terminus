@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2021  Interneuron CIC
+//Copyright(C) 2022  Interneuron CIC
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -31,6 +31,7 @@ import { WebStorageService } from "../../services/webstorage.service";
 import { RbacService } from "../../services/rbac.service";
 import * as jwt_decode from "jwt-decode";
 import { Rbacobject } from '../../Models/Filter.model';
+import { Application } from 'src/app/Models/application.model';
 
 
 @Component({
@@ -45,6 +46,8 @@ export class ListsComponent implements OnInit, OnDestroy {
   logedinUserID: string;
   selectedList: string;
   RbacList: Rbacobject[] = [];
+
+
   constructor(
     private headerService: HeaderService,
     private RbacService:RbacService,
@@ -53,6 +56,16 @@ export class ListsComponent implements OnInit, OnDestroy {
     private authService: AuthenticationService,
     private webStorageService: WebStorageService
   ) {
+
+    //Read Selected List from Header Service
+    this.headerService.selectedList.subscribe(
+      (value: any) => {
+        this.selectedList = value;
+      },
+      (error) => {
+        //
+      }
+    );
 
   }
 
@@ -79,10 +92,10 @@ export class ListsComponent implements OnInit, OnDestroy {
       (response: Rbacobject[]) => {
         this.RbacList = response;
       },
-     
+
     )
-    
-  } 
+
+  }
 
   getApplicationId() {
     this.headerService.applicationId.subscribe(
@@ -90,7 +103,7 @@ export class ListsComponent implements OnInit, OnDestroy {
         this.applicationId = applicationId;
         this.getApplicationList(this.applicationId);
       },
-      error => this.errorHandlerService.handleError(error) 
+      error => this.errorHandlerService.handleError(error)
     )
   }
 
@@ -102,12 +115,12 @@ export class ListsComponent implements OnInit, OnDestroy {
           this.applicationLists = [];
           let AllapplicationLists = <ApplicationList[]>JSON.parse(applicationLists);
           AllapplicationLists =AllapplicationLists.filter(x => x.application_id === applicationId);
-         
-        
-           
+
+
+
            for (var i = 0; i < AllapplicationLists.length; i++) {
             let length=   this.RbacList.filter(x => x.objectname.toLowerCase() ==AllapplicationLists[i].listname.toLowerCase()).length;
-         
+
            if(length>0)
            {
             this.applicationLists.push(AllapplicationLists[i]);
@@ -133,6 +146,7 @@ export class ListsComponent implements OnInit, OnDestroy {
                 this.selectedList = this.webStorageService.getLocalStorageItem("Terminus:" + this.logedinUserID + ":ListType").listname;
               }
             }
+            this.headerService.selectedList.next(this.selectedList);
           }
           else
           {
@@ -146,7 +160,8 @@ export class ListsComponent implements OnInit, OnDestroy {
 
   appListSelection(applicationList: ApplicationList) {
     if (applicationList) {
-      document.getElementById('listDropdownMenu').innerHTML = applicationList.listname;  //== 'eace71d2-606d-45c4-8d47-0319894973d1' ? 'Current Inpatients' : '';
+      //document.getElementById('listDropdownMenu').innerHTML = applicationList.listname;  //== 'eace71d2-606d-45c4-8d47-0319894973d1' ? 'Current Inpatients' : '';
+      this.headerService.selectedList.next(applicationList.listname);
       this.headerService.applicationListId.next(applicationList.applicationlist_id);
       this.headerService.wardPatientTabularData.next([]);//Empty Sidebar list before  geting new list
       this.selectedList = applicationList.listname;

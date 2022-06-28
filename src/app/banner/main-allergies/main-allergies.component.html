@@ -1,7 +1,7 @@
 <!--BEGIN LICENSE BLOCK--> 
 <!--Interneuron Terminus
 
-Copyright(C) 2021  Interneuron CIC
+Copyright(C) 2022  Interneuron CIC
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -21,9 +21,14 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
 <div *ngIf="mainAllergies" style="font-size: 1em; color: #535e7e">
 
 
+  <div *ngIf="selectedView === 'collapsed'" >
+    <div class="" *ngIf="displayPort === 'Desktop' || displayPort === 'Tablet' || displayPort === 'Mobile'">
+      <div
+        class="dropdown"
+        style="min-width: 100%; line-height: 1.2; color: #535e7e"
+      >
 
-  <div class="" *ngIf="displayPort === 'Desktop' || displayPort === 'Tablet' || displayPort === 'Mobile'">
-    <div
+      <div
       class="text-success"
       style="width: 100%; line-height: 1.2"
       *ngIf="mainAllergies.noknownallergies"
@@ -31,16 +36,17 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
       <strong>No Known Allergies</strong><br />
     </div>
 
-    <div
+
+      <div
       class="text-danger text-left text-wrap"
       style="width: 100%; line-height: 1.2; color: red"
       *ngIf="mainAllergies.unabletoacsertain"
     >
-      <strong>Not posible to ascertain if patient has any allergies</strong
+      <strong>Unable to ascertain allergy status (EMERGENCY USE ONLY)</strong
       ><br />
     </div>
 
-    <div
+      <div
       class=""
       style="width: 100%; line-height: 1.2; color: #535e7e"
       *ngIf="
@@ -52,17 +58,17 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
       <strong>No allergies recorded</strong>
     </div>
 
-    <div
-      class="dropdown"
-      style="min-width: 100%; line-height: 1.2; color: #535e7e"
-      *ngIf="
-        !mainAllergies.unabletoacsertain &&
-        !mainAllergies.noknownallergies
-      "
-    >
 
+    <div style="margin-bottom:5px;" *ngIf = "!isLatestAndGreatest">
 
-      <div class="dropbtn" style="margin-bottom:5px;">
+      <span *ngIf="mainAllergies.lifethreateningcount > 0">
+        <a href="#" class="badge badge-danger">
+          <i
+          class="fa fa-exclamation-triangle text-white"
+          aria-hidden="true"
+        ></i>
+        </a>
+      </span>
 
       <span *ngIf="mainAllergies.allergycount > 0">
         <a href="#" class="badge" style="background-color: #535e7e; color: white">
@@ -76,10 +82,10 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
         </a>
       </span>
 
-      <span *ngIf="mainAllergies.sensitivityintollerancecount > 0">
+      <span *ngIf="mainAllergies.sensitivityintolerancecount > 0">
         <a href="#" class="badge" style="background-color: #535e7e; color: white">
-          Sensitivity / Intollerances :
-          {{ mainAllergies.sensitivityintollerancecount }}
+          Sensitivity / Intolerances :
+          {{ mainAllergies.sensitivityintolerancecount }}
         </a>
       </span>
 
@@ -91,47 +97,139 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
 
       </div>
 
-      <div class="dropdown-content float-left" style=" z-index: 5; line-height: 1.8;">
 
-        <ul class="list-group" *ngIf="mainAllergies.allergycount > 0">
-          <li class="list-group-item">
-            <p class="h6" style="color: #535e7e;">
-              Allergies  <span class="badge" style="background-color: #535e7e; color: white">{{ mainAllergies.allergycount }}</span>
-            </p>
-            <div [innerHTML]= 'mainAllergies.allergies'></div>
-          </li>
-        </ul>
+        <div class="dropbtn" style="margin-bottom:5px;" *ngIf = "isLatestAndGreatest">
 
-        <ul class="list-group" *ngIf="mainAllergies.adversereactioncount > 0">
-          <li class="list-group-item">
-            <p class="h6" style="color: #535e7e;">
-              Adverse Drug Reactions  <span class="badge" style="background-color: #535e7e; color: white">{{ mainAllergies.adversereactioncount }}</span>
-            </p>
-            <div [innerHTML]= 'mainAllergies.adversedrugreactions'></div>
-          </li>
-        </ul>
+        <span *ngIf="mainAllergies.lifethreateningcount > 0">
+          <a href="#" class="badge badge-danger">
+            <i
+            class="fa fa-exclamation-triangle text-white"
+            aria-hidden="true"
+          ></i>
+          </a>
+        </span>
 
-        <ul class="list-group" *ngIf="mainAllergies.sensitivityintollerancecount > 0">
-          <li class="list-group-item">
-            <p class="h6" style="color: #535e7e;">
-              Sensitivity / Intollerances  <span class="badge" style="background-color: #535e7e; color: white">{{ mainAllergies.sensitivityintollerancecount }}</span>
-            </p>
-            <div [innerHTML]= 'mainAllergies.sensitityintollerances'></div>
-          </li>
-        </ul>
+        <span *ngIf="mainAllergies.allergycount > 0">
+          <a href="#" class="badge" style="background-color: #535e7e; color: white">
+            Allergies : {{ mainAllergies.allergycount }}
+          </a>
+        </span>
 
-        <ul class="list-group" *ngIf="mainAllergies.cautioncount > 0">
-          <li class="list-group-item">
-            <p class="h6" style="color: #535e7e;">
-              Cautions  <span class="badge" style="background-color: #535e7e; color: white">{{ mainAllergies.cautioncount }}</span>
-            </p>
-            <div [innerHTML]= 'mainAllergies.cautions'></div>
-          </li>
-        </ul>
+        <span *ngIf="mainAllergies.adversereactioncount > 0">
+          <a href="#" class="badge" style="background-color: #535e7e; color: white">
+            Adverse Drug Reactions : {{ mainAllergies.adversereactioncount }}
+          </a>
+        </span>
+
+        <span *ngIf="mainAllergies.sensitivityintolerancecount > 0">
+          <a href="#" class="badge" style="background-color: #535e7e; color: white">
+            Sensitivity / Intolerances :
+            {{ mainAllergies.sensitivityintolerancecount }}
+          </a>
+        </span>
+
+        <span *ngIf="mainAllergies.cautioncount > 0">
+          <a href="#" class="badge" style="background-color: #535e7e; color: white">
+            Cautions : {{ mainAllergies.cautioncount }}
+          </a>
+        </span>
+
+        </div>
+
+        <div class="dropdown-content float-left" style=" z-index: 5; line-height: 1.8;"
+        *ngIf = "isLatestAndGreatest">
+
+          <ul class="list-group" *ngIf="mainAllergies.allergycount > 0">
+            <li class="list-group-item">
+              <p class="h6" style="color: #535e7e;">
+                Allergies  <span class="badge" style="background-color: #535e7e; color: white">{{ mainAllergies.allergycount }}</span>
+              </p>
+              <div [innerHTML]= 'mainAllergies.allergies'></div>
+            </li>
+          </ul>
+
+          <ul class="list-group" *ngIf="mainAllergies.adversereactioncount > 0">
+            <li class="list-group-item">
+              <p class="h6" style="color: #535e7e;">
+                Adverse Drug Reactions  <span class="badge" style="background-color: #535e7e; color: white">{{ mainAllergies.adversereactioncount }}</span>
+              </p>
+              <div [innerHTML]= 'mainAllergies.adversedrugreactions'></div>
+            </li>
+          </ul>
+
+          <ul class="list-group" *ngIf="mainAllergies.sensitivityintolerancecount > 0">
+            <li class="list-group-item">
+              <p class="h6" style="color: #535e7e;">
+                Sensitivity / Intolerances  <span class="badge" style="background-color: #535e7e; color: white">{{ mainAllergies.sensitivityintolerancecount }}</span>
+              </p>
+              <div [innerHTML]= 'mainAllergies.sensitityintolerances'></div>
+            </li>
+          </ul>
+
+          <ul class="list-group" *ngIf="mainAllergies.cautioncount > 0">
+            <li class="list-group-item">
+              <p class="h6" style="color: #535e7e;">
+                Cautions  <span class="badge" style="background-color: #535e7e; color: white">{{ mainAllergies.cautioncount }}</span>
+              </p>
+              <div [innerHTML]= 'mainAllergies.cautions'></div>
+            </li>
+          </ul>
+
+
+          <ul class="list-group" >
+            <li class="list-group-item">
+            <button id="" type="button" class="btn btn-info text-white btn-sm btn-block"
+              (click)="resolveModule()">
+                Edit Allergies
+              </button>
+            </li>
+          </ul>
+
 
       </div>
-
-
+      </div>
     </div>
   </div>
+
+<div *ngIf="selectedView === 'expanded'" >
+
+  <ul class="list-group" *ngIf="mainAllergies.allergycount > 0">
+    <li class="list-group-item">
+      <p class="h6" style="color: #535e7e;">
+        Allergies  <span class="badge" style="background-color: #535e7e; color: white">{{ mainAllergies.allergycount }}</span>
+      </p>
+      <div [innerHTML]= 'mainAllergies.allergies'></div>
+    </li>
+  </ul>
+
+  <ul class="list-group" *ngIf="mainAllergies.adversereactioncount > 0">
+    <li class="list-group-item">
+      <p class="h6" style="color: #535e7e;">
+        Adverse Drug Reactions  <span class="badge" style="background-color: #535e7e; color: white">{{ mainAllergies.adversereactioncount }}</span>
+      </p>
+      <div [innerHTML]= 'mainAllergies.adversedrugreactions'></div>
+    </li>
+  </ul>
+
+  <ul class="list-group" *ngIf="mainAllergies.sensitivityintolerancecount > 0">
+    <li class="list-group-item">
+      <p class="h6" style="color: #535e7e;">
+        Sensitivity / Intolerances  <span class="badge" style="background-color: #535e7e; color: white">{{ mainAllergies.sensitivityintolerancecount }}</span>
+      </p>
+      <div [innerHTML]= 'mainAllergies.sensitityintolerances'></div>
+    </li>
+  </ul>
+
+  <ul class="list-group" *ngIf="mainAllergies.cautioncount > 0">
+    <li class="list-group-item">
+      <p class="h6" style="color: #535e7e;">
+        Cautions  <span class="badge" style="background-color: #535e7e; color: white">{{ mainAllergies.cautioncount }}</span>
+      </p>
+      <div [innerHTML]= 'mainAllergies.cautions'></div>
+    </li>
+  </ul>
+
+
+</div>
+
 </div>

@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2021  Interneuron CIC
+//Copyright(C) 2022  Interneuron CIC
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -27,6 +27,8 @@ import { FormsModule } from '@angular/forms';
 import { ContainerComponent } from './container.component';
 import { StringFilterPipe } from '../utilities/string.filter.pipe';
 import { EscapeHtmlPipe } from '../utilities/keep-html.pipe';
+import { BannerModule } from '../banner/banner.module';
+
 
 @NgModule({
   declarations: [
@@ -37,7 +39,8 @@ import { EscapeHtmlPipe } from '../utilities/keep-html.pipe';
   imports: [
     CommonModule,
     NgxPaginationModule,
-    FormsModule
+    FormsModule,
+    BannerModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   exports: [ContainerComponent]

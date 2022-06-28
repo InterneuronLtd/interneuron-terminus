@@ -1,0 +1,19 @@
+
+
+.dropdown-item {
+  background-color: #606d96 !important;
+}
+
+.dropdown-item:hover {
+  background-color: #505e8d !important;
+}
+
+.dropdown-item a {
+  padding-right: 50px;
+  color: white !important;
+}
+
+
+.dropdown-item a:hover {
+ text-decoration:  none !important;
+}

@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2021  Interneuron CIC
+//Copyright(C) 2022  Interneuron CIC
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -36,12 +36,11 @@ import * as jwt_decode from "jwt-decode";
 import { DataColumn } from 'src/app/Models/dataColumn.model';
 import { LoadNotifyService } from '../../services/load-notify.service';
 import { RbacService } from "../../services/rbac.service";
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/timer';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/merge';
-import 'rxjs/add/operator/do';
+import { Observable } from 'rxjs';
 import { SharedDataContainerService } from '../../services/shared-data-container.service';
+import * as $ from "jquery";
+import { Subscription } from 'rxjs';
+import { ResizeService } from 'src/app/services/resize.service';
 
 
 @Component({
@@ -52,6 +51,9 @@ import { SharedDataContainerService } from '../../services/shared-data-container
 
 
 export class PatientlistComponent implements OnInit, OnDestroy {
+
+  subscriptions: Subscription = new Subscription();
+
   patientlst: any = [];
   patientlistname: patientlist[] = [];
   showExportList: boolean = false;
@@ -62,12 +64,14 @@ export class PatientlistComponent implements OnInit, OnDestroy {
   messageDisplay: string = "";
   logedinUserID: string;
 
+  displayPort: string;
+  private resizeSubscription: Subscription;
 
   selectedApplicationPatientlist: string = "";
 
-  updatePatientListTrigger = Observable.merge(this.LoadNotifyService.requestLoad);
+  // updatePatientListTrigger = Observable.merge(this.LoadNotifyService.requestLoad);
 
-  patientList = this.updatePatientListTrigger.subscribe(() => this.reloadPatientList());
+  // patientList = this.updatePatientListTrigger.subscribe(() => this.reloadPatientList());
 
   constructor(
     private patientListService: PatientListService,
@@ -78,14 +82,21 @@ export class PatientlistComponent implements OnInit, OnDestroy {
     private authService: AuthenticationService,
     private headerService: HeaderService,
     private LoadNotifyService: LoadNotifyService,
-    private sharedData: SharedDataContainerService
+    private sharedData: SharedDataContainerService,
+    private resizeService: ResizeService
   ) {
+
 
   }
 
   @ViewChild('patientlistDropdownMenu')
   private patientlistDropdownMenu: ElementRef
-  ngOnInit() {
+
+    ngOnInit() {
+
+      this.resizeSubscription = this.resizeService.displayPort$.subscribe((value:any) => {
+        this.displayPort = value;
+      });
 
     this.getPatientlists();
 
@@ -235,7 +246,12 @@ export class PatientlistComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.headerService.wardPatientTabularData.unsubscribe();
 
+    if (this.resizeSubscription) {
+      this.resizeSubscription.unsubscribe();
+    }
   }
+
+
   selectedPatient(person: DataRow) {
     if (person) {
       if (person.columns[0].defaultcontextfield == "person_id") {
@@ -248,11 +264,22 @@ export class PatientlistComponent implements OnInit, OnDestroy {
         this.webStorageService.setLocalStorageItem("Terminus:" + this.logedinUserID + ":ContextField", this.sharedData.contextField);
         this.webStorageService.setLocalStorageItem("Terminus:" + this.logedinUserID + ":Patient", person.columns[0].matchedcontext);
         this.headerService.myPatientSelected.next(person.columns[0].matchedcontext);
-      }
-      else {
+        if(this.displayPort === 'Mobile') {
+          this.hidePatientList();
+        }
+    }
+    else {
         this.getContexts(person.columns[0].defaultcontext, person.columns[0].defaultcontextfield, person.columns[0].matchedcontext);
       }
     }
+  }
+
+  hidePatientList() {
+    $("body").removeClass("sidebar-show");
+  }
+
+  showPatientList() {
+    $("body").addClass("sidebar-show");
   }
 
   showMyPatientList() {
@@ -317,7 +344,7 @@ export class PatientlistComponent implements OnInit, OnDestroy {
 
   reloadPatientList() {
     this.patientListService.getList("");
-    this.updatePatientListTrigger.do(this.LoadNotifyService.loadComplete);
+    // this.updatePatientListTrigger.do(this.LoadNotifyService.loadComplete);
   }
 
   getContexts(defaultContext: string, defaultContextField: string, value: string) {

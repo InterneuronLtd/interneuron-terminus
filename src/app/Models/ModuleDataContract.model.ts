@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2021  Interneuron CIC
+//Copyright(C) 2022  Interneuron CIC
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -27,4 +27,5 @@ export class ModuleDataContract {
   public apiService: any;
   public unload = new Subject();
   public contexts: any;
+  public moduleAction: Subject<any>;
 }

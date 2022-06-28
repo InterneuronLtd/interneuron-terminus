@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2021  Interneuron CIC
+//Copyright(C) 2022  Interneuron CIC
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -37,21 +37,14 @@ import { ErrorHandlerService } from './services/error-handler.service';
 import { OidcLogoutComponent } from './oidc-logout/oidc-logout.component';
 import { UserIdleModule } from 'angular-user-idle';
 import { AngularWebStorageModule } from 'angular-web-storage';
-import { PatientBannerComponent } from './container/patient-banner/patient-banner.component';
-import { ModuleListComponent } from './container/module-list/module-list.component';
 import { FormsModule } from '@angular/forms';
 import { FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import {  } from '@fortawesome/fontawesome-svg-core';
-import { BannerComponent } from './banner/banner.component';
-import { MainDemographicsComponent } from './banner/main-demographics/main-demographics.component';
-import { MainEncounterComponent } from './banner/main-encounter/main-encounter.component';
-import { MainAllergiesComponent } from './banner/main-allergies/main-allergies.component';
-import { MainBadgesComponent } from './banner/main-badges/main-badges.component';
-import { MainWarningsComponent } from './banner/main-warnings/main-warnings.component';
-import { BannerActionsComponent } from './banner/banner-actions/banner-actions.component';
 import { ResizeService } from './services/resize.service';
+import { BannerModule } from './banner/banner.module';
+import { SecondaryModuleLoaderComponent } from './container/secondary-module-loader/secondary-module-loader.component'
 
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
@@ -62,15 +55,7 @@ export function initializeApp(appConfig: AppConfig) {
     AppComponent,
     OidcCallbackComponent,
     OidcLogoutComponent,
-    PatientBannerComponent,
-    ModuleListComponent,
-    BannerComponent,
-    MainDemographicsComponent,
-    MainEncounterComponent,
-    MainAllergiesComponent,
-    MainBadgesComponent,
-    MainWarningsComponent,
-    BannerActionsComponent
+    SecondaryModuleLoaderComponent
   ],
   imports: [
     BrowserModule,
@@ -83,7 +68,8 @@ export function initializeApp(appConfig: AppConfig) {
     UserIdleModule.forRoot({ idle: 3600, timeout: 5, ping: 5 }),
     FormsModule,
     AngularWebStorageModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    BannerModule
   ],
   providers: [
     HeaderService,

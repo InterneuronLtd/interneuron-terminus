@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2021  Interneuron CIC
+//Copyright(C) 2022  Interneuron CIC
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -30,6 +30,8 @@ import { PatientSearchComponent } from './patient-search/patient-search.componen
 import { PersonaContextsComponent } from './persona-contexts/persona-contexts.component';
 import { PersonasComponent } from './personas/personas.component';
 import { HeaderComponent } from './header.component';
+import { ModuleListComponent } from '../container/module-list/module-list.component';
+
 
 @NgModule({
   declarations: [
@@ -39,7 +41,8 @@ import { HeaderComponent } from './header.component';
     PatientSearchComponent,
     PersonaContextsComponent,
     PersonasComponent,
-    HeaderComponent
+    HeaderComponent,
+    ModuleListComponent
   ],
   imports: [
     CommonModule,
@@ -52,6 +55,8 @@ import { HeaderComponent } from './header.component';
     PersonaContextsComponent,
     PersonasComponent,
     HeaderComponent
+  ],
+  providers: [
   ]
 })
 export class HeaderModule { }

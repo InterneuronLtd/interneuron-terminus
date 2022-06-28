@@ -1,7 +1,7 @@
 <!--BEGIN LICENSE BLOCK--> 
 <!--Interneuron Terminus
 
-Copyright(C) 2021  Interneuron CIC
+Copyright(C) 2022  Interneuron CIC
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -18,53 +18,13 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.If not, see<http://www.gnu.org/licenses/>. -->
 <!--END LICENSE BLOCK--> 
+<div *ngIf="selectedView === 'collapsed'" >
 
-
-<div class="" *ngIf="displayPort != 'Mobile'">
-<div *ngIf="mainWarnings" style="font-size: 1em; color: #535e7e; width: 100%">
-<div class="dropdown" *ngIf="mainWarnings.length > 0" style="width: 100%;">
-  <div class="dropbtn">
-    <div
-      class=""
-      style="width: 100%; line-height: 1.2; font-size: 1em; color: #535e7e"
-    >
-      <strong class="text-danger">
-        <i
-          class="fa fa-exclamation-triangle text-danger"
-          aria-hidden="true"
-        ></i></strong
-      >&nbsp;
-
-      <span class="badge badge-light" style="margin-bottom: 8px" *ngFor="let group of warningGroups">{{group}}</span>
-    </div>
-  </div>
-
-  <div class="dropdown-content float-left" style="z-index: 5; width: 100%;">
-
-      <ul class="list-group" *ngFor="let warning of mainWarnings">
-
-        <li class="list-group-item">
-          <strong> <i
-            class="fa fa-exclamation-triangle text-danger"
-            aria-hidden="true"
-          ></i> &nbsp; {{ warning.warningheader }} </strong>
-          <p [innerHTML]="warning.warningdetail"> </p>
-        </li>
-        </ul>
-
-  </div>
-</div>
-</div>
-</div>
-
-
-
-
-<span class="" *ngIf="displayPort == 'Mobile'">
-  <span *ngIf="mainWarnings" style="font-size: 1em; color: #535e7e;">
-  <span class="dropdown" *ngIf="mainWarnings.length > 0" style="width: 100%;">
-    <span class="dropbtn">
-      <span
+  <div class="" *ngIf="displayPort != 'Mobile'">
+  <div *ngIf="mainWarnings" style="font-size: 1em; color: #535e7e; width: 100%">
+  <div class="dropdown" *ngIf="mainWarnings.length > 0" style="width: 100%;">
+    <div class="dropbtn">
+      <div
         class=""
         style="width: 100%; line-height: 1.2; font-size: 1em; color: #535e7e"
       >
@@ -72,12 +32,14 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
           <i
             class="fa fa-exclamation-triangle text-danger"
             aria-hidden="true"
-          ></i></strong
-        >&nbsp;
-        </span>
-      </span>
+          ></i> Warnings</strong
+        >
+        <br />
+        <strong class="" style="margin-bottom: 8px" *ngFor="let group of warningGroups">{{group}} </strong>
+      </div>
+    </div>
 
-    <span class="dropdown-content float-left" style="z-index: 5; ">
+    <div class="dropdown-content float-left" style="z-index: 5; width: 100%;" *ngIf = "isLatestAndGreatest">
 
         <ul class="list-group" *ngFor="let warning of mainWarnings">
 
@@ -87,10 +49,88 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
               aria-hidden="true"
             ></i> &nbsp; {{ warning.warningheader }} </strong>
             <p [innerHTML]="warning.warningdetail"> </p>
+
+
+            <!-- <button id="" type="button" class="btn btn-info text-white btn-sm btn-block"
+
+            (click)="resolveModule(warning.warninggroup)">
+            Resolve
+          </button> -->
+
+
           </li>
           </ul>
 
+    </div>
+  </div>
+  </div>
+  </div>
+
+
+
+
+  <span class="" *ngIf="displayPort == 'Mobile'">
+    <span *ngIf="mainWarnings" style="font-size: 1em; color: #535e7e;">
+    <span class="dropdown" *ngIf="mainWarnings.length > 0" style="width: 100%;">
+      <span class="dropbtn">
+        <span
+          class=""
+          style="width: 100%; line-height: 1.2; font-size: 1em; color: #535e7e"
+        >
+          <strong class="text-danger">
+            <i
+              class="fa fa-exclamation-triangle text-danger"
+              aria-hidden="true"
+            ></i></strong
+          >&nbsp;
+          </span>
+        </span>
+
+      <span class="dropdown-content float-left" style="z-index: 5; ">
+
+          <ul class="list-group" *ngFor="let warning of mainWarnings">
+
+            <li class="list-group-item">
+              <strong> <i
+                class="fa fa-exclamation-triangle text-danger"
+                aria-hidden="true"
+              ></i> &nbsp; {{ warning.warningheader }} </strong>
+              <p [innerHTML]="warning.warningdetail"> </p>
+
+              <!-- <button id="" type="button" class="btn btn-info text-white btn-sm btn-block" *ngIf="warning.warninggroup != 'WEIGHT'"
+              (click)="resolveModule(warning.warninggroup)">
+              Resolve
+            </button> -->
+
+
+            </li>
+            </ul>
+
+          </span>
         </span>
       </span>
-    </span>
   </span>
+
+</div>
+
+<div *ngIf="selectedView === 'expanded'" >
+  <ul class="list-group" *ngFor="let warning of mainWarnings">
+
+    <li class="list-group-item">
+      <strong> <i
+        class="fa fa-exclamation-triangle text-danger"
+        aria-hidden="true"
+      ></i> &nbsp; {{ warning.warningheader }} </strong>
+      <p [innerHTML]="warning.warningdetail"> </p>
+
+
+      <!-- <button id="" type="button" class="btn btn-info text-white btn-sm btn-block"
+
+      (click)="resolveModule(warning.warninggroup)">
+      Resolve
+    </button> -->
+
+
+    </li>
+    </ul>
+</div>

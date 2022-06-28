@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2021  Interneuron CIC
+//Copyright(C) 2022  Interneuron CIC
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -41,7 +41,7 @@ export class BannerActionsComponent implements OnInit, OnDestroy {
 
   private resizeSubscription: Subscription;
   displayPort: string;
-
+  selectedView: string = "collapsed";
 
   logedinUserID: string;
   personId: string;
@@ -97,6 +97,12 @@ export class BannerActionsComponent implements OnInit, OnDestroy {
       this.checkForPatientInMyPatients();
     }
   };
+
+  @Input() set view(view: string) {
+    if(view) {
+      this.selectedView = view;
+    }
+};
 
 
   @Output() returnActionsResponse: EventEmitter<boolean> = new EventEmitter();

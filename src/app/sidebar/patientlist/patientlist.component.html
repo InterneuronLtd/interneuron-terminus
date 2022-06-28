@@ -1,7 +1,7 @@
 <!--BEGIN LICENSE BLOCK--> 
 <!--Interneuron Terminus
 
-Copyright(C) 2021  Interneuron CIC
+Copyright(C) 2022  Interneuron CIC
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,6 +19,8 @@ You should have received a copy of the GNU General Public License
 along with this program.If not, see<http://www.gnu.org/licenses/>. -->
 <!--END LICENSE BLOCK--> 
 
+
+
 <div style="padding: 3px;">
 
   <ul class="nav" style="width: 100%;">
@@ -33,7 +35,7 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
         id="patientlistDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" #patientlistDropdownMenu>
         <i class='icon-list'> </i> Team Lists
       </button>
-      <ul class="dropdown-menu" style="max-width: 300%; min-width: 100%; text-align: center;"> 
+      <ul class="dropdown-menu" style="max-width: 300%; min-width: 100%; text-align: center;">
         <li class="dropdown-item" *ngFor="let patientlistname of patientlistname" style="width: 100%;">
          <a href="#" (click)="getpatientExpandedList(patientlistname)" style="display:block">{{ patientlistname.patientlistname}} <b>{{" ("+patientlistname.counts +")"}}</b></a>
         </li>
@@ -44,7 +46,7 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
 </div>
 
 <div class="h6 text-dark" style="margin-top:2px; margin-bottom: 2px; padding: 3px;">
-  {{personaContext.displayname}} 
+  {{personaContext.displayname}}
   <span (click)="onRefresh()" style="margin-right: 20px; cursor: pointer;" class="btn btn-info text-white btn-sm float-right">
     <i class="icon-refresh" data-toggle="tooltip" title="Refresh Patient List"></i>  </span>
   <br />{{selectedApplicationPatientlist}}</div>
@@ -70,12 +72,10 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
 </div>
 <ng-template #elsetemplate>
   <div class="" *ngIf="messageDisplay!==''">
-    <div class="text-dark font-weight-bold" *ngIf="messageDisplay!=='Error'" role="alert">
-      &nbsp;No Patients.
-    </div>
-
-    <div *ngIf="messageDisplay==='Error'" class="alert alert-danger" role="alert">
-      <a href="#" class="alert-link">Error: </a> Unable to load patient list
+    <div class="alert alert-secondary" style="margin: 7px;" role="alert">
+      <a href="#" class="alert-link">No results returned </a>
+      <br />
+      Please select a different list or try different filters
     </div>
   </div>
 </ng-template>

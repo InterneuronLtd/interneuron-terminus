@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2021  Interneuron CIC
+//Copyright(C) 2022  Interneuron CIC
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -30,6 +30,7 @@ import { AuthenticationService } from '../../services/authentication.service';
 import { WebStorageService } from "../../services/webstorage.service"
 import { RbacService } from "../../services/rbac.service"
 import { Rbacobject } from '../../Models/Filter.model';
+import { Application, Module } from 'src/app/Models/application.model';
 
 @Component({
   selector: 'app-personas',
@@ -42,6 +43,8 @@ export class PersonasComponent implements OnInit {
   selectedPersona: string;
   logedinUserID: string;
   RbacPersona: Rbacobject[] = [];
+
+
   constructor(private headerService: HeaderService,
     private RbacService: RbacService,
     private errorHandlerService: ErrorHandlerService,
@@ -49,7 +52,9 @@ export class PersonasComponent implements OnInit {
     private authService: AuthenticationService,
     private webStorageService: WebStorageService
 
-  ) { }
+  )
+  {
+  }
 
   ngOnInit() {
 

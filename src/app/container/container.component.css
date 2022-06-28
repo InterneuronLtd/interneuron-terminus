@@ -1,6 +1,6 @@
 
 
-#expandedListOverlay {
+#expandedListOverlay, #secondaryModuleLoader{
   position: fixed; /* Sit on top of the page content */
   display: block;
   width: 100%; /* Full width (cover the whole page) */
@@ -16,21 +16,83 @@
   padding: 0px;
 }
 
-.my-pagination /deep/ .ngx-pagination {
+.my-pagination::shadow .ngx-pagination {
   text-align: right;
 }
 
-.my-pagination /deep/ .ngx-pagination a {
+.my-pagination::shadow .ngx-pagination a {
   color: #20a8d8;
 }
 
-.my-pagination /deep/ .ngx-pagination .current {
-  /*background: red;*/
-}
+/* .my-pagination ::ng-deep .ngx-pagination .current {
+  background: red;
+} */
+
 .Selected{
   background-color:#20a8d8 !important;
   color: white !important;
-  
+
   }
+
+  .print-only{
+    display: none;
+}
+
+@media print
+{
+
+  table {
+    border-collapse: collapse;
+    page-break-after:auto;
+  }
+
+  tr {
+    border-bottom: 1pt solid black;
+    page-break-inside:avoid; page-break-after:auto;
+  }
+
+  td {
+    vertical-align: top;
+    page-break-inside:avoid; page-break-after:auto;
+  }
+
+  thead { display:table-header-group }
+  tfoot { display:table-footer-group }
+
+
+  .print-overlay {
+
+    position: absolute; /*maybe try "fixed"*/
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+
+
+  background-color: rgba(0,0,0,0.95); /* Black background with opacity */
+  z-index: 2000; /* Specify a stack order in case you're using a different order for other elements */
+  cursor: pointer; /* Add a pointer on hover */
+  color: #f7f1f1;
+  overflow-y: visible;
+  padding: 0px;
+  }
+
+
+    .no-print, .no-print *
+    {
+        display: none !important;
+    }
+
+    .print-only{
+      display: block;
+  }
+
+  .my-pagination {
+    display: none !important;
+  }
+
+}
+
+
 
 

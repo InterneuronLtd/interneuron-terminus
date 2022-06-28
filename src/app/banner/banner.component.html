@@ -1,7 +1,7 @@
 <!--BEGIN LICENSE BLOCK--> 
 <!--Interneuron Terminus
 
-Copyright(C) 2021  Interneuron CIC
+Copyright(C) 2022  Interneuron CIC
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -21,9 +21,9 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
   <!-- <div class="patientBannerHolder" style="min-height: 102px; max-height: 102px;"> -->
 
 
+    <div class="patientBannerHolder border rounded" *ngIf="showPatientBanner">
 
-
-    <div class="patientBannerHolder" *ngIf="showPatientBanner">
+      <div *ngIf="isLatestAndGreatest">
 
         <div class="" *ngIf="displayPort === 'Desktop'" >
           <div class="row">
@@ -32,7 +32,7 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
               </app-main-demographics>
             </div>
             <div class="col-md-3">
-              <app-banner-actions [value]="personId" *ngIf="demographicsReturned">
+              <app-banner-actions [value]="personId" [view]="'collapsed'" *ngIf="demographicsReturned">
               </app-banner-actions>
             </div>
           </div>
@@ -41,7 +41,7 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
             <div class="col-md-9">
               <div class="row">
                 <div class="col-md-6">
-                  <app-main-encounter [value]="personId">
+                  <app-main-encounter [value]="personId" [view]="'collapsed'">
                   </app-main-encounter>
                 </div>
                 <div class="col-md-3">
@@ -83,7 +83,7 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
               </app-main-demographics>
             </div>
             <div class="col-md-3">
-              <app-banner-actions [value]="personId" *ngIf="demographicsReturned">
+              <app-banner-actions [value]="personId" [view]="'collapsed'" *ngIf="demographicsReturned">
               </app-banner-actions>
             </div>
           </div>
@@ -92,7 +92,7 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
             <div class="col-md-9">
               <div class="row">
                 <div class="col-md-6">
-                  <app-main-encounter [value]="personId">
+                  <app-main-encounter [value]="personId" [view]="'collapsed'">
                   </app-main-encounter>
                 </div>
                 <div class="col-md-3">
@@ -120,7 +120,7 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
               </app-main-demographics>
             </div>
             <div class="col-2" style="text-align: right;">
-              <app-banner-actions [value]="personId" *ngIf="demographicsReturned">
+              <app-banner-actions [value]="personId" [view]="'collapsed'" *ngIf="demographicsReturned">
               </app-banner-actions>
             </div>
           </div>
@@ -149,20 +149,112 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
           </div>
         </div>
 
+      </div>
 
+      <div *ngIf="!isLatestAndGreatest">
+        <div class="">
+          <div class="row">
+            <div class="col-md-9">
+              <app-main-demographics [value]="personId" (returnDemographicsResponse)="receiveBannerDemographicResponse($event)">
+              </app-main-demographics>
+            </div>
+            <div class="col-md-3">
+              <app-banner-actions [value]="personId" [view]="'collapsed'" *ngIf="demographicsReturned">
+              </app-banner-actions>
+            </div>
+          </div>
+
+          <div class="row" style="margin-top: -12px;" *ngIf="demographicsReturned">
+            <div class="col-md-9">
+              <div class="row">
+                <div class="col-md-6">
+                  <app-main-encounter [value]="personId" [view]="'collapsed'">
+                  </app-main-encounter>
+                </div>
+                <div class="col-md-3">
+                  <app-main-allergies [value]="personId">
+                  </app-main-allergies>
+                </div>
+                <div class="col-md-3">
+                  <app-main-warnings  [value]="personId">
+                  </app-main-warnings>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <app-main-badges [value]="personId">
+              </app-main-badges>
+            </div>
+          </div>
+
+          <div class="row"  *ngIf="!showPatientBanner && !unableToLoadPatient">
+          <div class="col-md-6">
+            <h3 class="text-secondary">Loading patient ....</h3>
+          </div>
+          </div>
+
+          <div class="row"  *ngIf="unableToLoadPatient">
+            <div class="col-md-12">
+              <div class="alert alert-danger">
+                <h3 >Unable to load selected patient</h3>
+            <h5>Please select a different patient</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+<!-- Expanded Banner -->
+<div class="panel-body">
+  <div id="collapseDiv" class="collapse">
+    <div style="color: #535e7e; padding:5px;" >
+
+      <div class="row" *ngIf="displayPort === 'Mobile'">
+          <div class="col-md-12">
+
+          </div>
+      </div>
+
+      <div class="row" *ngIf="displayPort === 'Mobile'">
+        <div class="col-sm-8">
+          <app-main-encounter [value]="personId" [view]="'expanded'">
+          </app-main-encounter>
+        </div>
+        <div class="col-sm-4">
+          <app-banner-actions [value]="personId" [view]="'expanded'" *ngIf="demographicsReturned">
+          </app-banner-actions>
+        </div>
+
+
+
+    </div>
+
+    <div class="card" *ngIf="!isLatestAndGreatest" style="padding: 10px;">
+      <strong>Allergies and Intolerances</strong>
+      <app-main-allergies [value]="personId" [view]="'expanded'">
+      </app-main-allergies>
+    </div>
+
+    <div class="card" *ngIf="!isLatestAndGreatest" style="padding: 10px;">
+      <strong>Warnings</strong>
+      <app-main-warnings [value]="personId" [view]="'expanded'">
+      </app-main-warnings>
+    </div>
+
+
+      <app-extended-banner [value]="personId">
+      </app-extended-banner>
+
+    </div>
+  </div>
+</div>
 
 
       </div>
 
 
 
-<!-- Expanded Banner -->
-<div class="panel-body">
-  <div id="collapseDiv" class="collapse">
-    <div class="bg-white" style="color: #535e7e; padding:5px;" >
-      <h1 class="text-info">Expanded Banner</h1>
-    </div>
-  </div>
-</div>
+
 
 

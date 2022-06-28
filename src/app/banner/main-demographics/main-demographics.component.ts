@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2021  Interneuron CIC
+//Copyright(C) 2022  Interneuron CIC
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -56,6 +56,8 @@ export class MainDemographicsComponent implements OnInit {
   }
 
   ngOnInit() {
+
+   // alert("Main Demographics called");
     this.resizeSubscription = this.resizeService.displayPort$.subscribe((value:any) => {
       this.displayPort = value;
     });
@@ -94,7 +96,7 @@ export class MainDemographicsComponent implements OnInit {
             if(response) {
               this.mainDemographics = JSON.parse(response)[0];
               this.mainDemographics.nhsnumber = this.mainDemographics.nhsnumber.replace(/\s/g, "");
-              console.log('MainDemographics', this.mainDemographics);
+              //console.log('MainDemographics', this.mainDemographics);
               this.sendDemographicsResponse(true);
             }
           }
