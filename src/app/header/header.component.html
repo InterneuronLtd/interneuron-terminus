@@ -1,7 +1,7 @@
 <!--BEGIN LICENSE BLOCK--> 
 <!--Interneuron Terminus
 
-Copyright(C) 2023  Interneuron Holdings Ltd
+Copyright(C) 2024  Interneuron Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -18,11 +18,23 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.If not, see<http://www.gnu.org/licenses/>. -->
 <!--END LICENSE BLOCK--> 
+<!-- Interneuron Terminus
+Copyright(C) 2023  Interneuron Holdings Ltd
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program.If not, see<http://www.gnu.org/licenses/>. -->
 
+<header class="app-header navbar" [style.background-color]="headertemplatecolour" >
 
-<header class="app-header navbar">
-
-  <div class="nav navbar" [style.background-color]="headertemplatecolour" style="width: 100%;">
+  <div class="nav navbar" style="width: 100%;" [ngStyle]="{'margin-top': desktopDisplayClass == 'display-desktop'?'-15px':'0px'}" >
 
 
     <!-- <table style="width: 100%;">
@@ -40,14 +52,15 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
 
     <table style="width: 100%;" [className]="desktopDisplayClass">
       <tr>
-        <td style="width:30px;">
+        <td style="width:30px;" *ngIf="showToggleButton">
           <button id="btnToggleNav" type="button" class="navbar-toggler sidebar-toggler" (click)="togglePatientList()"
             style="text-align: left !important;">
             <span class="navbar-toggler-icon"></span>
           </button>
         </td>
         <td style="width: 140px;">
-          <img src="assets/images/brand/InterneuronLogo.png" width="130px" height="30px" alt="Clinical Portal">
+          <img src="assets/images/brand/InterneuronLogo.png" width="130px" height="30px" alt="Clinical Portal" *ngIf="env != 'social_care'">
+          <img src="assets/images/brand/Hilight _logo.svg" width="130px" height="30px" alt="Clinical Portal" *ngIf="env == 'social_care'" style="margin-top:10px">
         </td>
         <td class="nav-item">
           <div class="dropdown" style="width: 100% !important;">
@@ -72,7 +85,7 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
             </div>
           </div>
         </td> -->
-        <td class="nav-item">
+        <td class="nav-item" *ngIf="selectedApplication.applicationtype_id != 'STAND_ALONE'">
           <div class="dropdown" style="width: 100% !important;">
             <button class="btn btn-sm btn-default dropdown-toggle btn-info text-white btn-block" type="button"
               id="personaDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
@@ -83,7 +96,7 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
             </div>
           </div>
         </td>
-        <td class="nav-item">
+        <td class="nav-item" *ngIf="selectedApplication.applicationtype_id != 'STAND_ALONE'">
 
           <div class="dropdown" style="width: 100% !important;">
             <button class="btn btn-sm btn-default dropdown-toggle btn-light text-white btn-block" type="button"
@@ -95,9 +108,9 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
             </div>
           </div>
         </td>
-        <td class="nav-item">
+        <td class="nav-item" *ngIf="selectedApplication.applicationtype_id != 'STAND_ALONE'">
           <div class="dropdown" style="width: 100% !important;">
-            <button class="btn btn-sm btn-default dropdown-toggle btn-success text-white btn-block" type="button"
+            <button  class="btn btn-sm btn-default dropdown-toggle btn-success text-white btn-block" type="button"
               id="listDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
               (click)="renderTemplates('liststemplate','liststemplate_desktop')">
               <span *ngIf="selectedList">{{selectedList}}</span>
@@ -106,28 +119,43 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
             </div>
           </div>
 
-
+        
         </td>
-
-
-        <td style="width:50px;">
-          <div class="nav-item">
-            <a data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"
-              style=" text-align: center;">
-              <span class="img-avatar"><i class="icon-user"></i> </span>
-            </a>
+      </tr>
+      <tr>
+        <td colspan="7">
+          <div style=" margin-bottom: -28px;    display: flex; flex-direction: row;float:right">
+            <button style="margin-top: -10px;font-size: medium;" data-toggle="dropdown" type="button" aria-haspopup="true" class="btn btn-sm btn-link" aria-expanded="false">
+              {{username | titlecase}}</button>
 
             <div class="dropdown-menu dropdown-menu-right" style="text-align: left; overflow-y:hidden;">
 
-              <a (click)="oidcLogout()" class="dropdown-item" href="#">
-                <span Class="text-wrap"><b> {{username | titlecase}}</b></span><br />
-                <i class="icon-lock"></i>Logout
+              <a class="dropdown-item" href="#">
+                <span Class="text-wrap"><b> {{username | titlecase}}</b></span>
+                <ng-container *ngIf="!hideGPConnectFeature">
+                  <button type="button" class="btn btn-sm btn-link float-right p-0" (click)="showUserProfile()">
+                    <img src="assets/images/Frame 38.svg" />
+                  </button>
+                </ng-container>
+                <hr class="m-1" />
+                <span *ngFor="let a of userRoleList">{{a}}<br/></span>
+                <hr/>
+                <button type="button" class="btn btn-sm btn-link" (click)="oidcLogout()">
+                  <i class="icon-lock"></i>Logout
+                </button>
               </a>
             </div>
-          </div>
+            <a href="#" role="button" data-toggle="modal" data-target="#aboutscreen" data-backdrop="static" data-keyboard="false"
+            style="padding:0;margin-top: -4px;font-size: medium;">
+             <i class="icon-info"></i>
+            </a>
+
+          <!-- <button type="button" style="padding:0;margin-top: -4px;" class="btn btn-sm btn-link"  data-toggle="modal" data-target="#aboutscreen" data-backdrop="static" data-keyboard="false">About</button> -->
+        </div>
         </td>
       </tr>
     </table>
+
 
     <table style="width: 100%;" [className]="mobileDisplayClass">
       <tr>
@@ -138,7 +166,8 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
           </button>
         </td>
         <td style="width: 200px;" class="nav-item">
-          <img src="assets/images/brand/InterneuronLogo.png" class="float-left" height="25px" alt="Clinical Portal">
+          <img src="assets/images/brand/InterneuronLogo.png" class="float-left" height="25px" alt="Clinical Portal" *ngIf="env != 'social_care'">
+          <img src="assets/images/brand/Hilight _logo.svg" class="float-left" height="25px" alt="Clinical Portal" *ngIf="env == 'social_care'">
         </td>
         <td class="nav-item">
           <span class="dropdown">
@@ -231,7 +260,7 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
 
         </td>
 
-        <td [className]="desktopDisplayClass">
+        <!-- <td [className]="desktopDisplayClass">
           <div class="nav-item" style="width:50px;">
             <a data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"
               style=" text-align: center;">
@@ -245,6 +274,7 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
                 <i class="icon-lock"></i>Logout
               </a>
             </div>
+
           </div>
         </td>
 
@@ -261,10 +291,60 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
                 <i class="icon-lock"></i>Logout
               </a>
             </div>
+      
           </div>
         </td>
+        <td  style="padding: 0;width: 25px;">            
+          <button type="button" style="padding:0;" class="btn btn-sm btn-link"  data-toggle="modal" data-target="#aboutscreen" data-backdrop="static" data-keyboard="false">About</button>
+        </td> -->
+
+      </tr>
+      <tr>
+        <td colspan="7">
+          <div style=" margin-bottom: -28px;    display: flex; flex-direction: row;float:right">
+            <button style="margin-top: -19px;font-size: medium;" data-toggle="dropdown" type="button" aria-haspopup="true" class="btn btn-sm btn-link" aria-expanded="false">
+              {{username | titlecase}}</button>
+
+            <div class="dropdown-menu dropdown-menu-right" style="text-align: left; overflow-y:hidden;">
+
+              <a class="dropdown-item" href="#">
+                <span Class="text-wrap"><b> {{username | titlecase}}</b></span>
+                <ng-container *ngIf="!hideGPConnectFeature">
+                  <button type="button" class="btn btn-sm btn-link float-right p-0" (click)="showUserProfile()">
+                    <img src="assets/images/Frame 38.svg" />
+                  </button>
+                </ng-container>
+                <hr class="m-1" />
+                <span *ngFor="let a of userRoleList">{{a}}  <br/></span>
+                <hr/>
+                <button type="button" class="btn btn-sm btn-link" (click)="oidcLogout()">
+                  <i class="icon-lock"></i>Logout
+                </button>
+              </a>
+
+              <!-- <a class="dropdown-item" href="#">
+                <span Class="text-wrap"><b> {{username | titlecase}}</b></span>
+                <button type="button" class="btn btn-sm btn-link float-right p-0" (click)="showUserProfile()">
+                  <img src="assets/images/Frame 38.svg" />
+                </button>
+                <hr class="m-1" />
+                <span *ngFor="let a of userRoleList">{{a}}<br/></span>
+                <hr/>
+                <button type="button" class="btn btn-sm btn-link" (click)="oidcLogout()">
+                  <i class="icon-lock"></i>Logout
+                </button>
+              </a> -->
 
 
+            </div>
+            <a href="#" role="button" data-toggle="modal" data-target="#aboutscreen" data-backdrop="static" data-keyboard="false"
+            style="padding:0;margin-top: -13px;font-size: medium;">
+             <i class="icon-info"></i>
+            </a>
+
+          <!-- <button type="button" style="padding:0;margin-top: -4px;" class="btn btn-sm btn-link"  data-toggle="modal" data-target="#aboutscreen" data-backdrop="static" data-keyboard="false">About</button> -->
+        </div>
+        </td>
       </tr>
     </table>
     <!--
@@ -371,27 +451,27 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
   </div>
 
   <div #applicationstemplate>
-    <ul class="dropdown-menu" style="width: 100%; text-align: center;">
+    <ul class="dropdown-menu enforce-overflow-scroll" style="width: 100%; text-align: center;">
       <app-applications></app-applications>
     </ul>
   </div>
   <div #modulestemplate>
-    <ul class="dropdown-menu" style="width: 100%; text-align: center;">
+    <ul class="dropdown-menu enforce-overflow-scroll" style="width: 100%; text-align: center;">
       <app-module-list></app-module-list>
     </ul>
   </div>
   <div #personatemplate>
-    <ul class="dropdown-menu" style="width: 100%; text-align: center;">
+    <ul class="dropdown-menu enforce-overflow-scroll" style="width: 100%; text-align: center;">
       <app-personas></app-personas>
     </ul>
   </div>
   <div #personacontexttemplate>
-    <ul class="dropdown-menu" style="width: 100%; text-align: center;">
+    <ul class="dropdown-menu enforce-overflow-scroll" style="width: 100%; text-align: center;">
       <app-persona-contexts></app-persona-contexts>
     </ul>
   </div>
   <div #liststemplate>
-    <ul class="dropdown-menu" style="width: 100%; text-align: center;">
+    <ul class="dropdown-menu enforce-overflow-scroll" style="width: 100%; text-align: center;">
       <app-lists></app-lists>
     </ul>
   </div>
@@ -460,3 +540,29 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
     </div>
   </div>
 </div>
+
+
+
+<div id="aboutscreen" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog  modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 class="modal-title">About</h6>
+          <div class="close" data-dismiss="modal" >X</div>
+        </div>
+          <div class="modal-body p-0 pt-1 p-3" style="overflow-y: auto;height: 40vw;">
+           
+            <app-about></app-about>
+          </div>
+          <div>
+              <button type="button" hidden data-dismiss="modal" #close_pform>Close</button>
+          </div>
+      </div>
+  </div>
+</div>
+
+<ng-container *ngIf="showUserProfileForm">
+  <app-userprofile [showUserProfileFormAnyways]="showUserProfileForm" (onClose)="closeUserProfileForm($event)"></app-userprofile>
+</ng-container>
+
+ 

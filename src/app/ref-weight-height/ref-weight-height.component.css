@@ -1,0 +1,7 @@
+.historyshow {
+    width: 30px;
+    height: 22px;
+    background-repeat: no-repeat;
+    background-image: url("/assets/images/history.svg");
+    background-position: center;
+}

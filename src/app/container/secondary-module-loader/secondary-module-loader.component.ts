@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2023  Interneuron Holdings Ltd
+//Copyright(C) 2024  Interneuron Limited
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -52,7 +52,7 @@ export class SecondaryModuleLoaderComponent implements OnInit {
   unableToLoadPatient: boolean = false;
 
   constructor(private webStorageService: WebStorageService, private httpClient: HttpClient, private reqService: ApirequestService, private headerService: HeaderService,
-    private errorHandlerService: ErrorHandlerService, private authService: AuthenticationService, private sharedData: SharedDataContainerService, private resizeService: ResizeService, public webComponentLoader: SecondaryComponentLoaderService) {
+    private errorHandlerService: ErrorHandlerService, private authService: AuthenticationService, public sharedData: SharedDataContainerService, private resizeService: ResizeService, public webComponentLoader: SecondaryComponentLoaderService) {
   }
 
   ngOnInit() {

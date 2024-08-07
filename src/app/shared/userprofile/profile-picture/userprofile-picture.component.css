@@ -1,0 +1,63 @@
+.profile-picture {
+    position: relative;
+    z-index: 1;
+    width: 8.5rem;
+    height: 8.5rem;
+    background-image:url("/assets/images/profile-placeholder.png");
+    background-size: contain;
+    border-radius: 1em;
+    border-radius: 50%;
+  }
+  
+  .profile-picture img {
+    width: 8.5rem;
+    height: 8.5rem;
+    position: absolute;
+    z-index: 2;
+    border-radius: 50%;
+  }
+  
+  .profile-picture label {
+    width: 8.5rem;
+    height: 8.5rem;
+    position: relative;
+    z-index: 3;
+  }
+  
+  .profile-picture .drag-over .infotext {
+    color: white;
+    border: dashed 5px white;
+  }
+  
+  .profile-picture .infotext {
+    margin-left: 5px;
+    margin-top: 5px;
+    height: 8rem;
+    width: 8rem;
+    vertical-align: middle;
+    text-align: center;
+    color: rgba(255,255,255,0.8);
+    /* border: dashed 3px rgba(255,255,255,0.8); */
+    border-radius: 10px;
+    padding-top: 110px;
+    font-size: 150%;
+  }
+  /* .profile-picture .edit-icon {
+    bottom: 5px;
+    right: 0px;
+    font-size: 1.3rem !important;
+    cursor: pointer;
+    z-index: 20000;
+    color: #007bff;
+  } */
+  .profile-picture .edit-icon {
+    position: absolute;
+    bottom: 5px;
+    right: 0px;
+    width: 40px;
+    height: 30px;
+    background-repeat: no-repeat;
+    background-image: url("/assets/images/Edit.svg");
+    background-position: center;
+    color: #007bff;
+  }

@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2023  Interneuron Holdings Ltd
+//Copyright(C) 2024  Interneuron Limited
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -18,7 +18,19 @@
 //You should have received a copy of the GNU General Public License
 //along with this program.If not, see<http://www.gnu.org/licenses/>.
 //END LICENSE BLOCK 
-
+// Interneuron Terminus
+// Copyright(C) 2023  Interneuron Holdings Ltd
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the
+// GNU General Public License for more details.
+// You should have received a copy of the GNU General Public License
+// along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 import { Component, OnInit } from '@angular/core';
 import { Person } from '../../Models/person.model';
@@ -29,6 +41,7 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 import * as jwt_decode from "jwt-decode";
 import { WebStorageService } from '../../services/webstorage.service';
 import { SharedDataContainerService } from '../../services/shared-data-container.service';
+import { AdditionalInfo } from 'src/app/Models/ModuleDataContract.model';
 
 @Component({
   selector: 'app-patient-search',
@@ -36,7 +49,10 @@ import { SharedDataContainerService } from '../../services/shared-data-container
   styleUrls: ['./patient-search.component.css']
 })
 export class PatientSearchComponent implements OnInit {
- 
+
+  personLabelText: string = AppConfig.settings.personLabelText ? AppConfig.settings.personLabelText : "Patient";
+  env: string = AppConfig.settings.env;
+
   show: boolean = false;
 
   surname: string = '';
@@ -61,7 +77,17 @@ export class PatientSearchComponent implements OnInit {
 
   logedinUserID: string;
 
-  constructor(private apicaller: ApirequestService, private authService: AuthenticationService, private webStorageService: WebStorageService, private headerService: HeaderService, private sharedData: SharedDataContainerService) {
+  showArchived: boolean = false;
+
+  constructor(private apicaller: ApirequestService,
+    private authService: AuthenticationService,
+    private webStorageService: WebStorageService,
+    private headerService: HeaderService,
+    private sharedData: SharedDataContainerService) {
+    this.headerService.searchClient.subscribe((e: string) => {
+      this.mrn=e;
+      this.patientSearch();
+    })
   }
 
   ngOnInit() {
@@ -71,7 +97,11 @@ export class PatientSearchComponent implements OnInit {
       this.logedinUserID = decodedToken.IPUId;
     }
   }
- 
+  addClient(){
+    this.headerService.loadSecondaryModule.next("person-manager-module");
+    this.sharedData.showsecondaryBanner=false;
+    this.sharedData.componentLoaderAdditionalInfo.push(new AdditionalInfo("addmode", true));
+  }
   patientSearch() {
 
     this.searchMessage = "Searching...";
@@ -86,6 +116,8 @@ export class PatientSearchComponent implements OnInit {
 
     let surnameClause: string = '', firstNameClause: string = '', dobClause: string = '', mrnClause: string = '', nhsClause: string = '';
     let surnameParam: string = '', firstNameParam: string = '', dobParam: string = '', mrnParam: string = '', nhsParam: string = '';
+    let isArchivedClause: string = '';
+    let isArchivedParam: string= '';
 
     if (this.surname) {
       surnameClause = "familyname like @familyname AND ";
@@ -115,8 +147,9 @@ export class PatientSearchComponent implements OnInit {
     }
 
     if (this.mrn) {
-      mrnClause = "mrn = @mrn AND mrntypecode = '" + AppConfig.settings.mrnTypeCode + "' AND ";
-      mrnParam = "{\"paramName\": \"mrn\", \"paramValue\": \"" + this.mrn + "\"}, "
+
+      mrnClause = "LOWER(mrn) = @mrn AND mrntypecode = '" + AppConfig.settings.mrnTypeCode + "' AND ";
+      mrnParam = "{\"paramName\": \"mrn\", \"paramValue\": \"" + this.mrn.toLowerCase() + "\"}, "
     }
     else {
       mrnClause = "";
@@ -132,14 +165,36 @@ export class PatientSearchComponent implements OnInit {
       nhsParam = "";
     }
 
-    if (this.surname || this.firstName || this.dob || this.mrn || this.nhs) {
-      this.filterClause = this.filterClause.concat(surnameClause, firstNameClause, dobClause, mrnClause, nhsClause)
-      this.filterClause = this.filterClause.slice(0, this.filterClause.length - 5);
-      this.filterParams = this.filterParams.concat("[");
-      this.filterParams = this.filterParams.concat(surnameParam, firstNameParam, dobParam, mrnParam, nhsParam)
-      this.filterParams = this.filterParams.slice(0, this.filterParams.length - 2);
-      this.filterParams = this.filterParams.concat("]");
+    if(this.showArchived){
+      isArchivedClause = "(COALESCE(isarchived, false) = false OR isarchived = @isarchived::boolean) AND "
+      isArchivedParam = "{\"paramName\": \"isarchived\", \"paramValue\": \"" + this.showArchived + "\"}, "
     }
+    else{
+      isArchivedClause = "COALESCE(isarchived, false) = @isarchived::boolean AND "
+      isArchivedParam = "{\"paramName\": \"isarchived\", \"paramValue\": \"" + this.showArchived + "\"}, "
+    }
+
+    if(this.env != 'social_care'){
+      if (this.surname || this.firstName || this.dob || this.mrn || this.nhs) {
+        this.filterClause = this.filterClause.concat(surnameClause, firstNameClause, dobClause, mrnClause, nhsClause)
+        this.filterClause = this.filterClause.slice(0, this.filterClause.length - 5);
+        this.filterParams = this.filterParams.concat("[");
+        this.filterParams = this.filterParams.concat(surnameParam, firstNameParam, dobParam, mrnParam, nhsParam)
+        this.filterParams = this.filterParams.slice(0, this.filterParams.length - 2);
+        this.filterParams = this.filterParams.concat("]");
+      }
+    }
+    else{
+      if (this.surname || this.firstName || this.dob || this.mrn || this.nhs || this.showArchived) {
+        this.filterClause = this.filterClause.concat(surnameClause, firstNameClause, dobClause, mrnClause, nhsClause, isArchivedClause)
+        this.filterClause = this.filterClause.slice(0, this.filterClause.length - 5);
+        this.filterParams = this.filterParams.concat("[");
+        this.filterParams = this.filterParams.concat(surnameParam, firstNameParam, dobParam, mrnParam, nhsParam, isArchivedParam)
+        this.filterParams = this.filterParams.slice(0, this.filterParams.length - 2);
+        this.filterParams = this.filterParams.concat("]");
+      }
+    }
+    
 
     if (this.filterClause && this.filterParams) {
 
@@ -172,7 +227,7 @@ export class PatientSearchComponent implements OnInit {
               this.searchMessage = "No patients found";
             }
           },
-          error =>{this.searchMessage="Error"}
+          error => { this.searchMessage = "Error" }
         );
     }
   }
@@ -191,12 +246,13 @@ export class PatientSearchComponent implements OnInit {
 
   resetModal() {
     this.headerService.myPatient.next(false);
-    this.searchMessage='';
+    this.searchMessage = '';
     this.surname = '';
     this.firstName = '';
     this.dob = '';
     this.mrn = '';
     this.nhs = '';
+    this.showArchived = false;
     this.persons = [];
     this.show = false;
   }

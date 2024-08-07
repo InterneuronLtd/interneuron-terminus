@@ -1,0 +1,63 @@
+Patient Banner base view from RROT and dev
+
+patientbanner_mainbanner - change identifiers
+patientbanner_personatrisk - no change 
+patientbanner_demographisocialcare - not required for hospital
+patientbanner_column2 - change identifiers
+patientbanner_extendedperson - new 
+patientbanner_careteam - new 
+patientbanner_isnextofkin - new 
+patientbanner_maindemographics -  change identifiers
+bvassessment_getcurrentivedioform - not requried for hospital
+
+bv_core_inpatientappointments - no change 
+
+epma_getheightobservations - no change 
+epma_getweightobservations - no change 
+bv_core_currentappointments - not requried  
+
+
+TCP-sprint 10 for disable leveing 1/4/2024
+
+Entity
+core_nextofkin added column living with persion tcp-210 and 208
+
+baseview
+patientbanner_isnextofkin
+patientbanner_demographisocialcare
+patientbanner_column2 for hospital TCP-272
+patientbanner_demographisocialcare for social care TCP-272
+/////////////////////////////////////////////////
+
+--------------------------------------------------------------------------
+1.13
+--------------------------------------------------------------------------
+Baseviews
+patientbanner_extendedperson - Add redflags fields in baseview to display in banner - do not deploy to rnoh 
+patientbanner_maindemographics
+patientbanner_careteam - no not deploy to rnoh
+patientbanner_column2
+
+3/14/2024 tcp-272 
+new baseview GetWaistCircumferenceOsbservations banner
+{"observationtype_id" : "cba85751-22ce-42b6-858b-0911eeae072e", "code" : "waistcircumference", "name" : "waist circumference", "active" : true, "valuetype" : "", "valuelist" : """}
+
+--------------------------------------------------------------------------
+19/03/2024 - TCP-290 for social_care
+
+baseview
+
+patientbanner_extendedperson - Add redflags fields in baseview to display in banner
+
+
+21/03/2024 - TCP-221 for social social care
+
+Entity Changes:
+Core_Person
+
+Baseview Changes:
+bv_core_getallclients
+terminus_patientsearch
+
+patientbanner_column2 for hospital TCP-272
+patientbanner_demographisocialcare for social care TCP-272

@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2023  Interneuron Holdings Ltd
+//Copyright(C) 2024  Interneuron Limited
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -47,7 +47,7 @@ export class ResizeService {
 
 function getWindowSize() {
   var displayPortSize = "";
-  if(window.innerWidth >= 1366) {
+  if(window.innerWidth >= 1280) {
     displayPortSize= 'Desktop';
   }
   else if(window.innerWidth >= 1024) {

@@ -8,4 +8,20 @@
 
 }
 
+.Reference_weight {
+  width: 40px;
+  height: 24px;
+  background-repeat: no-repeat;
+  background-image: url("/assets/images/Reference_weight.svg");
+  background-position: center;
+}
+
+.Reference_height {
+  width: 40px;
+  height: 24px;
+  background-repeat: no-repeat;
+  background-image: url("/assets/images/Reference_height.svg");
+  background-position: center;
+}
+
 

@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2023  Interneuron Holdings Ltd
+//Copyright(C) 2024  Interneuron Limited
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -18,7 +18,19 @@
 //You should have received a copy of the GNU General Public License
 //along with this program.If not, see<http://www.gnu.org/licenses/>.
 //END LICENSE BLOCK 
-
+// Interneuron Terminus
+// Copyright(C) 2023  Interneuron Holdings Ltd
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the
+// GNU General Public License for more details.
+// You should have received a copy of the GNU General Public License
+// along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 import {
   AfterViewInit,
@@ -39,7 +51,7 @@ import { HeaderService } from "../services/header.service";
 import { Subscription } from "rxjs";
 import { ResizeService } from "../services/resize.service";
 import { Application, Module } from "../Models/application.model";
-
+import { environment } from "src/environments/environment";
 
 @Component({
   selector: "app-header",
@@ -54,7 +66,10 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
 
   displayPort: string;
   selectedDisplayPort: string;
-  selectedApplication: Application;
+  selectedApplication: Application = {
+    applicationtype_id: "MODULAR"
+  };
+
   selectedList: String;
   selectedModule: Module;
   selectedPersona: string;
@@ -62,6 +77,10 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
 
   timeout: number = 0;
   showTimeoutModal: boolean = false;
+  showToggleButton: boolean = true;
+
+  showUserProfileForm: boolean = false;
+
   @ViewChild("openTimeoutModal") openTimeoutModalButton: ElementRef;
 
   @ViewChild("applicationstemplate_desktop") applicationstemplate_desktop: ElementRef;
@@ -84,9 +103,13 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild("modulestemplate_mobile") modulestemplate_mobile: ElementRef;
   @ViewChild("modulestemplate") modulestemplate: ElementRef;
 
-
+  userRoleList=[]
   username: string = "";
   headertemplatecolour: string = "#f6f2f2";
+  hideGPConnectFeature = AppConfig.settings.GPConnectConfig.hideThisFeature;
+
+  env:string = AppConfig.settings.env;
+
   constructor(
     private RbacService: RbacService,
     private authService: AuthenticationService,
@@ -110,6 +133,14 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     this.headerService.selectedApplication.subscribe(
       (value: any) => {
         this.selectedApplication = value;
+        if (this.selectedApplication.applicationtype_id == "STAND_ALONE") {
+          this.showToggleButton = false;
+          this.hidePatientList();
+        }
+        else {
+          this.showToggleButton = true;
+          this.showPatientList();
+        }
       },
       (error) => {
         //
@@ -203,8 +234,25 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
       this.resizeSubscription.unsubscribe();
     }
   }
+  getUserRoles(decodedToken: any) {
+    this.userRoleList = [];
+    let synapseroles;
+    if (environment.production)
+      synapseroles = decodedToken.SynapseRoles
+    else
+      synapseroles = decodedToken.client_SynapseRoles
+    if (!Array.isArray(synapseroles)) {
 
+      this.userRoleList.push(synapseroles);
+    }
+    else
+      for (var i = 0; i < synapseroles.length; i++) {
+        this.userRoleList.push(synapseroles[i]);
+      }
+
+  }
   ngOnInit() {
+   
     this.resizeSubscription = this.resizeService.displayPort$.subscribe(
       (value: any) => {
         this.displayPort = value;
@@ -215,7 +263,13 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
         } else {
           this.desktopDisplayClass = "display-desktop";
           this.mobileDisplayClass = "hide-mobile";
-          this.showPatientList();
+          if(this.selectedApplication.applicationtype_id == "STAND_ALONE") {
+            this.hidePatientList();
+          }
+          else {
+            this.showPatientList();
+          }
+          
         }
       }
     );
@@ -231,6 +285,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
       this.authService.user.access_token
     );
     if (decodedToken != null) {
+      this.getUserRoles(decodedToken);
       this.RbacService.GetRoleBasedAction(decodedToken);
       this.username = decodedToken.name
         ? Array.isArray(decodedToken.name)
@@ -280,5 +335,13 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
 
   showPatientList() {
     $("body").addClass("sidebar-show");
+  }
+
+  showUserProfile(){
+    this.showUserProfileForm = true;
+  }
+
+  closeUserProfileForm(e: any) {
+    this.showUserProfileForm = false;
   }
 }

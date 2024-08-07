@@ -1,0 +1,254 @@
+<!--BEGIN LICENSE BLOCK--> 
+<!--Interneuron Terminus
+
+Copyright(C) 2024  Interneuron Limited
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.If not, see<http://www.gnu.org/licenses/>. -->
+<!--END LICENSE BLOCK--> 
+  <!-- Button trigger modal -->
+  <button type="button" #patientConsentBtn class="btn btn-primary" style="display:none" data-toggle="modal" data-target="#patientConsentModal" data-backdrop="static">
+    Proxy trigger
+  </button>
+
+  <!-- Modal -->
+  <div class="modal fade" #patientConsentModal id="patientConsentModal" tabindex="-1" role="dialog" aria-labelledby="patientConsentModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable" style="height: 75%;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-auto-name" class="modal-title pull-left">
+          Consent to view GP Connect Record
+        </h4>
+        <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="hideModal()">
+          <span aria-hidden="true" class="visually-hidden">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <form #patientConsentForm="ngForm">
+            <div class="row">
+              <div class="col">
+                You are about to access the GP Connect record for this patient. Before you are able to continue please
+                confirm the following: (all responses are logged)
+              </div>
+            </div>
+            <br />
+            <div class="container" *ngIf="demographics != undefined">
+              <div class="row">
+                <div class="col">
+                  <span style="font-size:1rem; font-weight: 700;">{{demographics.fullname}}</span>&nbsp;&nbsp;<span
+                    style="font-size:0.875rem;">{{demographics.gender}}, {{demographics.age}}</span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-3">
+                  Born
+                </div>
+                <div class="col-3">
+                  Hospital Number
+                </div>
+                <div class="col-3">
+                  NHS Number
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-3">
+                  {{demographics.born | date:'dd/MM/yyyy'}}
+                </div>
+                <div class="col-3">
+                  {{demographics.hospitalnumber}}
+                </div>
+                <div class="col-3">
+                  {{demographics.nhsnumber}}
+                </div>
+              </div>
+            </div>
+            <br />
+            <div class="row">
+              <div class="col">
+                <label for="correct_patient" class="form-label">Is this the correct patient?
+                </label>&nbsp;
+                <input type="radio" id="yes" name="correct_patient" value="yes"
+                  [(ngModel)]="patientConsent.iscorrectpatient" required #correctPatient="ngModel">
+                <label for="yes">&nbsp;Yes</label>&nbsp;
+                <input type="radio" id="no" name="correct_patient" value="no"
+                  [(ngModel)]="patientConsent.iscorrectpatient" required #correctPatient="ngModel">
+                <label for="no">&nbsp;No</label>
+                <br />
+                <span class="text-danger" *ngIf="(correctPatient.touched) && correctPatient.errors?.required">Is this the correct patient? is
+                  required</span>
+              </div>
+            </div>
+            <div *ngIf="patientConsent.iscorrectpatient == 'yes'">
+              <div class="row">
+                <div class="col-6">
+                  <br />
+                  <label for="use_of_patient_data" class="form-label">
+                    Use of Patient Data&nbsp;&nbsp;&nbsp;
+                  </label>
+                  <span [tooltip]="patientData" contentType="template" tooltipClass="gpConnectCustomClass" [options]="tooltipOptions">
+                    <i class="icon-info" style="color: #007bff;"></i>
+                  </span>
+                  <select class="form-control" [(ngModel)]="patientConsent.useofpatientdata" name="patientData" required #useOfPatientData="ngModel">
+                    <option value="direct_patient_care">Direct Patient Care</option>
+                    <option value="indirect_patient_care">Indirect Patient Care</option>
+                    <option value="research">Research</option>
+                    <option value="other">Other</option>
+                  </select>
+                  <span class="text-danger" *ngIf="(useOfPatientData.touched) && useOfPatientData.errors?.required">Use of Patient Data is
+                    required</span>
+                </div>
+              </div>
+              <div class="row" *ngIf="patientConsent.useofpatientdata == 'other'">
+                <div class="col-6">
+                  <br />
+                  <input type="text" id="patient_data_other" name="patient_data_other" class="form-control"
+                    [(ngModel)]="patientConsent.otheruseofpatientdata" required #otherUseofPatientData="ngModel" />
+                  <span class="text-danger" *ngIf="(otherUseofPatientData.touched) && otherUseofPatientData.errors?.required">Other detail is
+                    required</span>
+                </div>
+              </div>
+              <br />
+              <div class="row">
+                <div class="col-6">
+                  <label for="rel_patient_access_data" class="form-label">
+                    The relationship with this patient to access their data&nbsp;&nbsp;&nbsp;
+                  </label>
+                  <span [tooltip]="relationshipPatientAccess" contentType="template" tooltipClass="gpConnectCustomClass" [options]="tooltipOptions">
+                    <i class="icon-info" style="color: #007bff;"></i>
+                  </span>
+                  <select class="form-control" [(ngModel)]="patientConsent.relationshipwithpatientaccessdata" name="relationship" required #relationshipPatientAccessData="ngModel">
+                    <option value="legitimate_relationship">Legitimate relationship</option>
+                    <option value="other">Other</option>
+                  </select>
+                  <span class="text-danger" *ngIf="(relationshipPatientAccessData.touched) && relationshipPatientAccessData.errors?.required">The relationship
+                    with this patient to access their data is required</span>
+                </div>
+              </div>
+              <div class="row" *ngIf="patientConsent.relationshipwithpatientaccessdata == 'other'">
+                <div class="col-6">
+                  <br />
+                  <input type="text" id="rel_patient_access_data_other" name="rel_patient_access_data_other"
+                    class="form-control" [(ngModel)]="patientConsent.otherrelationshipwithpatientaccessdata" required
+                    #otherRelationshipWithPatientAccessData="ngModel" />
+                  <span class="text-danger" *ngIf="(otherRelationshipWithPatientAccessData.touched) && otherRelationshipWithPatientAccessData.errors?.required">Other
+                    detail is required</span>
+                </div>
+              </div>
+              <br />
+              <div class="row">
+                <div class="col-6">
+                  <label for="prmsn_access_gp_con" class="form-label">
+                    Permission to access their GP Connect Record&nbsp;&nbsp;&nbsp;
+                  </label>
+                  <span [tooltip]="permissionAccess" contentType="template" tooltipClass="gpConnectCustomClass" [options]="tooltipOptions">
+                    <i class="icon-info" style="color: #007bff;"></i>
+                  </span>
+                  <select class="form-control" [(ngModel)]="patientConsent.permissiontoaccessgpconnectdata" name="permission" required #permissionAccessGPConnect="ngModel">
+                    <option value="implied">Implied</option>
+                    <option value="explicit">Explicit</option>
+                    <option value="other">Other</option>
+                  </select>
+                  <span class="text-danger" *ngIf="(permissionAccessGPConnect.touched) && permissionAccessGPConnect.errors?.required">Permission to access
+                    their GP Connect Record is required</span>
+                </div>
+              </div>
+              <div class="row" *ngIf="patientConsent.permissiontoaccessgpconnectdata == 'other'">
+                <div class="col-6">
+                  <br />
+                  <input type="text" id="prmsn_access_gp_con_other" name="prmsn_access_gp_con_other"
+                    class="form-control" [(ngModel)]="patientConsent.otherpermissiontoaccessgpconnectdata" required
+                    #otherPermissionToAccessGPConnectData="ngModel" />
+                  <span class="text-danger" *ngIf="(otherPermissionToAccessGPConnectData.touched) && otherPermissionToAccessGPConnectData.errors?.required">Other detail
+                    is required</span>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer" *ngIf="patientConsent.iscorrectpatient != 'no'">
+        <div class="row">
+          <div class="col-sm-6">
+            <button type="button" class="btn btn-link" (click)="hideModal()">Cancel</button>
+          </div>
+          <div class="col-sm-6">
+            <button type="button" class="btn btn-primary btn-block" (click)="openModal()">Agree</button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="justify-content: left !important;" *ngIf="patientConsent.iscorrectpatient == 'no'">
+        <div>
+          <span class="text-danger">Please close this window and select the correct patient.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #patientData>
+  <pre style="text-align: justify; text-justify: inter-word; padding: 5px; color:white;"><b>Direct care</b> is defined as a clinical, social or public health activity concerned <br />with the prevention, investigation and treatment of illness and the alleviation <br />of suffering of individuals (all activities that directly contribute to the <br />diagnosis, care and treatment of an individual). It includes <ul><li>supporting individuals' ability to function and improve their <br />participation in life and society; </li><li>the local audit/assurance of the quality of care provided;</li><li>the management of untoward or adverse incidents;</li><li>the measurement of outcomes undertaken by one or more registered <br />and regulated health or social care professionals and their team with <br />whom the individual has a legitimate relationship for their care</li></ul>It does not include research, teaching, financial audit, service management <br />activities or risk stratification (see note below on borderline cases).<br /> <br /> <br /><b>Indirect care</b> is defined as activities that contribute to the overall provision <br />of services to a population as a whole or a group of patients with a particular <br />condition, but which fall outside the scope of direct care. It covers health <br />services management, preventative medicine, and medical research. <br />Examples of indirect care activities include risk prediction and stratification <br />service evaluation, needs assessment, and financial audit.</pre>
+</ng-template>
+
+<ng-template #relationshipPatientAccess>
+<pre style="text-align: justify; text-justify: inter-word; padding: 5px; color:white;">A registered and regulated health or social care professional has a <br /><b>legitimate relationship</b> with the patient or client when any or all of the <br />following criteria are met: <ul><li>The patient or client presents themselves to the professional for the <br />purpose of their care.</li><li>The patient or client agrees to a referral from one registered and <br />regulated health or social care professional to another.</li><li>The patient or client is invited by a professional to take part in a <br />screening or immunisation programme for which they are eligible and <br />they accept.</li><li>The patient or client presents to a health or social care professional <br />in an emergency situation where consent is not possible.</li><li>The relationship is part of a legal duty e.g. contact tracing in public <br />health.</li><li>The patient is told of a proposed communication and does not object <br />e.g. the consultant in the ambulatory clinic says she will communicate <br />with the patient's social worker to let them know of events in the <br />clinic and the patient does not object.</li></ul></pre>
+</ng-template>
+
+<ng-template #permissionAccess>
+<pre style="text-align: justify; text-justify: inter-word; padding: 5px; color:white;"><b>Implied consent:</b> if a patient's information is accessed and used for <br />individual care then  consent is implied, without the patient having to <br />explicitly say so.<br /><br /><br /><b>Explicit consent:</b> This is a very clear and specific statement of consent. <br />It can be given in writing, verbally or through another form of communication <br />such as sign language.</pre>
+</ng-template>
+
+<ng-template #disclaimerTemplate>
+  <div class="modal-header" style="text-align: center !important; display: block;">
+    <div class="row">
+      <div class="col">
+        <h4>Disclaimer</h4>
+      </div>
+    </div>
+  </div>
+  <div class="modal-body text-center">
+    <p>By submitting this request for information from the NHS GP Connect System, you are stating that you, as an appropriate healthcare professional have the legal right and permission to do so and that you understand that if this is not true you may be in breach of the law and operating outside the scope of your professional authority. A record of each request will be kept for audit purposes.</p>
+  </div>
+  <div class="modal-footer" style="text-align: center !important; display: block;">
+    <div class="row">
+      <div class="col-sm-6">
+        <button type="button" class="btn btn-outline-primary" (click)="decline()">Cancel</button>
+      </div>
+      <div class="col-sm-6">
+        <button type="button" class="btn btn-primary" (click)="confirm()">Submit</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #errorTemplate>
+  <div class="modal-header" style="text-align: center !important; display: block;">
+    <div class="row">
+      <div class="col">
+        <h4>Error</h4>
+      </div>
+    </div>
+  </div>
+  <div class="modal-body text-center">
+    <p>GP Connect can only be used legally for direct patient care, with appropriate patient consent. It cannot be used for planning or research.<br /><br />Direct patient care is defined as a clinical, social, or public health activity concerned with the prevention, investigation, and treatment of illness and the alleviation of suffering of individuals.</p>
+  </div>
+  <div class="modal-footer" style="text-align: center !important; display: block;">
+    <div class="row">
+      <div class="col-sm-12">
+        <button type="button" class="btn btn-primary" (click)="dismiss()">Dismiss</button>
+      </div>
+    </div>
+  </div>
+</ng-template>

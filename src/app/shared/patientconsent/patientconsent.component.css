@@ -1,0 +1,7 @@
+::ng-deep .modal {
+    z-index: 10500!important;
+  }
+
+  ::ng-deep .modal-backdrop {
+    z-index: 2147483647 !important;
+}

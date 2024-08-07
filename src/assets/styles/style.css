@@ -6110,7 +6110,7 @@ a.close.disabled {
 }
 
 .modal-backdrop {
-  position: fixed;
+  /* position: fixed; */
   top: 0;
   left: 0;
   z-index: 0;
@@ -13052,7 +13052,7 @@ canvas {
     }
 
   .app-header .navbar-toggler {
-    min-width: 50px;
+    min-width: 30px;
     padding: 0.25rem 0;
   }
 
@@ -16235,3 +16235,39 @@ body {
   breakpoint-xl: 1200px;
 }
 /*# sourceMappingURL=style.css.map */
+.consent-btn {
+  margin-top: -29px;
+  position: relative;
+  padding: 0;
+  margin-left: 9px !important;
+}
+
+/* scroll to top css */
+.scrollToTopButton {
+  margin-bottom: 50px;
+  position: fixed;
+  bottom: 15px;
+  right: 45%;
+  font-size: 20px;
+  text-align: center;
+  border-radius: 5px;
+  outline: none;
+  z-index: auto;
+  background-color: #ebf0ec;
+  border: 1px solid #686b69;
+  color: #686b69;
+}
+.radio-font-big {
+  font-size: 18px !important;
+  line-height: 2.0 !important;
+}
+
+.file-upload-margin {
+  margin-top: 10px !important;
+}
+
+.download-control-alignment {
+  padding: 0 !important;
+  width: 75% !important;
+  margin: 0 !important;
+}

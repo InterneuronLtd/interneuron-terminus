@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2023  Interneuron Holdings Ltd
+//Copyright(C) 2024  Interneuron Limited
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ import { Subject } from 'rxjs';
 import { PatientListService } from './patient-list.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { SharedDataContainerService } from './shared-data-container.service';
-import { ModuleDataContract } from '../Models/ModuleDataContract.model';
+import { AdditionalInfo, ModuleDataContract } from '../Models/ModuleDataContract.model';
 @Injectable({
   providedIn: 'root'
 })
@@ -56,10 +56,13 @@ export class SecondaryComponentLoaderService {
         node.async = false;
         node.charset = 'utf-8';
         try {
+          this.sharedData.ShoModuleLoader = true;
           document.getElementsByTagName('head')[0].appendChild(node).addEventListener("load", () => {
+            this.sharedData.ShoModuleLoader = false;
             this.renderComponent(module.domselector, module.modulename);
           });
         } catch (error) {
+          this.sharedData.ShoModuleLoader = false;
           console.warn("error loading module:" + error)
         }
       }
@@ -81,7 +84,14 @@ export class SecondaryComponentLoaderService {
     let element = document.createElement(module);
     dataContract.personId = this.webStorage.getSessionStorageItem("terminus:personcontext");
     dataContract.apiService = this.apiCaller;
+    dataContract.additionalInfo.push(new AdditionalInfo("currentmodule", module));
 
+    for (let Arr of this.sharedData.componentLoaderAdditionalInfo) {
+      dataContract.additionalInfo.push(Arr);
+    }
+
+    this.sharedData.componentLoaderAdditionalInfo = [];
+    
     element["personid"] = dataContract.personId;
     element["apiservice"] = dataContract.apiService;
     element["unload"] = dataContract.unload;
@@ -104,8 +114,10 @@ export class SecondaryComponentLoaderService {
       element["contexts"] = dataContract.contexts;
     }
 
+    dataContract.moduleAction = this.headerService.moduleAction;
     element["datacontract"] = dataContract;
     element.id = "ID" + Math.round(Math.random() * 100)
+    element.addEventListener("frameworkAction", (msg) => this.handleFrameworkActionfromComponent(msg))
 
     const wrappingDiv = document.getElementById("secondaryComponentLoader");
     var component = document.getElementsByTagName(module);
@@ -119,7 +131,21 @@ export class SecondaryComponentLoaderService {
       wrappingDiv.appendChild(element);
     }
   }
-
+  handleFrameworkActionfromComponent(action) {
+    console.log(" secondary Framework action called:", action);
+    //console.log(action.detail);
+    if (action.detail.includes("SEARCH_CLIENT")) {
+      //Reloads the person banner
+      this.headerService.hideSecondaryModule.next();
+      let arraystring=action.detail.split('_')
+      let clientid=arraystring[2];
+      this.headerService.searchClient.next(clientid);
+    }
+    else if (action.detail == "OPEN_W3W") {
+      this.headerService.w3w.next("OPEN_W3W");
+    }
+    
+  }
   ngOnDestroy() {
 
   }

@@ -1,7 +1,7 @@
 <!--BEGIN LICENSE BLOCK--> 
 <!--Interneuron Terminus
 
-Copyright(C) 2023  Interneuron Holdings Ltd
+Copyright(C) 2024  Interneuron Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -23,7 +23,8 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
   <div class="" *ngIf="displayPort != 'Mobile'">
   <div *ngIf="mainWarnings" style="font-size: 1em; color: #535e7e; width: 100%">
   <div class="dropdown" *ngIf="mainWarnings.length > 0" style="width: 100%;">
-    <div class="dropbtn">
+    <div class="dropbtn" data-toggle="collapse" style="cursor: pointer;"
+    (click)="updateExpandbanner()">
       <div
         class=""
         style="width: 100%; line-height: 1.2; font-size: 1em; color: #535e7e"
@@ -32,14 +33,14 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
           <i
             class="fa fa-exclamation-triangle text-danger"
             aria-hidden="true"
-          ></i> Warnings</strong
+          ></i>  </strong
         >
-        <br />
-        <strong class="" style="margin-bottom: 8px" *ngFor="let group of warningGroups">{{group}} </strong>
+       
+        <strong class="" style="margin-bottom: 8px" *ngFor="let group of warningGroups">     {{group}} </strong>
       </div>
     </div>
 
-    <div class="dropdown-content float-left" style="z-index: 5; width: 100%;" *ngIf = "isLatestAndGreatest">
+    <!-- <div class="dropdown-content float-left" style="z-index: 5; width: 100%;" *ngIf = "isLatestAndGreatest">
 
         <ul class="list-group" *ngFor="let warning of mainWarnings">
 
@@ -51,17 +52,12 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
             <p [innerHTML]="warning.warningdetail"> </p>
 
 
-            <!-- <button id="" type="button" class="btn btn-info text-white btn-sm btn-block"
-
-            (click)="resolveModule(warning.warninggroup)">
-            Resolve
-          </button> -->
 
 
           </li>
           </ul>
 
-    </div>
+    </div> -->
   </div>
   </div>
   </div>
@@ -86,7 +82,7 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
           </span>
         </span>
 
-      <span class="dropdown-content float-left" style="z-index: 5; ">
+      <!-- <span class="dropdown-content float-left" style="z-index: 5; ">
 
           <ul class="list-group" *ngFor="let warning of mainWarnings">
 
@@ -97,16 +93,13 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
               ></i> &nbsp; {{ warning.warningheader }} </strong>
               <p [innerHTML]="warning.warningdetail"> </p>
 
-              <!-- <button id="" type="button" class="btn btn-info text-white btn-sm btn-block" *ngIf="warning.warninggroup != 'WEIGHT'"
-              (click)="resolveModule(warning.warninggroup)">
-              Resolve
-            </button> -->
+             
 
 
             </li>
             </ul>
 
-          </span>
+          </span> -->
         </span>
       </span>
   </span>

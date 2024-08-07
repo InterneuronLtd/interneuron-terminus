@@ -1,7 +1,7 @@
 <!--BEGIN LICENSE BLOCK--> 
 <!--Interneuron Terminus
 
-Copyright(C) 2023  Interneuron Holdings Ltd
+Copyright(C) 2024  Interneuron Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -21,84 +21,170 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
 <div *ngIf="mainDemographics" style="height: 44px;">
 
 
-  <div class="" *ngIf="displayPort === 'Desktop'" >
+
+  <div class="" *ngIf="displayPort === 'Desktop'">
     <div class="row">
-      <div class="col-md-6">
-        <span class="h3" style="color: #535e7e;">
+      <div class="col-md-3">
+        <span class="h5" style="color: #01040a;">
           {{ mainDemographics.fullname }}
-          <i class="fa fa-venus" aria-hidden="true" *ngIf="mainDemographics.gender === 'Female'"></i>
-          <i class="fa fa-mars" aria-hidden="true" *ngIf="mainDemographics.gender === 'Male'"></i>
-          {{mainDemographics.age}}
-        </span>
+          ({{ mainDemographics.titletext }})
+
+        </span><br />
+        <span *ngIf="env  != 'social_care'" class="h5" style="color: #010205;"> {{ mainDemographics.gender }}, {{mainDemographics.age}}</span>
       </div>
-      <div class="col-md-3" >
-        <p style="line-height:1.0; color: #535e7e; font-size: 0.85em;">
-          <strong>{{bornLabel}} :</strong> {{ mainDemographics.born }}
-          <br />
-          <strong>{{genderLabel}} :</strong> {{ mainDemographics.gender }}
+      <div class="col-md-2"  *ngIf="env  == 'social_care'">
+        <p style="line-height:1.2;  font-size: .85em;">
+         
+          <strong>  {{ mainDemographics.born }}</strong> 
         </p>
       </div>
-      <div class="col-md-3">
-        <p style="line-height:1.0; color: #535e7e; font-size: 0.85em;">
-          <strong>{{hospitalNumberLabel}} :</strong> &nbsp; <span id="patientMRN">{{ mainDemographics.hospitalnumber }}</span>
+      <div class="col-md-2"  *ngIf="env  != 'social_care'">
+        <p style="line-height:1.2;  font-size: .85em;">
+          {{bornLabel}} 
           <br />
-          <strong>{{nhsNumberLabel}} :</strong> &nbsp; <span id="patientNHSNumber">{{ mainDemographics.nhsnumber }}</span>
-          </p>
-      </div>
-    </div>
-</div>
-
-<div class="" *ngIf="displayPort === 'Tablet'" >
-  <div class="row">
-      <div class="col-md-6">
-        <span class="h3" style="color: #535e7e;">
-          {{ mainDemographics.fullname }}
-          <i class="fa fa-venus" aria-hidden="true" *ngIf="mainDemographics.gender === 'Female'"></i>
-          <i class="fa fa-mars" aria-hidden="true" *ngIf="mainDemographics.gender === 'Male'"></i>
-          {{mainDemographics.age}}
-        </span>
-      </div>
-      <div class="col-md-3" >
-        <p style="line-height:1.0; color: #535e7e; font-size: 0.85em;">
-          {{ mainDemographics.born }}
-          <br />
-          {{ mainDemographics.gender }}
+          <strong>  {{ mainDemographics.born }}</strong> 
         </p>
       </div>
-      <div class="col-md-3">
-        <p style="line-height:1.0; color: #535e7e; font-size: 0.85em;">
-          <span id="patientMRN">{{ mainDemographics.hospitalnumber }}</span>
-          <br />
-            <span id="patientNHSNumber">{{ mainDemographics.nhsnumber }}</span>
-          </p>
+      <div class="col-sm-1" *ngIf="env  != 'social_care'">
+        <p style="line-height:1.2;  font-size: .85em;">
+           {{hospitalNumberLabel}}
+           <br/>
+           <strong> <span id="patientMRN">{{ mainDemographics.hospitalnumber}}</span> </strong>
+          
+        </p>
+      </div>
+      <div class="col-sm-2" *ngIf="env  != 'social_care'">
+        <p style="line-height:1.2; font-size: .85em;">
+         
+          {{nhsNumberLabel}} 
+            <br/> 
+            <strong>  <span id="patientNHSNumber">{{ mainDemographics.nhsnumber}} </span></strong> 
+           <!-- <ng-container *ngIf="!isVerifyingNHSNumber">
+             <button *ngIf="!isVerifiedNHSNumber && basicNHSNumberValidation" type="button" class="btn btn-sm btn-link p-0"
+               style="margin-top: -5px;" title="Click to verify"
+               (click)="onClickVerify()"><strong>{{verifyButtonLabel}}</strong></button>
+             <i *ngIf="isVerifiedNHSNumber && basicNHSNumberValidation" class="fa fa-circle-check text-success"></i>
+           </ng-container> -->
+ 
+           <!-- <span class="nav-item" *ngIf="isVerifyingNHSNumber" style="color: black">
+ 
+             <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+           </span> -->
+         </p>
+      </div>
+      <!-- <div class="col-md-3" *ngIf="env  != 'social_care'">
+        
+      </div> -->
+      <div class="col-md-3" *ngIf="env == 'social_care' && clientIdentifier && clientIdentifier.idnumber">
+        <p style="line-height:1.2; font-size: 0.85em;">
+         <!-- Client Number <br/> -->
+         <strong> <span id="clientMRN">{{ clientIdentifier.idnumber }}</span> </strong>
+        </p>
       </div>
     </div>
-</div>
+  </div>
+
+  <div class="" *ngIf="displayPort === 'Tablet'">
+    <div class="row">
+      <div class="col-md-3">
+        <span class="h5" style="color: #01040a;">
+          {{ mainDemographics.fullname }}
+          ({{ mainDemographics.titletext }})
+
+        </span><br />
+        <span *ngIf="env  != 'social_care'" class="h5" style="color: #010205;"> {{ mainDemographics.gender }}, {{mainDemographics.age}}</span>
+      </div>
+      <div class="col-md-2"  *ngIf="env  == 'social_care'">
+        <p style="line-height:1.2; font-size: 0.85em;">
+          <!-- {{bornLabel}} 
+          <br /> -->
+        <strong>  {{ mainDemographics.born }}</strong>
+        </p>
+      </div>
+      <div class="col-md-2" *ngIf="env  != 'social_care'">
+        <p style="line-height:1.2; font-size: 0.85em;">
+          {{bornLabel}} 
+          <br />
+        <strong>  {{ mainDemographics.born }}</strong>
+        </p>
+      </div>
+      <div class="col-md-2" *ngIf="env  != 'social_care'">
+        <p style="line-height:1.2; font-size: 0.85em;">
+          {{hospitalNumberLabel}}
+          <br />
+          <strong>   <span id="patientMRN">{{ mainDemographics.hospitalnumber }}</span> </strong> 
+        </p>
+      </div>
+      <div class="col-md-3" *ngIf="env  != 'social_care'">
+        <p style="line-height:1.0;  font-size: 0.85em;">
+          {{nhsNumberLabel}}
+          <br />
+          <!-- <ng-container *ngIf="!isVerifyingNHSNumber">
+            <button *ngIf="!isVerifiedNHSNumber && basicNHSNumberValidation" type="button"
+              class="btn btn-outline-primary btn-sm" title="Click to verify"
+              (click)="onClickVerify()">{{mainDemographics.nhsnumber}}</button>
+            <button *ngIf="isVerifiedNHSNumber && basicNHSNumberValidation" type="button"
+              class="btn btn-outline-success btn-sm" disabled>{{mainDemographics.nhsnumber}}</button>
+          </ng-container> -->
+          <span id="patientNHSNumber">{{ mainDemographics.nhsnumber }}</span>
+          <!-- <span class="nav-item" *ngIf="isVerifyingNHSNumber" style="color: black">
+            <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+          </span> -->
+        </p>
+      </div>
+      <div class="col-md-3" *ngIf="env == 'social_care' && clientIdentifier && clientIdentifier.idnumber">
+        <p style="line-height:1.2; font-size: 0.85em;">
+          <!-- Client Number <br/> -->
+          <strong> <span id="clientMRN">{{ clientIdentifier.idnumber }}</span> </strong>
+         </p>
+      </div>
+    </div>
+  </div>
 
 
-<div class="" *ngIf="displayPort === 'Mobile'" >
+  <div class="" *ngIf="displayPort === 'Mobile'">
     <div class="row">
       <div class="col-md-12">
-        <span class="h4" style="color: #535e7e;">
-          {{ mainDemographics.fullname }}
-          <i class="fa fa-venus" aria-hidden="true" *ngIf="mainDemographics.gender === 'Female'"></i>
-          <i class="fa fa-mars" aria-hidden="true" *ngIf="mainDemographics.gender === 'Male'"></i>
+        <span class="h5" style="color: #01040a;">
+          {{ mainDemographics.fullname }} &nbsp;|&nbsp;
+          ({{ mainDemographics.titletext }})
         </span>
-        </div>
+        <span *ngIf="env  != 'social_care'" style="font-size: 0.8em;color: #010205;"> {{ mainDemographics.gender }}, {{mainDemographics.age}}</span>
+      </div>
     </div>
-    <div style="display: block;">
-      <p style="line-height:1.0; color: #535e7e; font-size: 0.8em;">
+    <div style="display: block;" class="mt-1" *ngIf="env  != 'social_care'">
+      <p style="line-height:1.0; font-size: 0.8em;">
 
         <span id="patientMRN">{{ mainDemographics.hospitalnumber }}</span>
         &nbsp;|&nbsp;
         <span id="patientNHSNumber">{{ mainDemographics.nhsnumber }}</span>
+        <!-- <ng-container *ngIf="!isVerifyingNHSNumber">
+          <button *ngIf="!isVerifiedNHSNumber && basicNHSNumberValidation" type="button"
+            class="btn btn-outline-primary btn-sm" title="Click to verify" style="padding: 3px;"
+            (click)="onClickVerify()">{{mainDemographics.nhsnumber}}</button>
+          <button *ngIf="isVerifiedNHSNumber && basicNHSNumberValidation" type="button"
+            class="btn btn-outline-success btn-sm" disabled>{{mainDemographics.nhsnumber}}</button>
+        </ng-container> -->
+        <!-- <span class="nav-item" *ngIf="isVerifyingNHSNumber" style="color: black">
+          <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+        </span> -->
         &nbsp;|&nbsp;
-        <span>DOB: </span><span>{{ mainDemographics.born }}</span>
-        </p>
+        <!-- <span>DOB: </span> -->
+        <span>{{ mainDemographics.born }}</span>
+      </p>
     </div>
-</div>
+    <div style="display: block;" *ngIf="env == 'social_care'">
+      <p style="line-height:1.0; color: #535e7e; font-size: 0.8em;">
+
+        <span id="clientMRN" *ngIf="env == 'social_care' && clientIdentifier && clientIdentifier.idnumber">{{
+          clientIdentifier.idnumber }}</span>
+        &nbsp;|&nbsp;
+        <!-- <span>DOB: </span> -->
+        <span>{{ mainDemographics.born }}</span>
+      </p>
+    </div>
+  </div>
 
 
 
 </div>
-

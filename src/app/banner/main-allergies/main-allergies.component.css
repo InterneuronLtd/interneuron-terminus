@@ -34,7 +34,7 @@
 .dropdown:hover .dropdown-content {display: block;}
 
 
-.badge { margin-right: 8px; margin-bottom: 4px; padding: 7px !important;}
+.badge { margin-right: 8px;}
 
 @media (max-height: 500px) {
   .dropdown-content{

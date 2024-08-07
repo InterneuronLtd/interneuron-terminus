@@ -1,6 +1,38 @@
 {
   "apiServices": [
     {
+      "serviceName": "GetCurrentEncounter",
+      "serviceUrl": "SYNAPSE_DYNAMIC_URI/GetBaseViewListByPost/bv_core_inpatientappointments"
+    },
+    {
+      "serviceName": "GetAssessmentForms", 
+      "serviceUrl": "SYNAPSE_DYNAMIC_URI/GetBaseViewListObjectByAttribute/bvassessment_getcurrentivedioform?synapseattributename=person_id&attributevalue="
+    },
+    {
+      "serviceName": "GEtpersonScale",
+      "serviceUrl": "SYNAPSE_DYNAMIC_URI/GetListByAttribute?synapsenamespace=core&synapseentityname=personobservationscale&synapseattributename=person_id&attributevalue="
+    },
+    {
+      "serviceName": "PostObservationEvent",
+      "serviceUrl": "SYNAPSE_DYNAMIC_URI/PostObject?synapsenamespace=core&synapseentityname=observationevent"
+    },
+    {
+      "serviceName": "PostObservation",
+      "serviceUrl": "SYNAPSE_DYNAMIC_URI/PostObject?synapsenamespace=core&synapseentityname=observation"
+    },
+    {
+      "serviceName": "Getweightobservations",
+      "serviceUrl": "SYNAPSE_DYNAMIC_URI/GetBaseViewListByPost/epma_getweightobservations"
+    },
+    {
+      "serviceName": "GetWaistCircumferenceObservations",
+      "serviceUrl": "SYNAPSE_DYNAMIC_URI/GetBaseViewListByPost/epma_getwaistcircumferenceobservations"
+    },
+    {
+      "serviceName": "GetHeightOsbservations",
+      "serviceUrl": "SYNAPSE_DYNAMIC_URI/GetBaseViewListByPost/epma_getheightobservations"
+    },
+    {
       "serviceName": "GetRBACAction",
       "serviceUrl": "SYNAPSE_DYNAMIC_URI/GetBaseViewListByPost/rbac_actions"
     },
@@ -119,11 +151,58 @@
     {
       "serviceName": "GetBannerMainWarnings",
       "serviceUrl": "SYNAPSE_DYNAMIC_URI/GetBaseViewListByAttribute/patientbanner_mainwarnings"
-    }
-    ,
+    },
     {
       "serviceName": "GetBannerMainBadges",
       "serviceUrl": "SYNAPSE_DYNAMIC_URI/GetBaseViewListByAttribute/patientbanner_mainbadges"
+    },
+    {
+      "serviceName": "GetClientAddress",
+      "serviceUrl": "SYNAPSE_DYNAMIC_URI/GetBaseViewListByAttribute/patientbanner_clientaddress"
+    },
+    {
+      "serviceName": "GetClientIdentifier",
+      "serviceUrl": "SYNAPSE_DYNAMIC_URI/GetBaseViewListByAttribute/patientbanner_clientidentifier"
+    },
+    {
+      "serviceName": "GetPersonDemographicService",
+      "serviceUrl": "NHSDigitalIntegration_API_URL/PersonDemographics/VerifyPatientNHSNumber"
+    },
+    {
+      "serviceName": "GetPatientNHSNumberInSynapse",
+      "serviceUrl": "NHSDigitalIntegration_API_URL/PersonDemographics/VerifyPatientNHSNumberInSynapse"
+    },
+    {
+      "serviceName": "GetUserProfileDetailByUserUniqueId",
+      "serviceUrl": "SYNAPSE_DYNAMIC_URI/GetListByAttribute?synapsenamespace=core&synapseentityname=userprofile&synapseattributename=useruniqueid&attributevalue="
+    },
+    {
+      "serviceName": "PostUserProfileDetail",
+      "serviceUrl": "SYNAPSE_DYNAMIC_URI/PostObject?synapsenamespace=core&synapseentityname=userprofile"
+    },
+    {
+      "serviceName": "GetUserProfileDetailByUsernameFromProfileProvider",
+      "serviceUrl": "USERPROFILE_URI/api/UserProfile/GetUserProfile"
+    },
+    {
+      "serviceName": "GetCurrentAppointments",
+      "serviceUrl": "SYNAPSE_DYNAMIC_URI/GetBaseViewListByPost/bv_core_gpconnectcurrentinpatientappointment"
+    },
+    {
+      "serviceName": "PostPatientConsent",
+      "serviceUrl": "SYNAPSE_DYNAMIC_URI/PostObject?synapsenamespace=core&synapseentityname=patientconsent"
+    },
+    {
+      "serviceName": "SyncFromGPConnect",
+      "serviceUrl": "NHSDigitalIntegration_API_URL/GPConnect/SyncStructuredRecord"
+    },
+    {
+      "serviceName": "GetGPConnectData",
+      "serviceUrl": "NHSDigitalIntegration_API_URL/GPConnect/GetStructuredRecordByAttributes"
+    },
+    {
+      "serviceName": "GetOutpatientAndFutureAppointments",
+      "serviceUrl": "SYNAPSE_DYNAMIC_URI/GetBaseViewListByPost/bv_core_gpconnectoutpatientandfutureappointments"
     }
   ],
   "ENVIdentificationTemplate": [
@@ -159,7 +238,7 @@
     "redirect_uri": "http://localhost:4200/oidc-callback",
     "post_logout_redirect_uri": "http://localhost:4200/oidc-logout?oidccallback=true",
     "response_type": "id_token token",
-    "scope": "openid profile dynamicapi.read carerecordapi.read terminologyapi.read",
+    "scope": "openid profile dynamicapi.read carerecordapi.read terminologyapi.read notificationapi.read notificationapi.write",
     "automaticSilentRenew": true,
     "silent_redirect_uri": "http://localhost:4200/assets/silent-refresh.html",
     "accessTokenExpiringNotificationTime": 60
@@ -171,5 +250,46 @@
   },
   "mrnTypeCode": "MRN",
   "empiTypeCode": "NHS",
-  "currentEnvironment": "production"
+  "currentEnvironment": "production",
+  "aboutScreen" : {
+    "releaseNumber" : "1.10.0",
+    "buildNumber" : "3309",
+    "SBOMPath" : "assets/sbomreport.zip",
+    "CALabelPath" : "assets/Medical_Device_Label.png"
+  },
+  "personLabelText": "Patient",
+  "env": "hospital",
+  "enableWSConnection": false,
+  "WSHubURL": "WEB_NOTIFIER_URI/hub/notificationhub",
+  "allergies_added_notif_msg": "New Allergy(ies) has/have been added for this patient by the other user.",
+  "allergies_edited_notif_msg": "Allergy(ies) has/have been edited for this patient by the other user.",
+  "can_send_notification": false,
+  "can_receive_notification": false,
+  "hideSidebarOnLoad": [],
+  "awsChimeSettings": {
+    "url": "AMAZON_CHIME_MEETING_URI",
+    "enabled": false
+  },
+  "AWSS3Config":{
+    "bucket": "bucket_name",
+    "bucketRegion": "eu-west-2",
+    "accessKeyId": "access_key",
+    "secretAccessKey": "secret_key",
+    "enabled" : false
+  },
+  "userProfile": {
+    "defaultEmployer" : "RNOH",
+    "defaultProvider": "AD"
+  },
+  "GPConnectConfig" : {
+    "repeatMedicationsInMonths": 0,
+    "acuteMedicationsInMonths": 600,
+    "hideThisFeature": false
+  },
+  "PersonaContextLists":[
+    { "PersonaContextId": "1", "Lists": [ "7d71d7c7-d0cd-463c-a199-a6126b572da4", "990e0920-62dd-46c7-bdcc-c76a5aa937d8", "738c11ab-ac36-45a7-81ed-dbd4d97beb0d", "837895ce-27c4-4866-9431-99aee35539bc", "996a53fb-9660-420b-966d-32f9d6e01b62", "277eadef-f3ca-4ba0-b9c4-03b230799dcc", "e26c0b50-7f48-42bf-99b7-3ec0fcdc3b1f", "d8ca8a8d-5a8e-473b-9da9-b430311f62e3", "209b352f-116b-410a-8770-252679a6c2c9", "37671947-86e2-4ca8-bf8a-1d947e4310ea", "9f54575c-30f1-497d-91a3-5bb9dd4867ed", "762c3f1c-aa83-4927-b18d-d08519942d78", "334b3d84-b019-449c-b47d-d6a5bd409059", "7988432c-bbbe-4ac1-b56a-6b25378b2e17", "6c528019-3c19-4d87-a181-dc4b42c05ba3", "568f7b30-e8d9-46e6-b05f-8d11c4cbd16a", "b7fcf33a-d51a-4d03-a1e1-f5b7b6e61bf5", "cc721f11-42ce-42b1-85cf-ee039596e1b1", "67661ebe-2885-4721-889b-8ef4a2ca52ce", "1789caeb-7e74-4cb8-97d9-c6166055c999" ] },
+    { "PersonaContextId": "2", "Lists": [ "7d71d7c7-d0cd-463c-a199-a6126b572da4", "990e0920-62dd-46c7-bdcc-c76a5aa937d8", "738c11ab-ac36-45a7-81ed-dbd4d97beb0d", "837895ce-27c4-4866-9431-99aee35539bc" ] },
+    { "PersonaContextId": "3", "Lists": [ "7d71d7c7-d0cd-463c-a199-a6126b572da4", "990e0920-62dd-46c7-bdcc-c76a5aa937d8", "738c11ab-ac36-45a7-81ed-dbd4d97beb0d", "837895ce-27c4-4866-9431-99aee35539bc" ] },
+    { "PersonaContextId": "4", "Lists": [ "7d71d7c7-d0cd-463c-a199-a6126b572da4", "990e0920-62dd-46c7-bdcc-c76a5aa937d8", "738c11ab-ac36-45a7-81ed-dbd4d97beb0d", "837895ce-27c4-4866-9431-99aee35539bc" ] }
+  ]
 }

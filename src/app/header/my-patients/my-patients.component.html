@@ -1,7 +1,7 @@
 <!--BEGIN LICENSE BLOCK--> 
 <!--Interneuron Terminus
 
-Copyright(C) 2023  Interneuron Holdings Ltd
+Copyright(C) 2024  Interneuron Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -18,18 +18,30 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.If not, see<http://www.gnu.org/licenses/>. -->
 <!--END LICENSE BLOCK--> 
-
+<!-- Interneuron Terminus
+Copyright(C) 2023  Interneuron Holdings Ltd
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program.If not, see<http://www.gnu.org/licenses/>. -->
 
 <button type="button" class="btn btn-google-plus text-white btn-sm btn-block" *ngIf="myPatientLoadingMessage !=='loading';else elsetemplate" id="btnMyList" (click)="showMyPatientList()">
-  <i class="icon-star"> </i> My Patients <span class="badge badge-pill bg-white" style="color: #b86a48;">{{ dataRows.length }}</span>
+  <i class="icon-star"> </i> My {{ personLabelText }}s <span class="badge badge-pill bg-white" style="color: #b86a48;">{{ dataRows.length }}</span>
 </button>
 <ng-template #elsetemplate>
   <button class="btn btn-google-plus text-white btn-sm btn-block" type="button">
     <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-     My Patients
+     My {{ personLabelText }}s
   </button>
 </ng-template>
 <div  *ngIf="myPatientLoadingMessage==='Error'" class="alert alert-danger" role="alert">
-  <a href="#" class="alert-link">Error: </a> Unable to load my patients &nbsp;
+  <a href="#" class="alert-link">Error: </a> Unable to load my {{ personLabelText }}s &nbsp;
   <button type="button" class="btn btn-google-plus text-white btn-sm " (click)="getListData()"> <i class="icon-refresh"></i></button>
 </div>

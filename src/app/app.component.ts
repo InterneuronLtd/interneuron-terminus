@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2023  Interneuron Holdings Ltd
+//Copyright(C) 2024  Interneuron Limited
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -18,7 +18,19 @@
 //You should have received a copy of the GNU General Public License
 //along with this program.If not, see<http://www.gnu.org/licenses/>.
 //END LICENSE BLOCK 
-
+// Interneuron Terminus
+// Copyright(C) 2023  Interneuron Holdings Ltd
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the
+// GNU General Public License for more details.
+// You should have received a copy of the GNU General Public License
+// along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 import { Component } from '@angular/core';
 import { AuthenticationService } from './services/authentication.service';
@@ -27,6 +39,10 @@ import { HeaderService } from './services/header.service';
 import { Module } from './Models/application.model';
 import { SharedDataContainerService } from './services/shared-data-container.service';
 import { WebStorageService } from './services/webstorage.service';
+import { RTNotificationService } from './notification/services/rt.notification.service';
+import { AppConfig } from './app.config';
+import { TerminusNotificationHandlerService } from './notification/services/terminus.notificationhandler.service';
+import { __registerNotifier } from './notification/lib/notification.observable.util_v2';
 
 @Component({
   selector: 'app-root',
@@ -44,15 +60,24 @@ export class AppComponent {
 
   title = 'interneuron-terminus';
 
+  env:string = AppConfig.settings.env;
+
   constructor(
     private authService: AuthenticationService,
     private headerService: HeaderService,
     private sharedData: SharedDataContainerService,
-    private webStorage: WebStorageService
+    private webStorage: WebStorageService,
+    private rtNotificationService: RTNotificationService,
+    private terminusNotificationHandlerService: TerminusNotificationHandlerService
   )
   {
-   this.subscribeEvents();
-  }
+    if(AppConfig.settings.enableWSConnection) {
+      this.rtNotificationService.establishConnection(null);
+      __registerNotifier();
+    }
+   
+    this.subscribeEvents();
+   }
 
 
   subscribeEvents() {
@@ -100,8 +125,9 @@ export class AppComponent {
 
   hideSecondaryModuleLoader() {
     this.headerService.loadPatientBanner.next(this.webStorage.getSessionStorageItem("terminus:personcontext"));
-    this.headerService.moduleAction.next("RELOAD_BANNER_WARNINGS")
+    this.headerService.moduleAction.next("SECONDARY_MODULE_CLOSED")
     this.secondaryModuleSelector = undefined;
+    this.sharedData.showsecondaryBanner=true;
     this.showSecondaryModule = false;
     this.appHeaderCSSClass = "app-header navbar";
     this.appBodyCSSClass = "app-body";

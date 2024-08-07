@@ -1,7 +1,7 @@
 <!--BEGIN LICENSE BLOCK--> 
 <!--Interneuron Terminus
 
-Copyright(C) 2023  Interneuron Holdings Ltd
+Copyright(C) 2024  Interneuron Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -18,5 +18,265 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.If not, see<http://www.gnu.org/licenses/>. -->
 <!--END LICENSE BLOCK--> 
-<div  style="color: #535e7e; padding:5px;" [innerHTML]="columns">
+<div style="color: #535e7e; padding:5px;" [innerHTML]="columns">
 </div>
+
+
+<div *ngIf="showbanner">
+    <div class="row">
+        <div class="col-11">
+            <div class="dropdown" style="padding-bottom: 8px;" *ngIf="displayPort != 'Desktop'">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{activetab}}
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <span *ngFor="let tab of patientBanner.columns;let indexOfelement=index;">
+                    <a class="dropdown-item" (click)="activetabClick(tab.header)" *ngIf=" tab.id != 'Location' || env != 'social_care'"
+                         href="#">{{tab.header}}</a>
+                        </span>
+                </div>
+            </div>
+            
+            <ul class="nav nav-tabs" *ngIf="displayPort === 'Desktop'">
+                <li class="nav-item " *ngFor="let tab of patientBanner.columns;let indexOfelement=index;">
+                    <a (click)="activetabClick(tab.header)" *ngIf=" tab.id != 'Location' || env != 'social_care'"
+                        [ngClass]="(tab.header == activetab) ? 'nav-link active' : 'nav-link'" aria-current="page"
+                        href="#">{{tab.header}}</a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-1">
+            <span *ngIf="env === 'social_care'" class="float-right">
+                <div title="Edit" (click)="EditBanner()" class="bannerEdit"></div>
+            </span>
+        </div>
+
+    </div>
+
+    <div *ngFor="let tab of patientBanner.columns;let indexOfelement=index;">
+        <div  [hidden]="activetab != tab.header" [attr.id]="tab.id">
+
+        </div>
+    </div>
+    
+</div>
+
+    <div id="waringhtml">
+        <div class="row">
+            <div class="col" *ngIf="env != 'social_care'">
+                <ul  class="list-group" *ngFor="let warning of sharedData.mainWarnings">
+
+                    <li class="list-group-item">
+                        <strong> <i class="fa fa-exclamation-triangle text-danger" aria-hidden="true"></i> &nbsp; {{
+                            warning.warningheader }} </strong> <img style="width: 40px ; height: 30px;;"  (click)="ResolveBannerWarning(warning)" src="assets/images/Edit _Button_Small.svg">
+                        <p [innerHTML]="warning.warningdetail"> </p>
+                       
+                    </li>
+                </ul>
+            </div>
+            <div class="col" *ngIf="sharedData.mainAllergies">
+            
+                <ul class="list-group" >
+                    <li class="list-group-item">
+                      <p class="h6" style="color: #535e7e;">
+                        <a (click)="resolveModule()">
+                          Allergies <span class="badge" style="background-color: #535e7e; color: white">{{ sharedData.mainAllergies.allergycount }}</span>
+                          <img style="width: 40px ; height: 30px;;" src="assets/images/Edit _Button_Small.svg">
+                        </a>
+                      </p>
+                      <div [innerHTML]= 'sharedData.mainAllergies.allergies'></div>
+                    </li>
+                  </ul>
+        
+                  <ul class="list-group"  *ngIf="sharedData.mainAllergies.adversereactioncount > 0">
+                    <li class="list-group-item">
+                      <p class="h6" style="color: #535e7e;">
+                        Adverse Drug Reactions  <span class="badge" style="background-color: #535e7e; color: white">{{ sharedData.mainAllergies.adversereactioncount }}</span>
+                      </p>
+                      <div [innerHTML]= 'sharedData.mainAllergies.adversedrugreactions'></div>
+                    </li>
+                  </ul>
+        
+                  <ul class="list-group" *ngIf="sharedData.mainAllergies.sensitivityintolerancecount > 0">
+                    <li class="list-group-item">
+                      <p class="h6" style="color: #535e7e;">
+                        Sensitivity / Intolerances  <span class="badge" style="background-color: #535e7e; color: white">{{ sharedData.mainAllergies.sensitivityintolerancecount }}</span>
+                      </p>
+                      <div [innerHTML]= 'sharedData.mainAllergies.sensitityintolerances'></div>
+                    </li>
+                  </ul>
+        
+                  <ul class="list-group" *ngIf="sharedData.mainAllergies.cautioncount > 0">
+                    <li class="list-group-item">
+                      <p class="h6" style="color: #535e7e;">
+                        Cautions  <span class="badge" style="background-color: #535e7e; color: white">{{ sharedData.mainAllergies.cautioncount }}</span>
+                      </p>
+                      <div [innerHTML]= 'sharedData.mainAllergies.cautions'></div>
+                    </li>
+                  </ul>
+        
+        
+                  
+            </div>
+          
+        </div>
+        <div class="row">
+          <div class="col" *ngIf="env == 'social_care'">
+            <ul  class="list-group">
+
+                <li class="list-group-item">
+                    <strong> Red Flags </strong><br>
+                    <div style="word-wrap: break-word; white-space: pre-line; white-space: pre-wrap;" [innerHTML]="redflags"></div>
+    
+                </li>
+            </ul>
+          </div>
+        </div>
+       
+    </div>
+  <ng-container *ngIf="activetab === 'Clinical Information' && !hideGPConnectFeature && gpConnect && objectKeys(gpConnect)
+  && objectKeys(gpConnect).length">
+    <div class="row m-2 w-100" *ngIf="gpConnect.syncState === 0; else otherStatus">
+      GP Connect <span class="font-weight-bold ml-1"> (Please synchronise to see latest medicines.)</span>
+    </div>
+    <ng-template #otherStatus>
+      <div class="row" *ngIf="gpConnect.data">
+        <div class="card m-0 mx-3 p-0 w-100 border-top-0">
+          <div class="mx-3 my-2">
+            <strong>GP Connect (Synchronised on: {{gpConnect.data.lastSyncDate | date:'dd/MM/yyyy'}}).</strong>
+          </div>
+          <div *ngIf="gpConnect.msgs && gpConnect.msgs.length" class="alert alert-primary mx-1 my-0 p-1 font-italic" role="alert" style="background: #F0F4FF;">
+            <div class="d-flex flex-row">
+              <div class="p-1"><i class="icon-info mr-1" style="color: #007bff;"></i></div>
+              <div class="p-1" *ngIf="readMoreGPMsg">
+                <p class="p-0 m-0" *ngFor="let msg of gpConnect.msgs">
+                {{msg}}
+                </p>
+                <a href="javascript:;" (click)="readMoreGPMsg=false">View Less</a>
+              </div>
+              <div class="p-1" *ngIf="!readMoreGPMsg">
+                <p class="p-0 m-0">
+                  <ng-container *ngIf="gpConnectMsgLen > 100">
+                    {{gpConnect.msgs[0] | slice:0:100}}...
+                    <a href="javascript:;" (click)="readMoreGPMsg=true">View More</a>
+                  </ng-container>
+                  <ng-container *ngIf="gpConnectMsgLen <= 100">
+                    {{gpConnect.msgs[0]}}
+                  </ng-container>
+                </p>
+              </div>
+            </div> 
+          </div>
+          <div class="table-responsive px-3 py-1">
+            <p class="font-weight-bold my-1">Current Repeat Medications</p>
+            <p *ngIf="!gpConnect.data.currentRepeatMedications || !gpConnect.data.currentRepeatMedications.length">
+              No repeat medications.
+            </p>
+            <table class="table" *ngIf="gpConnect.data.currentRepeatMedications && gpConnect.data.currentRepeatMedications.length">
+              <thead class="table-light">
+                <tr>
+                  <!-- <th scope="col">Type</th> -->
+                  <th scope="col">Start Date</th>
+                  <th scope="col">Medication Name</th>
+                  <th scope="col">Dosage Instruction</th>
+                  <!-- <th scope="col">Quantity</th>-->
+                  <th scope="col">Last Issued Date</th>
+                  <th scope="col">Number of Prescriptions Issued</th>
+                  <th scope="col">Max Issues</th>
+                  <th scope="col">Review Date</th> 
+                  <th scope="col">Additional Information</th>
+                </tr>
+              </thead>
+              <tbody >
+                <tr *ngFor="let repeat of gpConnect.data.currentRepeatMedications">
+                  <!-- <td>{{repeat.medicationType }}</td> -->
+                  <td>{{repeat.medicationStartDate | date:'dd/MM/yyyy'}}</td>
+                  <td>{{!repeat.medicationItem || !repeat.medicationItem.length ? '': repeat.medicationItem[0].text}}</td>
+                  <td>{{repeat.dosageInstruction}}</td>
+                  <!-- <td>{{repeat.quantity}}</td>-->
+                  <td>{{repeat.lastIssuedDate | date:'dd/MM/yyyy'}}</td>
+                  <td>{{repeat.numberOfPrescriptionsIssued}}</td>
+                  <td>{{repeat.maxIssues}}</td>
+                  <td>{{repeat.reviewDate | date:'dd/MM/yyyy'}}</td> 
+                  <td>{{repeat.additonalInformation}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="table-responsive px-3 py-1" >
+            <p class="font-weight-bold my-1">Acute Medication (Last {{acuteMedicationsSinceInMonths}} months)</p>
+            <p *ngIf="!gpConnect.data.currentAcuteMedications || !gpConnect.data.currentAcuteMedications.length">
+              No acute medications.
+            </p>
+            <table class="table" *ngIf="gpConnect.data.currentAcuteMedications && gpConnect.data.currentAcuteMedications.length">
+              <thead class="table-light">
+                <tr>
+                  <!-- <th scope="col">Type</th> -->
+                  <th scope="col">Start Date</th>
+                  <th scope="col">Until</th>
+                  <th scope="col">Medication Name</th>
+                  <th scope="col">Quantity</th>
+                  <th scope="col">Dosage Instruction</th>
+                  <!--<th scope="col">Scheduled End Date</th>
+                  <th scope="col">Days duration</th> -->
+                  <th scope="col">Additional Information</th>
+                </tr>
+              </thead>
+              <tbody >
+                <tr *ngFor="let repeat of gpConnect.data.currentAcuteMedications">
+                  <!-- <td>{{repeat.medicationType }}</td> -->
+                  <td>{{repeat.medicationStartDate | date:'dd/MM/yyyy'}}</td>
+                  <td>{{getScheduleEndDtForGPCData(repeat.scheduledEndDate, repeat.daysDuration, repeat.medicationStartDate)}}</td>
+                  <td>{{!repeat.medicationItem || !repeat.medicationItem.length ? '': repeat.medicationItem[0].text}}</td>
+                  <td>{{repeat.quantity}}</td>
+                  <td>{{repeat.dosageInstruction}}</td>
+                  <!--<td>{{removeTimePartIfExists(repeat.scheduledEndDate)}}</td>
+                  <td>{{repeat.daysDuration}}</td> -->
+                  <td>{{repeat.additonalInformation}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="table-responsive px-3 py-1" >
+            <p class="font-weight-bold my-1">Allergies</p>
+            <p *ngIf="!gpConnect.data.allergies || !gpConnect.data.allergies.length">
+              No allergies.
+            </p>
+            <table class="table" *ngIf="gpConnect.data.allergies && gpConnect.data.allergies.length">
+              <thead class="table-light">
+                <tr>
+                  <!-- <th scope="col">Type</th> -->
+                  <th scope="col">Start Date</th>
+                  <th scope="col">End Date</th>
+                  <th scope="col">Detail</th>
+                  <th scope="col">Last Occurrence</th>
+                  <th scope="col">Clinical Status</th>
+                  <th scope="col">Criticality</th>
+                  <th scope="col">Reactions</th>
+                </tr>
+              </thead>
+              <tbody >
+                <tr *ngFor="let allergy of gpConnect.data.allergies">
+                  <td>{{allergy.startDate | date:'dd/MM/yyyy'}}</td>
+                  <td>{{allergy.endDate | date:'dd/MM/yyyy'}}</td>
+                  <td>{{displayGPAllergyDetail(allergy)}}</td>
+                  <td>{{allergy.lastOccurrence | date:'dd/MM/yyyy'}}</td>
+                  <td>{{allergy.clinicalStatus}}</td>
+                  <td>{{allergy.criticality}}</td>
+                  <td>
+                    <ng-container *ngIf="displayGPAllergyReactions(allergy)">
+                      <li *ngFor="let reaction of displayGPAllergyReactions(allergy)">
+                          {{reaction}}
+                      </li>
+                    </ng-container>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+    
+  </ng-container>

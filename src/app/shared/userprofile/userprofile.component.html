@@ -1,0 +1,188 @@
+<!--BEGIN LICENSE BLOCK--> 
+<!--Interneuron Terminus
+
+Copyright(C) 2024  Interneuron Limited
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.If not, see<http://www.gnu.org/licenses/>. -->
+<!--END LICENSE BLOCK--> 
+<div>
+  <!-- Button trigger modal -->
+  <button type="button" #userProfileBtn class="btn btn-primary" style="display:none" data-toggle="modal"
+    data-target="#userProfileModal" data-backdrop="static">
+    Proxy trigger</button>
+
+  <!-- Modal -->
+  <div class="modal fade" #userProfileModal id="userProfileModal" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 id="dialog-auto-name" class="modal-title pull-left">
+            User Profile
+            <span class="ml-2">
+              <ng-container *ngIf="_loadingUserProfile">
+                <span class="spinner-grow spinner-grow-sm mb-1" role="status">
+                  <span class="sr-only">Loading...</span>
+                </span>
+                <span class="spinner-grow spinner-grow-sm mb-1" role="status">
+                  <span class="sr-only">Loading...</span>
+                </span>
+                <span class="spinner-grow spinner-grow-sm mb-1" role="status">
+                  <span class="sr-only">Loading...</span>
+                </span>
+              </ng-container>
+            </span>
+          </h4>
+          <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="hideModal(false)">
+            <span aria-hidden="true" class="visually-hidden">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="container">
+            <form #userProfileForm="ngForm">
+              <!-- <div class="row">
+              <div class="col">
+                <div class="mb-3">
+                  <label for="userId" class="form-label">User Unique Id</label>
+                  <input readonly type="text" class="form-control" id="userId" name="userId" required="true"
+                    [(ngModel)]="_userProfileDetail.useruniqueid" />
+                </div>
+              </div>
+            </div> -->
+              <div class="row">
+                <div class="col">
+                  <user-profile-picture [(ngModel)]="_userProfileDetail.profileimagepath"></user-profile-picture>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-2">
+                  <div class="mb-3">
+                    <label for="user_Prefix" class="form-label">Title<span class="text-danger">*</span>
+                    </label>
+                    <select class="form-control" data-val="true" data-val-required="Please select prefix"
+                      [(ngModel)]="_userProfileDetail.prefix" #user_Prefix="ngModel" required id="user_Prefix"
+                      name="userPrefix">
+                      <option value="">Select Prefix</option>
+                      <option>Dr</option>
+                      <option>Mr</option>
+                      <option>Miss</option>
+                      <option>Mrs</option>
+                      <option>Ms</option>
+                    </select>
+                    <span class="text-danger" *ngIf="(user_Prefix.touched) && user_Prefix.errors?.required">Title is
+                      required</span>
+                  </div>
+                </div>
+                <div class="col-5 ml-0 pl-0">
+                  <div class="mb-3">
+                    <label for="userFirstName" class="form-label">First Name<span class="text-danger">*</span></label>
+                    <input [readonly]="_isEditMode" type="text" class="form-control" id="userFirstName"
+                      name="userFirstName" required #userFirstName="ngModel" placeholder="Enter First Name"
+                      [(ngModel)]="_userProfileDetail.firstname" />
+                    <span class="text-danger" *ngIf="(userFirstName.touched) && userFirstName.errors?.required">First
+                      Name is required</span>
+                  </div>
+                </div>
+                <div class="col-5 ml-0 pl-0">
+                  <div class="mb-3">
+                    <label for="userLastName" class="form-label">Last Name<span class="text-danger">*</span></label>
+                    <input [readonly]="_isEditMode" required="true" type="text" class="form-control" id="userLastName"
+                      name="userLastName" #userLastName="ngModel" placeholder="Enter Last Name"
+                      [(ngModel)]="_userProfileDetail.lastname" />
+                    <span class="text-danger" *ngIf="(userLastName.touched) && userLastName.errors?.required">Last Name
+                      is required</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-6">
+                  <div class="mb-3">
+                    <label for="userJobTitle" class="form-label">Job Title<span class="text-danger">*</span></label>
+                    <input [readonly]="_isEditMode" required="true" type="text" class="form-control" id="userJobTitle"
+                      name="userJobTitle" #userJobTitle="ngModel" placeholder="Job Title"
+                      [(ngModel)]="_userProfileDetail.jobtitle" />
+                    <span class="text-danger" *ngIf="(userJobTitle.touched) && userJobTitle.errors?.required">Job Title
+                      is required</span>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="mb-3">
+                    <label for="userDepartment" class="form-label">Department</label>
+                    <input type="text" class="form-control" id="userDepartment" name="userDepartment"
+                      #userDepartment="ngModel" [(ngModel)]="_userProfileDetail.department" />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <div class="mb-3">
+                    <label for="userEmail" class="form-label">Email Id</label>
+                    <input [readonly]="_isEditMode && _userProfileDetail.emailid" [email]="true"
+                      pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}" type="email" class="form-control"
+                      id="userEmail" name="userEmail" #userEmail="ngModel" [(ngModel)]="_userProfileDetail.emailid" />
+                    <span class="text-danger" *ngIf="userEmail?.errors?.pattern">Email is invalid</span>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="mb-3">
+                    <label for="userPhoneNo" class="form-label">Phone Number</label>
+                    <input [readonly]="_isEditMode && _userProfileDetail.phonenumber" type="tel" class="form-control"
+                      id="userPhoneNo" name="userPhoneNo" [(ngModel)]="_userProfileDetail.phonenumber" />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <div class="mb-3">
+                    <label for="userConsultantCode" class="form-label">Professional Registration Number</label>
+                    <input type="text" class="form-control" id="userConsultantCode" name="userConsultantCode"
+                      [(ngModel)]="_userProfileDetail.consultantcode" />
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="mb-3">
+                    <label for="userEmployer" class="form-label">Employer</label>
+                    <input readonly type="text" class="form-control" id="userEmployer" name="userEmployer"
+                      [(ngModel)]="_userProfileDetail.employer" />
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div class="row" *ngIf="!_isSaving">
+            <div class="col-sm-6">
+              <button type="button" class="btn btn-secondary" (click)="hideModal(false)">Cancel</button>
+            </div>
+            <div class="col-sm-6">
+              <button type="button" class="btn btn-primary btn-block" (click)="saveUserProfile()">Save</button>
+            </div>
+          </div>
+          <div class="row" *ngIf="_isSaving">
+            <div class="col text-right">
+              <button type="button" class="btn btn-primary" disabled>
+                <span class="spinner-border spinner-border-sm"></span>
+                Saving..
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

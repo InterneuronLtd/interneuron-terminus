@@ -1,4 +1,6 @@
 .patientBannerHolder {
+  height: 116px;
+    font-size: 12px;
   background-color: rgb(246, 242, 242);
   padding: 7px;
 

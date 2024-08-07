@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2023  Interneuron Holdings Ltd
+//Copyright(C) 2024  Interneuron Limited
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -18,7 +18,19 @@
 //You should have received a copy of the GNU General Public License
 //along with this program.If not, see<http://www.gnu.org/licenses/>.
 //END LICENSE BLOCK 
-
+// Interneuron Terminus
+// Copyright(C) 2023  Interneuron Holdings Ltd
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the
+// GNU General Public License for more details.
+// You should have received a copy of the GNU General Public License
+// along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HeaderService } from '../../services/header.service';
@@ -32,6 +44,7 @@ import { RbacService } from "../../services/rbac.service";
 import * as jwt_decode from "jwt-decode";
 import { Rbacobject } from '../../Models/Filter.model';
 import { Application } from 'src/app/Models/application.model';
+import { PersonaContext } from 'src/app/Models/personaContext.model';
 
 
 @Component({
@@ -47,6 +60,7 @@ export class ListsComponent implements OnInit, OnDestroy {
   selectedList: string;
   RbacList: Rbacobject[] = [];
 
+  selectedPersonaContext: string;
 
   constructor(
     private headerService: HeaderService,
@@ -66,6 +80,14 @@ export class ListsComponent implements OnInit, OnDestroy {
         //
       }
     );
+
+    this.headerService.selectedPersonaContext.subscribe(
+      (value:PersonaContext) => {
+        this.selectedPersonaContext = value.personacontext_id;
+        if(this.applicationId){
+          this.getApplicationList(this.applicationId);
+        }
+    });
 
   }
 
@@ -116,15 +138,21 @@ export class ListsComponent implements OnInit, OnDestroy {
           let AllapplicationLists = <ApplicationList[]>JSON.parse(applicationLists);
           AllapplicationLists =AllapplicationLists.filter(x => x.application_id === applicationId);
 
+          if(AppConfig.settings.PersonaContextLists && AppConfig.settings.PersonaContextLists.length > 0){
+            let filteredPersonaContextLists = AppConfig.settings.PersonaContextLists.filter(x => x.PersonaContextId == this.selectedPersonaContext);
 
+            if(filteredPersonaContextLists && filteredPersonaContextLists.length > 0){
+              AllapplicationLists = AllapplicationLists.filter(lists => filteredPersonaContextLists[0].Lists.some(filteredList => filteredList == lists.listid));
+            }
+          }
 
-           for (var i = 0; i < AllapplicationLists.length; i++) {
+          for (var i = 0; i < AllapplicationLists.length; i++) {
             let length=   this.RbacList.filter(x => x.objectname.toLowerCase() ==AllapplicationLists[i].listname.toLowerCase()).length;
 
-           if(length>0)
-           {
-            this.applicationLists.push(AllapplicationLists[i]);
-           }
+            if(length>0)
+            {
+              this.applicationLists.push(AllapplicationLists[i]);
+            }
           }
           if (this.applicationLists.length > 0) {
             if (this.webStorageService.getLocalStorageItem("Terminus:" + this.logedinUserID + ":ListType") == null) {

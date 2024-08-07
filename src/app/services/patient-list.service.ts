@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2023  Interneuron Holdings Ltd
+//Copyright(C) 2024  Interneuron Limited
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -18,6 +18,19 @@
 //You should have received a copy of the GNU General Public License
 //along with this program.If not, see<http://www.gnu.org/licenses/>.
 //END LICENSE BLOCK 
+// Interneuron Terminus
+// Copyright(C) 2023  Interneuron Holdings Ltd
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the
+// GNU General Public License for more details.
+// You should have received a copy of the GNU General Public License
+// along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 import { Injectable, OnInit, OnDestroy } from '@angular/core';
 import { DataRow } from '../Models/dataRow.model';
@@ -30,6 +43,7 @@ import { PersonaContext } from '../Models/personaContext.model';
 import { filter } from '../Models/Filter.model';
 import { filterparam } from '../Models/Filterparam.model';
 import { FilterRootObject } from '../Models/FilterRootObject.model';
+import { from, Observable, Subscription } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -43,6 +57,8 @@ export class PatientListService implements OnInit, OnDestroy {
   selectedpersonaContext: string = "";
   selectedApplicationPatientlist: string = "";
   selectedDisplayPort: string = "";
+  listsub: Subscription = new Subscription();
+
   constructor(
     private apicaller: ApirequestService,
     private errorHandlerService: ErrorHandlerService,
@@ -55,7 +71,7 @@ export class PatientListService implements OnInit, OnDestroy {
 
         this.selectedpersona = persona;
       },
-     error => this.errorHandlerService.handleError(error)
+      error => this.errorHandlerService.handleError(error)
     );
     //Read persona from Persona Header DropDown Selected
     this.headerService.selectedPersonaID.subscribe(
@@ -75,6 +91,7 @@ export class PatientListService implements OnInit, OnDestroy {
       error => this.errorHandlerService.handleError(error)
     );
     //Read current patient list from dropdown for application
+
     this.headerService.selectedApplicationPatientlist.subscribe(
       (selectedApplicationPatientlist: string) => {
         this.selectedApplicationPatientlist = selectedApplicationPatientlist;
@@ -102,74 +119,77 @@ export class PatientListService implements OnInit, OnDestroy {
       this.headerService.wardPatientTabularData.next(this.dataRows);
       return;
     }
+
+    this.headerService.patientMessage.next("Loading...");
+    this.listsub.unsubscribe();
+    this.listsub = new Subscription();
+    this.listsub.add(this.GetListData().subscribe(
+      (response: any[]) => {
+        if (response.length > 0) {
+          let Rows: DataRow[] = [];
+          let properties = Object.keys(response[0]);
+          for (let res of response) {
+            let Row: DataRow = new DataRow;
+            for (let property of properties) {
+              let Column: DataColumn;
+              Column = JSON.parse(res[property]);
+              Row.columns.push(Column);
+            }
+            Rows.push(Row);
+          }
+
+          this.dataRows = Rows;
+          this.headerService.wardPatientTabularData.next(this.dataRows);
+          this.headerService.patientMessage.next("");
+        }
+        else {
+          this.dataRows = [];
+          this.headerService.patientMessage.next("No Patients");
+          this.headerService.wardPatientTabularData.next(this.dataRows);
+        }
+      },
+      (error) => {
+        this.errorHandlerService.handleError(error),
+          this.dataRows = []
+        this.headerService.wardPatientTabularData.next(this.dataRows)
+        this.headerService.patientMessage.next("Error")
+      }
+    ));
+  }
+
+  GetListData(): Observable<any> {
     //json body/data for filter
     let postBody = ` [{
-                    "filters": [{
-                      "filterClause": "\\\"`+ this.selectedpersonaID + `\\\" = @value"
-                    }]
-                  }, {
-                    "filterparams": [{
-                      "paramName": "value",
-                      "paramValue": "`+ this.selectedpersonaContext + `"
-                    }]
-                  }, {
-                    "selectstatement": "SELECT *"
-                  }]`;
+                          "filters": [{
+                            "filterClause": "\\\"`+ this.selectedpersonaID + `\\\" = @value"
+                          }]
+                        }, {
+                          "filterparams": [{
+                            "paramName": "value",
+                            "paramValue": "`+ this.selectedpersonaContext + `"
+                          }]
+                        }, {
+                          "selectstatement": "SELECT *"
+                        }]`;
 
 
     if (this.selectedpersona == "Hospital") {
 
       postBody = `[{
-  "filters": [{
-    "filterClause": "'1' = @hosp"
-  }]
-}, {
-  "filterparams": [{
-    "paramName": "@hosp",
-    "paramValue": "1"
-  }]
-}, {
-  "selectstatement": "SELECT *"
-}]`
+                "filters": [{
+                "filterClause": "'1' = @hosp"
+                }]
+                }, {
+                "filterparams": [{
+                "paramName": "@hosp",
+                "paramValue": "1"
+                }]
+                }, {
+                "selectstatement": "SELECT *"
+                }]`
     }
 
-
-
-      this.headerService.patientMessage.next("Loading...");
-      this.apicaller.postRequest(AppConfig.settings.apiServices.find(x => x.serviceName == 'PostPatientList').serviceUrl + this.selectedApplicationPatientlist, postBody)
-        .then(
-          (response: any[]) => {
-            if (response.length > 0) {
-              let Rows: DataRow[] = [];
-              let properties = Object.keys(response[0]);
-              for (let res of response) {
-                let Row: DataRow = new DataRow;
-                for (let property of properties) {
-                  let Column: DataColumn;
-                  Column = JSON.parse(res[property]);
-                  Row.columns.push(Column);
-                }
-                Rows.push(Row);
-              }
-
-              this.dataRows = Rows;
-              this.headerService.wardPatientTabularData.next(this.dataRows);
-              this.headerService.patientMessage.next("");
-            }
-            else {
-              this.dataRows = [];
-              this.headerService.patientMessage.next("No Patients");
-              this.headerService.wardPatientTabularData.next(this.dataRows);
-            }
-          },
-          error => {
-            this.errorHandlerService.handleError(error),
-            this.dataRows = []
-            this.headerService.wardPatientTabularData.next(this.dataRows)
-            this.headerService.patientMessage.next("Error")
-          }
-        );
-
-    }
+    return from(this.apicaller.postRequest(AppConfig.settings.apiServices.find(x => x.serviceName == 'PostPatientList').serviceUrl + this.selectedApplicationPatientlist, postBody));
   }
 
+}

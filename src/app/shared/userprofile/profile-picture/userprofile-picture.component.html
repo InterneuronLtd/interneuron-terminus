@@ -1,0 +1,26 @@
+<!--BEGIN LICENSE BLOCK--> 
+<!--Interneuron Terminus
+
+Copyright(C) 2024  Interneuron Limited
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.If not, see<http://www.gnu.org/licenses/>. -->
+<!--END LICENSE BLOCK--> 
+<div class="profile-picture" [ngStyle]="{'background-image': urlOrData ? '': 'url(' + 'assets/images/profile-placeholder.png' + ')'}">
+    <img *ngIf="urlOrData" src="{{urlOrData}}" />
+    <!-- <i  class="fa fa-pencil-square-o position-absolute edit-icon" role="button"   aria-hidden="true" (click)="fileInputClick()"></i> -->
+    <div title="Edit" (click)="fileInputClick()" class="edit-icon" [ngStyle]="{'background-image': 'url(' + 'assets/images/Edit.svg' + ')'}"></div>
+    <input #fileInput *ngIf="editmode" type="file" accept="image/*"  (change)="fileChange($event)" id="uploader-input" style="display:none" />
+</div>

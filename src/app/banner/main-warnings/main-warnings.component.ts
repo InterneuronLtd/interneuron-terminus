@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2023  Interneuron Holdings Ltd
+//Copyright(C) 2024  Interneuron Limited
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -26,6 +26,7 @@ import { BrowserModel } from 'src/app/Models/browser.model';
 import { ApirequestService } from 'src/app/services/apirequest.service';
 import { HeaderService } from 'src/app/services/header.service';
 import { ResizeService } from 'src/app/services/resize.service';
+import { SharedDataContainerService } from 'src/app/services/shared-data-container.service';
 import { UserAgentService } from 'src/app/services/user-agent.service';
 
 
@@ -50,7 +51,7 @@ export class MainWarningsComponent implements OnInit, OnDestroy {
 
   selectedView: string = "collapsed";
 
-  constructor(private reqService: ApirequestService, private resizeService: ResizeService, private headerService: HeaderService, private userAgentService: UserAgentService) { }
+  constructor( public sharedData: SharedDataContainerService,private reqService: ApirequestService, private resizeService: ResizeService, private headerService: HeaderService, private userAgentService: UserAgentService) { }
 
   ngOnInit() {
     this.resizeSubscription = this.resizeService.displayPort$.subscribe((value:any) => {
@@ -61,7 +62,9 @@ export class MainWarningsComponent implements OnInit, OnDestroy {
     this.isLatestAndGreatest = this.userAgentService.checkIfLatestAndGreatest();
   }
 
-
+  updateExpandbanner(){
+    this.sharedData.showExpandedBanner = ! this.sharedData.showExpandedBanner
+  }
 
   ngOnDestroy() {
     if (this.resizeSubscription) {
@@ -97,12 +100,14 @@ export class MainWarningsComponent implements OnInit, OnDestroy {
           (response) => {
             if(response) {
               this.mainWarnings = JSON.parse(response);
+              this.sharedData.mainWarnings = JSON.parse(response);
               this.sendWarningsResponse(true);
 
               for(var i = 0; i < this.mainWarnings.length; i++)
               {
                 if(this.warningGroups.indexOf(this.mainWarnings[i].warninggroup) === -1) {
                   this.warningGroups.push(this.mainWarnings[i].warningdisplaygroup);
+                
               }
 
               }

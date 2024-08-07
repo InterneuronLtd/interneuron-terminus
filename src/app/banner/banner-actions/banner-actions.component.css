@@ -18,6 +18,35 @@ i.icon-arrow-up, i.icon-arrow-down {
   overflow-y: auto;
 }
 
+.bannerEdit {
+  width: 40px;
+  height: 30px;
+  background-repeat: no-repeat;
+  background-image: url("/assets/images/Edit.svg");
+  background-position: center;
+}
+
+.Reference_weight {
+  width: 25px;
+  height: 34px;
+  background-repeat: no-repeat;
+  background-image: url("/assets/images/Reference_weight.svg");
+  background-position: center;
+}
+.VidioControle{
+  width: 25px;
+  height: 34px;
+  background-repeat: no-repeat;
+  background-image: url("/assets/images/video.svg");
+  background-position: center;
+}
+.Reference_height {
+  width: 25px;
+  height: 34px;
+  background-repeat: no-repeat;
+  background-image: url("/assets/images/Reference_height.svg");
+  background-position: center;
+}
 
 .dropbtn {
 

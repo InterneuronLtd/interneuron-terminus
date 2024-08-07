@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2023  Interneuron Holdings Ltd
+//Copyright(C) 2024  Interneuron Limited
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -26,6 +26,7 @@ import { BrowserModel } from 'src/app/Models/browser.model';
 import { ApirequestService } from 'src/app/services/apirequest.service';
 import { HeaderService } from 'src/app/services/header.service';
 import { ResizeService } from 'src/app/services/resize.service';
+import { SharedDataContainerService } from 'src/app/services/shared-data-container.service';
 import { UserAgentService } from 'src/app/services/user-agent.service';
 
 @Component({
@@ -45,10 +46,12 @@ export class MainAllergiesComponent implements OnInit, OnDestroy {
   isLatestAndGreatest: Boolean = false;
 
   selectedView: string = "collapsed";
+  totalAllergiesCount: number = 0;
 
-  constructor(private reqService: ApirequestService, private resizeService: ResizeService, private headerService: HeaderService, private userAgentService: UserAgentService) { }
+  constructor(public sharedData: SharedDataContainerService,private reqService: ApirequestService, private resizeService: ResizeService, private headerService: HeaderService, private userAgentService: UserAgentService) { }
 
   ngOnInit() {
+
     this.resizeSubscription = this.resizeService.displayPort$.subscribe((value:any) => {
       this.displayPort = value;
     });
@@ -88,13 +91,17 @@ export class MainAllergiesComponent implements OnInit, OnDestroy {
   }
 
 
-
+  updateExpandbanner(){
+    this.sharedData.showExpandedBanner = ! this.sharedData.showExpandedBanner
+  }
   async getData() {
       await this.reqService.getRequest(AppConfig.settings.apiServices.find(x => x.serviceName == 'GetBannerMainAllergies').serviceUrl + '?synapseattributename=person_id&attributevalue=' + this.personId)
         .then(
           (response) => {
             if(response) {
               this.mainAllergies = JSON.parse(response)[0];
+              this.totalAllergiesCount = this.mainAllergies.allergycount + this.mainAllergies.adversereactioncount + this.mainAllergies.sensitivityintolerancecount + this.mainAllergies.cautioncount;
+              this.sharedData.mainAllergies = JSON.parse(response)[0];
               this.sendAllergiesResponse(true);
             }
           }

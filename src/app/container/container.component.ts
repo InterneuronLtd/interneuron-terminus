@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2023  Interneuron Holdings Ltd
+//Copyright(C) 2024  Interneuron Limited
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -18,9 +18,21 @@
 //You should have received a copy of the GNU General Public License
 //along with this program.If not, see<http://www.gnu.org/licenses/>.
 //END LICENSE BLOCK 
+// Interneuron Terminus
+// Copyright(C) 2023  Interneuron Holdings Ltd
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the
+// GNU General Public License for more details.
+// You should have received a copy of the GNU General Public License
+// along with this program.If not, see<http://www.gnu.org/licenses/>.
 
-
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, ViewChild, HostListener } from '@angular/core';
 import { HeaderService } from '../services/header.service';
 import { ErrorHandlerService } from '../services/error-handler.service';
 import { WebComponentLoaderService } from '../services/web-component-loader.service';
@@ -32,6 +44,8 @@ import { ApirequestService } from '../services/apirequest.service';
 import { AppConfig } from '../app.config';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { SharedDataContainerService } from '../services/shared-data-container.service';
+import { MeetingRendererService } from '../services/meeting-renderer.service';
+
 
 
 @Component({
@@ -42,7 +56,7 @@ import { SharedDataContainerService } from '../services/shared-data-container.se
 export class ContainerComponent implements OnInit, OnDestroy {
 
 
-
+  personLabelText: string = AppConfig.settings.personLabelText ? AppConfig.settings.personLabelText : "Patient";
 
   showExpandedList: boolean = false;
   showPatientList: boolean = false;
@@ -52,11 +66,12 @@ export class ContainerComponent implements OnInit, OnDestroy {
   selectedValue: string;
   p: number; //current page
 
-
+  isVisible: boolean = true;
 
   logedinUserID: string;
 
   messageDisplay: string = "";
+  
 
   constructor(private headerService: HeaderService,
     private errorHandlerService: ErrorHandlerService,
@@ -64,7 +79,9 @@ export class ContainerComponent implements OnInit, OnDestroy {
     private webStorageService: WebStorageService,
     private reqService: ApirequestService,
     private authService: AuthenticationService,
-    private sharedData: SharedDataContainerService
+    public sharedData: SharedDataContainerService,
+    public meetingRenderer: MeetingRendererService,
+    private apiCaller: ApirequestService
   ) {
     this.subscribeEvents();
   }
@@ -76,6 +93,7 @@ export class ContainerComponent implements OnInit, OnDestroy {
 
       this.logedinUserID = decodedToken.IPUId;
     }
+    
   }
 
   subscribeEvents() {
@@ -91,7 +109,7 @@ export class ContainerComponent implements OnInit, OnDestroy {
     //Load data from  SideBar patient List PatientListsTabularData
     this.headerService.PatientListsTabularData.subscribe(
       (DataRow: DataRow[]) => {
-        if (this.patientListHeader != "My Patients") {
+        if (this.patientListHeader != `My ${this.personLabelText}s`) {
           this.dataRows = DataRow;
           this.showPatientList = this.dataRows.length > 0 ? true : false;
         }
@@ -101,7 +119,7 @@ export class ContainerComponent implements OnInit, OnDestroy {
     //Load data from patient list
     this.headerService.wardPatientTabularData.subscribe(
       (DataRow: DataRow[]) => {
-        if (this.patientListHeader != "My Patients") {
+        if (this.patientListHeader != `My ${this.personLabelText}s`) {
           this.dataRows = DataRow;
           this.showPatientList = this.dataRows.length > 0 ? true : false;
         }
@@ -113,7 +131,7 @@ export class ContainerComponent implements OnInit, OnDestroy {
       (DataRow: DataRow[]) => {
         this.dataRows = DataRow;
         this.showPatientList = this.dataRows.length > 0 ? true : false;
-        this.patientListHeader = "My Patients";
+        this.patientListHeader = `My ${this.personLabelText}s`;
       },
       error => this.errorHandlerService.handleError(error)
     );
@@ -145,6 +163,7 @@ export class ContainerComponent implements OnInit, OnDestroy {
     this.headerService.selectedModule.subscribe(
       (module: Module) => {
         try {
+
           this.moduleLoader.loadComponent(module);
         } catch (error) {
           //console.log("error loading component:" + error)
@@ -183,6 +202,8 @@ export class ContainerComponent implements OnInit, OnDestroy {
       },
       error => this.errorHandlerService.handleError(error)
     );
+
+    
 
   }
 
@@ -250,4 +271,19 @@ export class ContainerComponent implements OnInit, OnDestroy {
         }
       );
   }
+
+  @HostListener("window:afterprint")
+  onafterprint() {
+    if(!this.isVisible){
+      this.isVisible = true;
+    }
+  }
+  @HostListener("window:beforeprint")
+  onbeforeprint() {
+    if(this.isVisible){
+      this.isVisible = false;
+    }
+  }
+
+
 }

@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2023  Interneuron Holdings Ltd
+//Copyright(C) 2024  Interneuron Limited
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -18,7 +18,19 @@
 //You should have received a copy of the GNU General Public License
 //along with this program.If not, see<http://www.gnu.org/licenses/>.
 //END LICENSE BLOCK 
-
+// Interneuron Terminus
+// Copyright(C) 2023  Interneuron Holdings Ltd
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the
+// GNU General Public License for more details.
+// You should have received a copy of the GNU General Public License
+// along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 import { Injectable } from '@angular/core';
 import { UserManager, User } from 'oidc-client';
@@ -31,10 +43,11 @@ import * as jwt_decode from "jwt-decode";
 export class AuthenticationService {
   manager: UserManager;
   user: User = null;
+  onLogoutCallback: () => void | null;
 
   constructor() {
     //var settings = {
-    //  authority: 'SYNAPSE_IDENTITY_URI',
+    //  authority: 'https://synapseidentityserver.dev.interneuron.io',
     //  client_id: 'terminus-framework',
     //  client_secret: 'secret',
     //  redirect_uri: 'http://localhost:4200/oidc-callback',
@@ -56,6 +69,15 @@ export class AuthenticationService {
     });
 
     this.manager.events.addAccessTokenExpired(() => { this.logout() })
+
+    this.manager.events.addUserSessionChanged(() => {
+      if (this.onLogoutCallback) {
+        try {
+          this.onLogoutCallback();
+        }
+        catch { }
+      }
+    });
 
   }
   decodeAccessToken(token: string): any {
@@ -79,7 +101,14 @@ export class AuthenticationService {
   }
 
   public logout(): Promise<void> {
-    return this.manager.signoutRedirect();
+    const signOutRedirection = this.manager.signoutRedirect();
+    if (this.onLogoutCallback) {
+      try {
+        this.onLogoutCallback();
+      }
+      catch { }
+    }
+    return signOutRedirection;
   }
 
   completeAuthentication(): Promise<void> {
@@ -106,7 +135,7 @@ export class AuthenticationService {
 
   //getClientSettings(): UserManagerSettings {
   //  return {
-  //    authority: 'https://demo.identityserver.io/', //'SYNAPSE_IDENTITY_URI',
+  //    authority: 'https://demo.identityserver.io/', //'https://synapseidentityserver.dev.interneuron.io',
   //    client_id: 'implicit',//terminus-framework',
   //    client_secret: 'secret',
   //    redirect_uri: 'http://localhost:4200/oidc-callback',

@@ -1,7 +1,7 @@
 <!--BEGIN LICENSE BLOCK--> 
 <!--Interneuron Terminus
 
-Copyright(C) 2023  Interneuron Holdings Ltd
+Copyright(C) 2024  Interneuron Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -18,10 +18,22 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.If not, see<http://www.gnu.org/licenses/>. -->
 <!--END LICENSE BLOCK--> 
-
+<!-- Interneuron Terminus
+Copyright(C) 2023  Interneuron Holdings Ltd
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program.If not, see<http://www.gnu.org/licenses/>. -->
 
 <button type="button" class="btn btn-dark text-white btn-sm btn-block" data-toggle="modal" data-target="#modalSearch" (click)="resetModal()">
-  <i class="icon-magnifier"> </i> Patient Search
+  <i class="icon-magnifier"> </i> {{ personLabelText }} Search
 </button>
 
 <div class="modal" id="modalSearch">
@@ -34,7 +46,13 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
       <div class="modal-body" style="height: 500px; overflow-y: auto !important;">
         <div class="bg-white text-dark" style="padding: 7px;">
           <br />
-          <h2> &nbsp; <i class="icon-magnifier"> </i> Patient Search</h2>
+          <div  *ngIf="env == 'social_care'" class="pull-right">
+            <img  title="New client registration" src="assets/images/addicon.svg" height="32px" width="32px" (click)="addClient()" class="pointer" />
+          </div>
+       
+
+          <h2> &nbsp; <i class="icon-magnifier"> </i> {{ personLabelText }} Search</h2>
+         
           <hr />
           <table class="table table-borderless table-sm  text-dark">
             <tr>
@@ -55,16 +73,28 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
                 <input id="txtDOB" name="txtDOB" type="text" class="form-control form-control-sm" [(ngModel)]="dob" (keydown.enter)="patientSearch()">
               </td>
             </tr>
-            <tr>
+            <tr *ngIf="env != 'social_care'">
               <td style="width: 30%;">Hospital Number</td>
               <td style="width: 70%;">
                 <input id="txtMRN" name="txtMRN" type="text" class="form-control form-control-sm" [(ngModel)]="mrn" (keydown.enter)="patientSearch()">
               </td>
             </tr>
-            <tr>
+            <tr >
               <td style="width: 30%;">NHS Number</td>
               <td style="width: 70%;">
                 <input id="txtNHS" name="txtNHS" type="text" class="form-control form-control-sm" [(ngModel)]="nhs" (keydown.enter)="patientSearch()">
+              </td>
+            </tr>
+            <tr *ngIf="env == 'social_care'">
+              <td style="width: 30%;">Client Number</td>
+              <td style="width: 70%;">
+                <input id="txtMRN" name="txtMRN" type="text" class="form-control form-control-sm" [(ngModel)]="mrn" (keydown.enter)="patientSearch()">
+              </td>
+            </tr>
+            <tr *ngIf="env == 'social_care'">
+              <td style="width: 30%;">Show Archived Client(s)</td>
+              <td style="width: 70%;">
+                <input id="chkShowArchived" type="checkbox" [(ngModel)]="showArchived">
               </td>
             </tr>
             <tr>
@@ -96,11 +126,14 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
                   <th>
                     DOB (DD/MM/YYYY)
                   </th>
-                  <th>
+                  <th *ngIf="env != 'social_care'">
                     Hospital Number
                   </th>
-                  <th>
+                  <th *ngIf="env != 'social_care'">
                     NHS Number
+                  </th>
+                  <th *ngIf="env == 'social_care'">
+                    Client Number
                   </th>                 
                 </tr>
               </thead>
@@ -108,8 +141,9 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
                 <tr *ngFor="let person of persons" data-dismiss="modal" (click)="selectedPatient(person)" style="cursor: pointer;">
                   <td>{{ person.fullname }}</td>
                   <td>{{ person.dateofbirth }}</td>
-                  <td>{{ person.mrn }}</td>
-                  <td>{{ person.empi | slice:0:3 }}  {{ person.empi | slice:3:6 }}  {{ person.empi | slice:6:10 }}</td>
+                  <td *ngIf="env != 'social_care'">{{ person.mrn }}</td>
+                  <td *ngIf="env != 'social_care'">{{ person.empi | slice:0:3 }}  {{ person.empi | slice:3:6 }}  {{ person.empi | slice:6:10 }}</td>
+                  <td *ngIf="env == 'social_care'">{{ person.mrn }}</td>
                   <!-- <td><button class="btn btn-primary text-white" type="button" data-dismiss="modal" (click)="selectedPatient(person)">Select</button></td> -->
                 </tr>
               </tbody>

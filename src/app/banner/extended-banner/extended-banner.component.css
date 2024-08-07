@@ -1,0 +1,24 @@
+.Reference_height {
+    width: 25px;
+    height: 34px;
+    background-repeat: no-repeat;
+    background-image: url("/assets/images/Reference_height.svg");
+    background-position: center;
+  }
+
+  .Reference_weight {
+    width: 25px;
+    height: 34px;
+    background-repeat: no-repeat;
+    background-image: url("/assets/images/Reference_weight.svg");
+    background-position: center;
+  }
+  .bannerEdit {
+    width: 40px;
+    height: 30px;
+    cursor: pointer;
+    background-repeat: no-repeat;
+    background-image: url("/assets/images/Edit.svg");
+    background-position: center;
+  }
+  

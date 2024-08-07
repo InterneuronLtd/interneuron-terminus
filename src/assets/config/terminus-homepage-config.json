@@ -1,0 +1,13 @@
+{
+    "uris": {
+      "baseuri": "https://synapsedynamicapi.qa.interneuron.io",
+      "carerecorduri": "https://carerecordapi-demo.azurewebsites.net/FluidBalance",
+      "terminologyuri": "https://terminologyapi-ci-test.azurewebsites.net/api/searchsnomed/VALUE",
+      "autonomicuri": "https://synapsedynamicapi.azurewebsites.net",
+      "imageserveruri": "https://imagerserver.z16.web.core.windows.net/",
+      "identityserveruri": "https://synapseidentityserver.qa.interneuron.io",
+      "currentmedsmoduleuri": "https://csa6155a2f7abb5x42b5xbe7.blob.core.windows.net/terminusmodules/currentmeds.js"
+    },
+    "enablelogging": true,
+    "prodbuild": true
+ }

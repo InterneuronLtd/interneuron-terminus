@@ -1,0 +1,333 @@
+{
+  "mainBanner": {
+    "endpointUri": "SYNAPSE_DYNAMIC_URI/GetBaseViewListByAttribute/patientbanner_mainbanner?synapseattributename=person_id&attributevalue=",
+    "data": {
+      "leftSideTopRow": {
+        "label": "",
+        "dataColumn": "fullname",
+        "endpointUri": ""
+      },
+      "leftSideBottomRowFirst": {
+        "label": "NHS",
+        "dataColumn": "nhsnumber",
+        "endpointUri": ""
+      },
+      "leftSideBottomRowMiddle": {
+        "label": "HOSPITAL No.",
+        "dataColumn": "hospitalnumber",
+        "endpointUri": ""
+      },
+      "leftSideBottomRowLast": {
+        "label": "",
+        "dataColumn": "",
+        "endpointUri": ""
+      },
+      "extLeftSideBottomRowFirst": {
+        "label": "CONSULTANT NAME",
+        "dataColumn": "consultingdoctortext",
+        "endpointUri": ""
+      },
+      "extLeftSideBottomRowLast": {
+        "label": "",
+        "dataColumn": "currentlyadmittedto",
+        "endpointUri": ""
+      },
+      "rightSideTopRowFirst": {
+        "label": "BORN",
+        "dataColumn": "born",
+        "endpointUri": ""
+      },
+      "rightSideTopRowMiddle": {
+        "label": "GENDER",
+        "dataColumn": "gender",
+        "endpointUri": ""
+      },
+      "rightSideTopRowLast": {
+        "label": "CONTACT",
+        "dataColumn": "contactdetails",
+        "endpointUri": ""
+      },
+      "rightSideBottomRowFirst": {
+        "label": "ALLERGIES",
+        "dataColumn": "",
+        "endpointUri": ""
+      },
+      "rightSideBottomRowMiddle": {
+        "label": "RISKS",
+        "dataColumn": "risk",
+        "endpointUri": "SYNAPSE_DYNAMIC_URI/GetBaseViewListByAttribute/patientbanner_personatrisk?synapseattributename=person_id&attributevalue="
+      },
+      "rightSideBottomRowLast": {
+        "label": "",
+        "dataColumn": "",
+        "endpointUri": ""
+      }
+    }
+  },
+ 
+  "columns": [
+    {
+      "header": "Warnings",
+      "id": "warringcontant"
+     
+    },
+    {
+      "header": "Demographic Information",
+      "id": "Demographicinformation",
+      "data": [
+        {
+          "config": [
+            {
+              "label": "Preferred Name",
+              "dataColumn": "preferredname",
+              "endpointUri": ""
+            },
+            {
+              "label": "Address",
+              "dataColumn": "address",
+              "endpointUri": ""
+            },
+            {
+              "label": "Telephone",
+              "dataColumn": "telnumber",
+              "endpointUri": ""
+            },
+            {
+              "label": "Email",
+              "dataColumn": "email",
+              "endpointUri": ""
+            },
+            {
+              "label": "Other Contact",
+              "dataColumn": "othercontact",
+              "endpointUri": ""
+            },
+            {
+              "label": "Ethnic Group",
+              "dataColumn": "ethnicgroup",
+              "endpointUri": ""
+            },
+            {
+              "label": "Sensitive Record",
+              "dataColumn": "",
+              "endpointUri": ""
+            },
+            {
+              "label": "Programmes",
+              "dataColumn": "",
+              "endpointUri": ""
+            }
+          ],
+          "endpointUri": "SYNAPSE_DYNAMIC_URI/GetBaseViewListByAttribute/patientbanner_mainbanner?synapseattributename=person_id&attributevalue=",
+          "socialcareURL": "SYNAPSE_DYNAMIC_URI/GetBaseViewListByAttribute/patientbanner_mainbanner?synapseattributename=person_id&attributevalue="
+        }
+      ]
+    },
+    {
+      "header": "Location",
+      "id": "Location",
+      "data": [
+        {
+          "config": [
+            {
+              "label": "Ward / Clinic",
+              "dataColumn": "ward",
+              "endpointUri": ""
+            },
+            {
+              "label": "BED",
+              "dataColumn": "bed",
+              "endpointUri": ""
+            },
+            {
+              "label": "Intended Discharge Date",
+              "dataColumn": "intendeddischargedate",
+              "endpointUri": ""
+            }
+          ],
+          "endpointUri": "SYNAPSE_DYNAMIC_URI/GetBaseViewListByAttribute/patientbanner_column2?synapseattributename=person_id&attributevalue=",
+          "socialcareURL": "SYNAPSE_DYNAMIC_URI/GetBaseViewListByAttribute/patientbanner_demographisocialcare?synapseattributename=person_id&attributevalue="
+        }
+      ]
+    
+    },
+    {
+      "header": "Clinical Information",
+      "id": "ClinicalInformation",
+      "data": [
+        {
+          "config": [
+            {
+              "label": "Height",
+              "dataColumn": "height",
+              "endpointUri": ""
+            },
+            {
+              "label": "Weight",
+              "dataColumn": "weight",
+              "endpointUri": ""
+            },
+            {
+              "label": "Waist Circumference",
+              "dataColumn": "circumf",
+              "endpointUri": ""
+            },
+            {
+              "label": "BMI",
+              "dataColumn": "bmi",
+              "endpointUri": ""
+            },
+            {
+              "label": "Allergies",
+              "dataColumn": "allergies",
+              "endpointUri": ""
+            },
+            {
+              "label": "Diagnosis",
+              "dataColumn": "diagnosis",
+              "endpointUri": ""
+            },
+            {
+              "label": "Medicines",
+              "dataColumn": "",
+              "endpointUri": ""
+            },
+            {
+              "label": "Procedures",
+              "dataColumn": "name",
+              "endpointUri": "CARERECORD_URI/ClinicalSummary/GetProcedures/"
+            }
+          ],
+          "endpointUri": "SYNAPSE_DYNAMIC_URI/GetBaseViewListByAttribute/patientbanner_clinicalinformation?synapseattributename=person_id&attributevalue=",
+          "socialcareURL": "SYNAPSE_DYNAMIC_URI/GetBaseViewListByAttribute/patientbanner_demographisocialcare?synapseattributename=person_id&attributevalue="
+        }
+      ]
+    },
+    {
+      "header": "Care Team",
+      "id": "CARETEAM",
+      "data": [
+        {
+          "config": [
+            {
+              "label": "GP Practice",
+              "dataColumn": "organisationname",
+              "endpointUri": ""
+            },
+            {
+              "label": "GP Name",
+              "dataColumn": "fullname",
+              "endpointUri": ""
+            },
+            {
+              "label": "GP Address",
+              "dataColumn": "address",
+              "endpointUri": ""
+            },
+            {
+              "label": "GP Phone Number",
+              "dataColumn": "telnumber",
+              "endpointUri": ""
+            },
+            {
+              "label": "GP Email",
+              "dataColumn": "email",
+              "endpointUri": ""
+            }
+          ],
+          "endpointUri": "SYNAPSE_DYNAMIC_URI/GetBaseViewListByAttribute/patientbanner_extendedperson?synapseattributename=person_id&attributevalue=",
+          "socialcareURL": "SYNAPSE_DYNAMIC_URI/GetBaseViewListByAttribute/patientbanner_extendedperson?synapseattributename=person_id&attributevalue="
+        },
+        {
+          "config": [
+            {
+              "label": "Carer Name",
+              "dataColumn": "fullname",
+              "endpointUri": ""
+            },
+            {
+              "label": "Carer Organisation",
+              "dataColumn": "orgnisationname",
+              "endpointUri": ""
+            },
+            {
+              "label": "Carer Role",
+              "dataColumn": "roletext",
+              "endpointUri": ""
+            },
+            {
+              "label": "Carer Telephone",
+              "dataColumn": "telecom",
+              "endpointUri": ""
+            },
+            {
+              "label": "Email",
+              "dataColumn": "email",
+              "endpointUri": ""
+            }
+          ],
+          "endpointUri": "SYNAPSE_DYNAMIC_URI/GetBaseViewListByAttribute/patientbanner_careteam?synapseattributename=person_id&attributevalue=",
+          "socialcareURL": "SYNAPSE_DYNAMIC_URI/GetBaseViewListByAttribute/patientbanner_careteam?synapseattributename=person_id&attributevalue="
+        }
+      ]
+    },
+    {
+      "header": "Family And Friends",
+      "id": "FamilyandFriends",
+      "data": [
+        {
+          "config": [
+            {
+              "label": "Acquaintance",
+              "dataColumn": "fullname",
+              "endpointUri": ""
+            },
+            {
+              "label": "Relationship",
+              "dataColumn": "relationship",
+              "endpointUri": ""
+            },
+            {
+              "label": "Address",
+              "dataColumn": "address",
+              "endpointUri": ""
+            },
+            {
+              "label": "Telephone",
+              "dataColumn": "telnumber",
+              "endpointUri": ""
+            },
+            {
+              "label": "E-Mail",
+              "dataColumn": "email",
+              "endpointUri": ""
+            },
+            {
+              "label": "Is Next Of Kin",
+              "dataColumn": "contactrolecode",
+              "endpointUri": ""
+            },
+            {
+              "label": "Emergency Contact",
+              "dataColumn": "contactrolecode",
+              "endpointUri": ""
+            },
+            {
+              "label": "Main Contact",
+              "dataColumn": "contactrolecode",
+              "endpointUri": ""
+            }
+            ,
+            {
+              "label": "Lives with Client",
+              "dataColumn": "livewithperson",
+              "endpointUri": ""
+            }
+          ],
+          "endpointUri": "SYNAPSE_DYNAMIC_URI/GetBaseViewListByAttribute/patientbanner_isnextofkin?synapseattributename=person_id&attributevalue=",
+          "socialcareURL": "SYNAPSE_DYNAMIC_URI/GetBaseViewListByAttribute/patientbanner_isnextofkin?synapseattributename=person_id&attributevalue="
+        }
+      ]
+    }
+  ]
+}

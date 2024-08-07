@@ -1,7 +1,7 @@
 <!--BEGIN LICENSE BLOCK--> 
 <!--Interneuron Terminus
 
-Copyright(C) 2023  Interneuron Holdings Ltd
+Copyright(C) 2024  Interneuron Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -20,13 +20,15 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
 <!--END LICENSE BLOCK--> 
 <div class="secondary-module-holder">
 
-  <div class="patientBannerHolder border rounded" *ngIf="showPatientBanner">
+  <div class="patientBannerHolder border rounded" *ngIf="showPatientBanner && sharedData.showsecondaryBanner">
 
     <app-main-demographics [value]="personId" (returnDemographicsResponse)="receiveBannerDemographicResponse($event)">
     </app-main-demographics>
 
   </div>
-
+  <div *ngIf="sharedData.ShoModuleLoader" class="spinner-grow text-dark" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
   <br />
 
   <div id="secondaryComponentLoader" style="min-height: 80vh;"></div>

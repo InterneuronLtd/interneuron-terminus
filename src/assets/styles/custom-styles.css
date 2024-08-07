@@ -633,3 +633,68 @@ bs-daterangepicker-container {
   opacity: 0.5;
   transition: 0s;
 }
+
+
+.gpConnectCustomClass .tooltip {
+  max-width: 800px;
+  z-index: 100000 !important;
+}
+
+.gpConnectCustomClass::after {
+  position: absolute;
+  height: 0px !important;
+  width: 0px !important;
+  content: "" !important;
+  background: none !important;
+  /* top: 50% !important;
+  right: 50% !important;
+  bottom: 50% !important;
+  left: 50% !important; */
+  border-radius: 0%;
+  transform-origin: bottom left;
+  z-index: -1;
+  transform: rotate(0deg) !important;
+}
+
+.procedureTooltip {
+  /* position: relative; */
+  display: inline-block;
+  /* border-bottom: 1px dotted black; */
+  white-space: nowrap; 
+  width: 180px; 
+  overflow: hidden;
+  text-overflow: ellipsis; 
+}
+
+.procedureTooltip .procedureTooltiptext {
+  visibility: hidden;
+  width: 300px;
+  background-color: #555;
+  color: #fff;
+  text-align: left;
+  border-radius: 6px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 25%;
+  margin-left: -100px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.procedureTooltip .procedureTooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+.procedureTooltip:hover .procedureTooltiptext {
+  visibility: visible;
+  opacity: 1;
+}

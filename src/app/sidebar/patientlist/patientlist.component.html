@@ -1,7 +1,7 @@
 <!--BEGIN LICENSE BLOCK--> 
 <!--Interneuron Terminus
 
-Copyright(C) 2023  Interneuron Holdings Ltd
+Copyright(C) 2024  Interneuron Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -18,6 +18,19 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.If not, see<http://www.gnu.org/licenses/>. -->
 <!--END LICENSE BLOCK--> 
+<!-- Interneuron Terminus
+Copyright(C) 2023  Interneuron Holdings Ltd
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program.If not, see<http://www.gnu.org/licenses/>. -->
 
 
 
@@ -48,7 +61,8 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
 <div class="h6 text-dark" style="margin-top:2px; margin-bottom: 2px; padding: 3px;">
   {{personaContext.displayname}}
   <span (click)="onRefresh()" style="margin-right: 20px; cursor: pointer;" class="btn btn-info text-white btn-sm float-right">
-    <i class="icon-refresh" data-toggle="tooltip" title="Refresh Patient List"></i>  </span>
+    <i *ngIf="env != 'social_care'" class="icon-refresh" data-toggle="tooltip" title="Refresh Patient List"></i> 
+    <i *ngIf="env == 'social_care'" class="icon-refresh" data-toggle="tooltip" title="Refresh Client List"></i> </span>
   <br />{{selectedApplicationPatientlist}}</div>
 
 <div [ngStyle]="setDisplay()" style="padding: 3px;">

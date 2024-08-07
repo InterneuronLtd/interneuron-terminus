@@ -1,7 +1,7 @@
 <!--BEGIN LICENSE BLOCK--> 
 <!--Interneuron Terminus
 
-Copyright(C) 2023  Interneuron Holdings Ltd
+Copyright(C) 2024  Interneuron Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -21,40 +21,65 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
   <!-- <div class="patientBannerHolder" style="min-height: 102px; max-height: 102px;"> -->
 
 
-    <div class="patientBannerHolder border rounded" *ngIf="showPatientBanner">
+    <div class="patientBannerHolder border rounded" *ngIf="showPatientBanner && !isStandAloneApplication">
 
       <div *ngIf="isLatestAndGreatest">
 
         <div class="" *ngIf="displayPort === 'Desktop'" >
           <div class="row">
-            <div class="col-md-9">
-              <app-main-demographics [value]="personId" (returnDemographicsResponse)="receiveBannerDemographicResponse($event)">
+            <div class="col-md-10">
+              <!-- <app-main-demographics [value]="personId"  (getmainCarer)="getmainCarer($event)" (returnDemographicsResponse)="receiveBannerDemographicResponse($event)" (nhsVerifyEvent)="verifyNHS($event)">
+              </app-main-demographics> -->
+              <app-main-demographics [value]="personId"  (getmainCarer)="getmainCarer($event)" (returnDemographicsResponse)="receiveBannerDemographicResponse($event)">
               </app-main-demographics>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
               <app-banner-actions [value]="personId" [view]="'collapsed'" *ngIf="demographicsReturned">
               </app-banner-actions>
             </div>
           </div>
 
           <div class="row" style="margin-top: -12px;" *ngIf="demographicsReturned">
-            <div class="col-md-9">
+            <div class="col-md-10">
               <div class="row">
-                <div class="col-md-6">
-                  <app-main-encounter [value]="personId" [view]="'collapsed'">
-                  </app-main-encounter>
+                <div class="col-md-3"></div>
+                <div  *ngIf="mainCarer != ''" class="col-md-2">
+                  <p style="line-height:1.2; margin-bottom: 0; ">
+                    <span style="font-size: 0.85em;" *ngIf="env  != 'social_care'">Location </span> 
+                    <!-- <span style="font-size: 0.85em;" *ngIf="env  == 'social_care'"> Address </span>  -->
+                   <br/>
+                   <strong><app-main-encounter [value]="personId" [view]="'collapsed'">
+                  </app-main-encounter></strong> 
+                </p>
                 </div>
-                <div class="col-md-3">
-                  <app-main-allergies [value]="personId">
-                  </app-main-allergies>
+                <div  *ngIf="mainCarer == ''" class="col-md-4">
+                  <p style="line-height:1.2; margin-bottom: 0; ">
+                 <span style="font-size: 0.85em;" *ngIf="env  != 'social_care'">Location </span> 
+                    <!-- <span style="font-size: 0.85em;" *ngIf="env  == 'social_care'"> Address </span>  -->
+                   <br/>
+                   <strong><app-main-encounter [value]="personId" [view]="'collapsed'">
+                  </app-main-encounter></strong> 
+                </p>
                 </div>
-                <div class="col-md-3">
+                 <div  *ngIf="mainCarer != ''"  class="col-md-3">
+                  <p style="line-height:1.2; ">
+                 <!-- <span  style="font-size: 0.85em;"> Name of main/responsible carer </span> <br/> -->
+                <strong>  <p  [innerHTML]="mainCarer"></p></strong>
+                 </p>
+                </div>
+                <div class="col-md-2" *ngIf="env  != 'social_care'">
                   <app-main-warnings  [value]="personId">
                   </app-main-warnings>
                 </div>
+                <div class="col-md-2">
+                  <app-main-allergies [value]="personId">
+                  </app-main-allergies>
+                </div>
+                
               </div>
+        
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2" *ngIf="env  != 'social_care'">
               <app-main-badges [value]="personId">
               </app-main-badges>
             </div>
@@ -78,33 +103,57 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
 
         <div class="" *ngIf="displayPort === 'Tablet'" >
           <div class="row">
-            <div class="col-md-9">
+            <div class="col-md-10">
+              <!-- <app-main-demographics [value]="personId" (returnDemographicsResponse)="receiveBannerDemographicResponse($event)" (nhsVerifyEvent)="verifyNHS($event)">
+              </app-main-demographics> -->
               <app-main-demographics [value]="personId" (returnDemographicsResponse)="receiveBannerDemographicResponse($event)">
               </app-main-demographics>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
               <app-banner-actions [value]="personId" [view]="'collapsed'" *ngIf="demographicsReturned">
               </app-banner-actions>
             </div>
           </div>
 
-          <div class="row" style="margin-top: -12px;" *ngIf="demographicsReturned">
-            <div class="col-md-9">
+          <div class="row" *ngIf="demographicsReturned">
+            <div class="col-md-10">
               <div class="row">
-                <div class="col-md-6">
-                  <app-main-encounter [value]="personId" [view]="'collapsed'">
-                  </app-main-encounter>
-                </div>
                 <div class="col-md-3">
+
+                </div>
+                <div *ngIf="mainCarer == ''" class="col-md-3">
+                  <!-- <span style="font-size: 0.85em;" *ngIf="env  != 'social_care'">Location </span> 
+                    <span style="font-size: 0.85em;" *ngIf="env  == 'social_care'"> Address </span> 
+                   <br/> -->
+                 <strong><app-main-encounter [value]="personId" [view]="'collapsed'">
+                  </app-main-encounter></strong> 
+                </div>
+                <div *ngIf="mainCarer != ''" class="col-md-2">
+                  <!-- <span style="font-size: 0.85em;" *ngIf="env  != 'social_care'">Location </span> 
+                    <span style="font-size: 0.85em;" *ngIf="env  == 'social_care'"> Address </span>  -->
+                   <!-- <br/> -->
+                   <strong><app-main-encounter [value]="personId" [view]="'collapsed'">
+                  </app-main-encounter></strong> 
+                </div>
+                <div *ngIf="mainCarer != ''" class="col-md-2">
+                  <p style="line-height:1.2; font-size: 0.85em;">
+                    <!-- <span >Responsible carer </span> <br/> -->
+                 
+                    <strong>  <p  [innerHTML]="mainCarer"></p></strong>
+                  </p>
+                 
+                
+                 </div>
+                <div class="col-md-2" *ngIf="env  != 'social_care'">
+                  <app-main-warnings  [value]="personId">></app-main-warnings>
+                </div>
+                <div class="col-md-2">
                   <app-main-allergies [value]="personId">
                   </app-main-allergies>
                 </div>
-                <div class="col-md-3">
-                  <app-main-warnings  [value]="personId">></app-main-warnings>
-                </div>
               </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2" *ngIf="env  != 'social_care'">
               <app-main-badges [value]="personId">
               </app-main-badges>
             </div>
@@ -114,8 +163,10 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
 
         <div class="" *ngIf="displayPort === 'Mobile'" style="padding-left: 12px;">
 
-          <div class="row">
+          <div class="row mb-3">
             <div class="col-10">
+              <!-- <app-main-demographics [value]="personId" (returnDemographicsResponse)="receiveBannerDemographicResponse($event)" (nhsVerifyEvent)="verifyNHS($event)">
+              </app-main-demographics> -->
               <app-main-demographics [value]="personId" (returnDemographicsResponse)="receiveBannerDemographicResponse($event)">
               </app-main-demographics>
             </div>
@@ -124,12 +175,12 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
               </app-banner-actions>
             </div>
           </div>
-          <div class="row" style="margin-top: -6px;">
+          <div class="row">
             <div class="col-9">
               <app-main-allergies [value]="personId">
               </app-main-allergies>
             </div>
-            <div class="col-3" style="text-align: right;">
+            <div class="col-3" style="text-align: right;" *ngIf="env  != 'social_care'">
               <table style="float: right;">
                 <tr>
                   <td>
@@ -155,6 +206,8 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
         <div class="">
           <div class="row">
             <div class="col-md-9">
+              <!-- <app-main-demographics [value]="personId" (returnDemographicsResponse)="receiveBannerDemographicResponse($event)" (nhsVerifyEvent)="verifyNHS($event)">
+              </app-main-demographics> -->
               <app-main-demographics [value]="personId" (returnDemographicsResponse)="receiveBannerDemographicResponse($event)">
               </app-main-demographics>
             </div>
@@ -175,13 +228,13 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
                   <app-main-allergies [value]="personId">
                   </app-main-allergies>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3" *ngIf="env  != 'social_care'">
                   <app-main-warnings  [value]="personId">
                   </app-main-warnings>
                 </div>
               </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3" *ngIf="env  != 'social_care'">
               <app-main-badges [value]="personId">
               </app-main-badges>
             </div>
@@ -207,7 +260,7 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
 
 <!-- Expanded Banner -->
 <div class="panel-body">
-  <div id="collapseDiv" class="collapse">
+  <div *ngIf="sharedData.showExpandedBanner" >
     <div style="color: #535e7e; padding:5px;" >
 
       <div class="row" *ngIf="displayPort === 'Mobile'">
@@ -236,7 +289,7 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
       </app-main-allergies>
     </div>
 
-    <div class="card" *ngIf="!isLatestAndGreatest" style="padding: 10px;">
+    <div class="card" *ngIf="!isLatestAndGreatest && env  != 'social_care'" style="padding: 10px;">
       <strong>Warnings</strong>
       <app-main-warnings [value]="personId" [view]="'expanded'">
       </app-main-warnings>
@@ -253,8 +306,10 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
 
       </div>
 
+      <div class="{{nhsVerificationStatus==='error' ? 'alert alert-danger': 'alert alert-success'}}" role="alert" *ngIf="nhsVerificationMessage">
+        {{nhsVerificationMessage}}
+      </div>
 
 
 
-
-
+      

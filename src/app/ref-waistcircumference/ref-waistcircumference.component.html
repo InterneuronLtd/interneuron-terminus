@@ -1,0 +1,115 @@
+<!--BEGIN LICENSE BLOCK--> 
+<!--Interneuron Terminus
+
+Copyright(C) 2024  Interneuron Limited
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.If not, see<http://www.gnu.org/licenses/>. -->
+<!--END LICENSE BLOCK--> 
+<div class="modal-header" style="padding: 0.5rem 1rem; background-color: #E6E6E6">
+  <h6 class="modal-title" id="lblRecordHeight">{{headerLabelText}}</h6>
+  <button type="button" class="close" (click)="bsModalRef.hide()" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="alert alert-light border border-secondary">
+    <div class="row">
+      <div class="col-5">
+        <input type="number" min="1" class="form-control" (input)="inputCheck($event)" [(ngModel)]="height"
+          [ngClass]="(errorMessage!='')?'is-invalid':''" style="width:180px;" />
+      </div>
+      <div class="col-1">
+        <label class="text-dark">{{unitOfMeasure}}</label>
+      </div>
+      <div class="col-6">
+      </div>
+    </div>
+    <div class="row" *ngIf="errorMessage!=''">
+      <!--<div class="alert alert-danger" *ngIf="errorMessage!=''" role="alert" [innerHtml]="errorMessage"></div>-->
+      <label class="text-danger">{{errorMessage}}</label>
+    </div>
+    <div class="row" *ngIf="invalidHeight">
+      <label class="text-danger">Please enter valid height format e.g 123.00</label>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <img src="assets/images/history.svg"  height="22px" width="30px"  data-toggle="collapse" href="#collapseExample" class="mr-auto"
+    role="button" aria-expanded="false" aria-controls="collapseExample">
+    
+
+    <button *ngIf="!isSaving" type="button" class="btn btn-primary" (click)="saveHeightObs()">Confirm</button>
+
+    <button *ngIf="!isSaving" type="button" class="btn btn-secondary" (click)="bsModalRef.hide()">Cancel</button>
+
+
+    <div class="" *ngIf="isSaving">
+      <div class="col text-right">
+        <button type="button" class="btn btn-info" disabled>
+          <span class="spinner-border spinner-border-sm"></span>
+          Saving..
+        </button>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-sm-12">
+     
+
+      <div class="collapse" id="collapseExample">
+        <div class="row">
+          <div class="col-6">
+          <b>  History</b>
+          </div>
+          <div class="col-6">
+            <input class="form-control" id="date-of-birth" name="date-of-birth" type="text" placeholder="Select Date"
+            bsDatepicker  [(ngModel)]="Choosenfilterdate" (ngModelChange)="ChoosenfilterdateChange($event)"
+            [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }"
+            autocomplete="off">
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-3">
+            <b>Circumference</b>
+          </div>
+          <div class="col-4">
+            <b>Recorded By</b>
+          </div>
+          <div class="col-5">
+            <b>Recorded Date/Time</b>
+          </div>
+
+        </div>
+        <div >
+          <div class="row"  *ngFor="let Record of filterdata">
+            <div class="col-3">
+              {{Record.value}} cm
+            </div>
+            <div class="col-4" style=" word-wrap: break-word;  ">
+              {{Record.addedby}}
+            </div>
+            <div class="col-5">
+              {{Record.datestarted | date: 'dd/MM/yyyy HH:mm'}}
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2023  Interneuron Holdings Ltd
+//Copyright(C) 2024  Interneuron Limited
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -18,7 +18,19 @@
 //You should have received a copy of the GNU General Public License
 //along with this program.If not, see<http://www.gnu.org/licenses/>.
 //END LICENSE BLOCK 
-
+// Interneuron Terminus
+// Copyright(C) 2023  Interneuron Holdings Ltd
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the
+// GNU General Public License for more details.
+// You should have received a copy of the GNU General Public License
+// along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
@@ -68,6 +80,7 @@ export class PatientlistComponent implements OnInit, OnDestroy {
   private resizeSubscription: Subscription;
 
   selectedApplicationPatientlist: string = "";
+  env: string = AppConfig.settings.env;
 
   // updatePatientListTrigger = Observable.merge(this.LoadNotifyService.requestLoad);
 
@@ -254,9 +267,10 @@ export class PatientlistComponent implements OnInit, OnDestroy {
 
   selectedPatient(person: DataRow) {
     if (person) {
+       this.sharedData.showExpandedBanner = false;
       if (person.columns[0].defaultcontextfield == "person_id") {
         this.sharedData.personId = person.columns[0].matchedcontext;
-        this.sharedData.contexts = null;
+        this.sharedData.contexts = null;        
         this.webStorageService.removeLocalStorageItem("Terminus:" + this.logedinUserID + ":Contexts");
         this.sharedData.contextValue = this.sharedData.personId;
         this.selectedValue = this.sharedData.personId;

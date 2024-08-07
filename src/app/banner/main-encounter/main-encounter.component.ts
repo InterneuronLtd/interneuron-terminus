@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2023  Interneuron Holdings Ltd
+//Copyright(C) 2024  Interneuron Limited
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -35,10 +35,11 @@ export class MainEncounterComponent implements OnInit, OnDestroy {
   mainEncounter: BannerMainEncounter;
   personId: string;
   selectedView: string = "collapsed";
-
+  personLabelText: string = AppConfig.settings.personLabelText ? AppConfig.settings.personLabelText : "Patient";
+  env:string=AppConfig.settings.env;
   private resizeSubscription: Subscription;
   displayPort: string;
-
+  clientAddress: any;
 
   constructor(private reqService: ApirequestService, private resizeService: ResizeService) { }
 
@@ -59,6 +60,9 @@ export class MainEncounterComponent implements OnInit, OnDestroy {
       if(value) {
         this.personId = value;
         this.getData();
+        if(this.env == 'social_care'){
+          this.getClientAddress();
+        }
       }
   };
 
@@ -92,5 +96,33 @@ export class MainEncounterComponent implements OnInit, OnDestroy {
           this.sendEncounterResponse(false);
         };
   }
+
+  async getClientAddress() {
+    await this.reqService.getRequest(AppConfig.settings.apiServices.find(x => x.serviceName == 'GetClientAddress').serviceUrl + '?synapseattributename=person_id&attributevalue=' + this.personId)
+      .then(
+        (response) => {
+          if(response) {
+         
+            let address=JSON.parse(response)[0];
+            if(address){
+
+            address.address =address.address.replaceAll(',,', ',');
+            address.address =address.address.replaceAll(', ,', ',');
+            address.address= address.address.replaceAll(',  ,', ',');
+            this.clientAddress= address;
+            }
+            else{
+              this.clientAddress=JSON.parse(response)[0];
+            }
+          
+            
+          }
+        }
+
+      ).catch
+      {
+        console.log('Error while getting address');
+      };
+}
 
 }
