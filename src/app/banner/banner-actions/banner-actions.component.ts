@@ -136,7 +136,7 @@ export class BannerActionsComponent implements OnInit, OnDestroy {
     this.sharedData.gpConnect.syncState = this.gpConnectSyncStatus;
     switch (this.gpConnectSyncStatus) {
       case GPConnectSyncStatus.Unverified:
-      case GPConnectSyncStatus.GPCAPIError:
+      //case GPConnectSyncStatus.GPCAPIError:
         this.gpConnectSyncImgSrc = `${this.gpConnectSyncImgPath}GPConnect_Sync_Unverified.svg`;
         break;
       case GPConnectSyncStatus.PDSVerificationFail:
@@ -646,7 +646,7 @@ export class BannerActionsComponent implements OnInit, OnDestroy {
 
     this.gpConnectSyncImgSrc = `${this.gpConnectSyncImgPath}GPConnect_Verification_Animation.gif`;
     this.gpConnectSyncDisabled = true;
-    const response = await this.gpConnectService.syncGPConnectData(nhsNumber);
+    const response = await this.gpConnectService.syncGPConnectData(nhsNumber, this.userId);
 
     this.sendNotificationForGPConnectSync(nhsNumber);
 
@@ -790,7 +790,7 @@ export class BannerActionsComponent implements OnInit, OnDestroy {
             this.gpConnectSyncStatus = GPConnectSyncStatus.PDSVerificationFail;
           else if (msgCodeAsInt === 2)
             this.gpConnectSyncStatus = GPConnectSyncStatus.Success_With_Warnings;
-            else if (msgCodeAsInt === 0)
+          else if (msgCodeAsInt === 0)
             this.gpConnectSyncStatus = GPConnectSyncStatus.Success;
         }
 

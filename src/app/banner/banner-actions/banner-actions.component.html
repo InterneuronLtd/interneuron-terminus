@@ -33,11 +33,11 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
       <span class="float-right" >
         <button type="button" class="btn btn-default btn-google-plus bg-white text-danger btn-sm float-right"
           (click)="insertPatientIntoMyPatients();" *ngIf="!showRemoveButton">
-          <i class="icon-star" data-toggle="tooltip" [attr.title]="'Add to my ' + personLabelText + 's'"></i>
+          <i class="icon-star" data-bs-toggle="tooltip" [attr.title]="'Add to my ' + personLabelText + 's'"></i>
         </button>
         <button type="button" class="btn btn-default btn-google-plus text-white btn-sm float-right"
           (click)="removePatientFromMyPatients();" *ngIf="showRemoveButton">
-          <i class="icon-star" data-toggle="tooltip" [attr.title]="'Remove from my ' + personLabelText + 's'"></i>
+          <i class="icon-star" data-bs-toggle="tooltip" [attr.title]="'Remove from my ' + personLabelText + 's'"></i>
         </button>
       </span>
 
@@ -48,7 +48,7 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
       <span class="float-right"  *ngIf="env  != 'social_care'">
         <div class="dropdown">
           <button id="btnpatientCustomDropdown" class="btn btn-sm btn-default dropbtn btn-info text-white"
-            title="Team Lists" data-toggle="tooltip" type="button">
+            title="Team Lists" data-bs-toggle="tooltip" type="button">
             <i class='icon-list'></i>
           </button>
           <div id="ddlPatientlistCustomDropdown" class="dropdown-content float-left" style=" z-index: 5;">
@@ -107,11 +107,11 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
       <span class="float-right">
         <button type="button" class="btn btn-default btn-google-plus bg-white text-danger btn-sm float-right"
           (click)="insertPatientIntoMyPatients();" *ngIf="!showRemoveButton">
-          <i class="icon-star" data-toggle="tooltip" [attr.title]="'Add to my ' + personLabelText + 's'"></i>
+          <i class="icon-star" data-bs-toggle="tooltip" [attr.title]="'Add to my ' + personLabelText + 's'"></i>
         </button>
         <button type="button" class="btn btn-default btn-google-plus text-white btn-sm float-right"
           (click)="removePatientFromMyPatients();" *ngIf="showRemoveButton">
-          <i class="icon-star" data-toggle="tooltip" [attr.title]="'Remove from my ' + personLabelText + 's'"></i>
+          <i class="icon-star" data-bs-toggle="tooltip" [attr.title]="'Remove from my ' + personLabelText + 's'"></i>
         </button>
       </span>
       <span class="float-right">
@@ -120,7 +120,7 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
       <span class="float-right"  *ngIf="env  != 'social_care'">
         <div class="dropdown">
           <button id="btnpatientCustomDropdown" class="btn btn-sm btn-default dropbtn btn-info text-white"
-            title="Team Lists" data-toggle="tooltip" type="button">
+            title="Team Lists" data-bs-toggle="tooltip" type="button">
             <i class='icon-list'></i>
           </button>
           <div id="ddlPatientlistCustomDropdown" class="dropdown-content float-left" style=" z-index: 5;">

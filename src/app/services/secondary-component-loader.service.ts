@@ -136,7 +136,7 @@ export class SecondaryComponentLoaderService {
     //console.log(action.detail);
     if (action.detail.includes("SEARCH_CLIENT")) {
       //Reloads the person banner
-      this.headerService.hideSecondaryModule.next();
+      this.headerService.hideSecondaryModule.next(true);
       let arraystring=action.detail.split('_')
       let clientid=arraystring[2];
       this.headerService.searchClient.next(clientid);

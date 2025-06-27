@@ -18,8 +18,8 @@
 //You should have received a copy of the GNU General Public License
 //along with this program.If not, see<http://www.gnu.org/licenses/>.
 //END LICENSE BLOCK 
-import { Component, Input, OnInit } from '@angular/core';
-import { BsModalRef } from 'ngx-bootstrap/modal';
+import { Component, ElementRef, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ApirequestService } from 'src/app/services/apirequest.service';
 import { v4 as uuidv4 } from 'uuid';
 import { Subscription } from 'rxjs';
@@ -29,6 +29,9 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 import { filter, filterParams, filterparam, filters, orderbystatement, selectstatement } from 'src/app/Models/Filter.model';
 import { SharedDataContainerService } from 'src/app/services/shared-data-container.service';
 import * as moment from 'moment';
+import { Graph2d, Graph2dOptions } from 'vis-timeline/standalone';
+import { HeaderService } from '../services/header.service';
+import { ChartComponent } from '../chart/chart.component';
 
 @Component({
   selector: 'app-ref-waistcircumference',
@@ -53,10 +56,18 @@ export class RefWaistcircumferenceComponent implements OnInit {
   listofRecords:any;
   Choosenfilterdate:any;
   filterdata:any;
+  private graph2d: any;
+  confirmModalRef: BsModalRef;
+  blurObsModal = false;
+  chartConfig: any;
 
-  constructor(private apiRequest: ApirequestService, private sharedData: SharedDataContainerService, private authService: AuthenticationService, public bsModalRef: BsModalRef) {
+  @ViewChild('visualization', { static: false }) visualization!: ElementRef;
+  isAppReady: boolean;
+
+  constructor(public modalService: BsModalService, private apiRequest: ApirequestService, private sharedData: SharedDataContainerService, private authService: AuthenticationService, public bsModalRef: BsModalRef, public bsGraphModalRef: BsModalRef, private headerService: HeaderService) {
     this.headerLabelText = "Reference Waist circumference";
     this.unitOfMeasure = "cm";
+    this.chartConfig = {'chartHeading':'Waist Circumference Graph','UOM':'cm'}
     this.init();
   }
 
@@ -67,6 +78,13 @@ export class RefWaistcircumferenceComponent implements OnInit {
     }
   };
   ngOnInit(): void {
+
+    this.headerService.closeGraphModal.subscribe((value: any) => {
+      if(value) {
+        this.bsGraphModalRef.hide();
+      }
+    })
+
     let decodedToken = this.authService.decodeAccessToken(this.authService.user.access_token);
     if (decodedToken != null)
       this.username = decodedToken.name ? (Array.isArray(decodedToken.name) ? decodedToken.name[0] : decodedToken.name) : decodedToken.IPUId;
@@ -116,6 +134,8 @@ export class RefWaistcircumferenceComponent implements OnInit {
           } else {
             this.height = 0;
           }
+          this.isAppReady = true;
+          // this.loadChart();
         } else {
           this.height = 0;
         }
@@ -180,11 +200,8 @@ export class RefWaistcircumferenceComponent implements OnInit {
           scale,
           null,
           null,
-          loggedInUser,
-          null,
-          null,
-          this.eventcorrelationid,
-          true);
+          loggedInUser,null,null,null,null,null, this.eventcorrelationid,true
+        )
 
         let heightObs = new Observation(
           observation_id,
@@ -215,6 +232,7 @@ export class RefWaistcircumferenceComponent implements OnInit {
                 // this.sharedData.showExpandedBanner =true;
                 this.bsModalRef.content.saveDone(true);
                 this.bsModalRef.hide();
+                this.headerService.myPatientSelected.next(this.sharedData.personId);
 
               }, (error) => {
                 this.bsModalRef.hide();
@@ -271,6 +289,77 @@ export class RefWaistcircumferenceComponent implements OnInit {
       "T" + (hrs < 10 ? "0" + hrs : hrs) + ":" + (mins < 10 ? "0" + mins : mins) + ":" + (secs < 10 ? "0" + secs : secs) + "." + (msecs < 10 ? "00" + msecs : (msecs < 100 ? "0" + msecs : msecs)));
 
     return returndate;
+  }
+
+  // loadChart() {
+  //   const items = [];
+  //   this.listofRecords.forEach(element => {
+  //     items.push({ x: moment(element.datestarted).toDate(), y: element.value })
+  //   });
+
+  //   // Configuration for the Graph2d
+  //   const options: Graph2dOptions = {
+  //     dataAxis: {
+  //       left: {
+  //         title: {
+  //           text: 'cm'
+  //         }
+  //       }
+  //     },
+  //     start: moment().subtract(10, 'days').toDate(),
+  //     end: moment().toDate(),
+  //     drawPoints: {
+  //       style: 'circle' // 'square' also possible
+  //     },
+  //     // timeAxis: {
+  //     //   scale: 'day',
+  //     //   step: 1,
+  //     //   title: {
+  //     //     text: 'X-axis Label'
+  //     //   }
+  //     // }
+  //     // shaded: {
+  //     //   orientation: 'bottom' // top, bottom
+  //     // }
+  //   };
+
+  //   // Create a Graph2d
+  //   this.graph2d = new Graph2d(this.visualization.nativeElement, items, options);
+  // }
+
+  // zoomIn(): void {
+  //   const range = this.graph2d.getWindow();
+  //   const interval = range.end - range.start;
+  //   this.graph2d.setWindow({
+  //     start: moment(range.start).add(interval * 0.2, 'milliseconds').toDate(),
+  //     end: moment(range.end).subtract(interval * 0.2, 'milliseconds').toDate()
+  //   });
+  // }
+
+  // zoomOut(): void {
+  //   const range = this.graph2d.getWindow();
+  //   const interval = range.end - range.start;
+  //   this.graph2d.setWindow({
+  //     start: moment(range.start).subtract(interval * 0.2, 'milliseconds').toDate(),
+  //     end: moment(range.end).add(interval * 0.2, 'milliseconds').toDate()
+  //   });
+  // }
+
+  openCollapseGraph() {
+    if(this.listofRecords) {
+      const config = {
+        backdrop: true,
+        ignoreBackdropClick: true,
+        class: 'modal-dialog-centered modal-lg',
+        initialState: {
+          errorMessage: "",
+          chartData: this.listofRecords,
+          chartConfig: this.chartConfig
+        }
+      };
+      this.bsGraphModalRef = this.modalService.show(ChartComponent, config);
+    }
+    
   }
 
 }

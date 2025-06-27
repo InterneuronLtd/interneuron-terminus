@@ -36,6 +36,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { AuthenticationService } from './authentication.service';
 import { Router } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -119,8 +120,7 @@ export class ApirequestService {
       'Authorization': 'Bearer ' + token
     });
 
-    return this.httpClient.get(uri, { headers: headers })
-      .toPromise()
+    return firstValueFrom(this.httpClient.get(uri, { headers: headers }))
       .catch((result: HttpErrorResponse) => {
         if (result.status === 401) {
 
@@ -135,8 +135,7 @@ export class ApirequestService {
       'Authorization': 'Bearer ' + token
     });
 
-    return this.httpClient.post(uri, body, { headers: headers })
-      .toPromise()
+    return firstValueFrom(this.httpClient.post(uri, body, { headers: headers }))
       .catch((result: HttpErrorResponse) => {
         if (result.status === 401) {
 
@@ -151,8 +150,7 @@ export class ApirequestService {
       'Authorization': 'Bearer ' + token
     });
 
-    return this.httpClient.delete(uri, { headers: headers })
-      .toPromise()
+    return firstValueFrom(this.httpClient.delete(uri, { headers: headers }))
       .catch((result: HttpErrorResponse) => {
         if (result.status === 401) {
 
@@ -168,16 +166,15 @@ export class ApirequestService {
       'Authorization': 'Bearer ' + token
     });
 
-    return this.httpClient.post(uri, body, { headers: headers, responseType: 'blob' })
-      .toPromise()
-      .catch((result: HttpErrorResponse) => {
-        console.log(result
-        );
-        if (result.status === 401) {
+    return firstValueFrom(this.httpClient.post(uri, body, { headers: headers, responseType: 'blob' })
+    ).catch((result: HttpErrorResponse) => {
+      console.log(result
+      );
+      if (result.status === 401) {
 
-        }
-        throw result;
-      });
+      }
+      throw result;
+    });
   }
 
 }

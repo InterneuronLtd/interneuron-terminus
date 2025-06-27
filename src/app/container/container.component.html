@@ -103,8 +103,8 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
             <tr *ngFor="let dataRow of dataRows | stringFilter: filter | paginate: { itemsPerPage: 10, currentPage: p }"
               (click)="selectedPatient(dataRow)" [class.Selected]="dataRow.columns[0].matchedcontext === selectedValue"
               [ngClass]="dataRow.columns[0].rowcssfield">
-              <td *ngFor="let dataColumn of dataRow.columns" [innerHTML]="dataColumn.attributevalue | keepHtml"
-                [className]="dataColumn.defaultcssclassname"></td>
+              <td *ngFor="let dataColumn of dataRow.columns"
+                [className]="dataColumn.defaultcssclassname"> <div *ngIf="dataColumn.attributevalue"  [innerHTML]="dataColumn.attributevalue | keepHtml"></div></td>
             </tr>
           </tbody>
         </table>

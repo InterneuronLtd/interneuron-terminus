@@ -103,7 +103,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild("modulestemplate_mobile") modulestemplate_mobile: ElementRef;
   @ViewChild("modulestemplate") modulestemplate: ElementRef;
 
-  userRoleList=[]
+  userRoleList = []
   username: string = "";
   headertemplatecolour: string = "#f6f2f2";
   hideGPConnectFeature = AppConfig.settings.GPConnectConfig.hideThisFeature;
@@ -209,6 +209,8 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
 
   renderTemplates(src, dest) {
     this[dest].nativeElement.append(this[src].nativeElement);
+    if (this[dest].nativeElement)
+      this[dest].nativeElement.firstChild.style.visibility = "visible";
   }
 
   // Hide sidebar when printing
@@ -252,7 +254,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
 
   }
   ngOnInit() {
-   
+
     this.resizeSubscription = this.resizeService.displayPort$.subscribe(
       (value: any) => {
         this.displayPort = value;
@@ -263,13 +265,13 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
         } else {
           this.desktopDisplayClass = "display-desktop";
           this.mobileDisplayClass = "hide-mobile";
-          if(this.selectedApplication.applicationtype_id == "STAND_ALONE") {
+          if (this.selectedApplication.applicationtype_id == "STAND_ALONE") {
             this.hidePatientList();
           }
           else {
             this.showPatientList();
           }
-          
+
         }
       }
     );
@@ -337,7 +339,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     $("body").addClass("sidebar-show");
   }
 
-  showUserProfile(){
+  showUserProfile() {
     this.showUserProfileForm = true;
   }
 

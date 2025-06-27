@@ -525,40 +525,45 @@ export class ExtendedBannerComponent implements OnInit, OnDestroy {
           // spanLabel.innerHTML = data.label + "<div title='Height' class='Reference_height' (click)='openRecordHeightModal('H')'></div>"
         }
         if (data.label == "Allergies") {
-          let button = document.createElement("span");
-          button.classList.add("col");
-          button.style.width = "35";
-          button.style.height = "35";
-          button.style.cursor = "pointer";
-          button.style.marginTop = "-5px"
-          button.style.marginLeft = "6px"
-          button.style.backgroundImage = "url('assets/images/Edit _Button_Small.svg')";
-          button.style.backgroundRepeat = "no-repeat";
-
-          button.addEventListener("click", this.resolveModule.bind(this, 'H'))
-          // hight.setAttribute("onclick", "openRecordHeightModal()") 
-          spanLabel.appendChild(button);
-
-          //= this.openRecordHeightModal();
-          // spanLabel.innerHTML = data.label + "<div title='Height' class='Reference_height' (click)='openRecordHeightModal('H')'></div>"
+          if(this.env != 'mental_healthcare') {
+            let button = document.createElement("span");
+            button.classList.add("col");
+            button.style.width = "35";
+            button.style.height = "35";
+            button.style.cursor = "pointer";
+            button.style.marginTop = "-5px"
+            button.style.marginLeft = "6px"
+            button.style.backgroundImage = "url('assets/images/Edit _Button_Small.svg')";
+            button.style.backgroundRepeat = "no-repeat";
+  
+            button.addEventListener("click", this.resolveModule.bind(this, 'H'))
+            // hight.setAttribute("onclick", "openRecordHeightModal()") 
+            spanLabel.appendChild(button);
+  
+            //= this.openRecordHeightModal();
+            // spanLabel.innerHTML = data.label + "<div title='Height' class='Reference_height' (click)='openRecordHeightModal('H')'></div>"
+          }
+         
         }
         if (data.label == "Diagnosis") {
-          let button = document.createElement("span");
-          button.classList.add("col");
-          button.style.width = "35";
-          button.style.height = "35";
-          button.style.cursor = "pointer";
-          button.style.marginTop = "-5px"
-          button.style.marginLeft = "6px"
-          button.style.backgroundImage = "url('assets/images/Edit _Button_Small.svg')";
-          button.style.backgroundRepeat = "no-repeat";
+          if(this.env != 'mental_healthcare'){
+            let button = document.createElement("span");
+            button.classList.add("col");
+            button.style.width = "35";
+            button.style.height = "35";
+            button.style.cursor = "pointer";
+            button.style.marginTop = "-5px"
+            button.style.marginLeft = "6px"
+            button.style.backgroundImage = "url('assets/images/Edit _Button_Small.svg')";
+            button.style.backgroundRepeat = "no-repeat";
 
-          button.addEventListener("click", this.openDiagnosis.bind(this, 'H'))
-          // hight.setAttribute("onclick", "openRecordHeightModal()") 
-          spanLabel.appendChild(button);
+            button.addEventListener("click", this.openDiagnosis.bind(this, 'H'))
+            // hight.setAttribute("onclick", "openRecordHeightModal()") 
+            spanLabel.appendChild(button);
 
-          //= this.openRecordHeightModal();
-          // spanLabel.innerHTML = data.label + "<div title='Height' class='Reference_height' (click)='openRecordHeightModal('H')'></div>"
+            //= this.openRecordHeightModal();
+            // spanLabel.innerHTML = data.label + "<div title='Height' class='Reference_height' (click)='openRecordHeightModal('H')'></div>"
+          }
         }
 
         columnLabel.appendChild(spanLabel);
@@ -719,6 +724,13 @@ export class ExtendedBannerComponent implements OnInit, OnDestroy {
                     spanValue.innerHTML = address.replaceAll(',  ,', ',');
                   }
                 }
+                else if (data.dataColumn == "weight") {
+                  spanValue.innerHTML = colDataArray[colData][data.dataColumn] + " kg";
+                }
+                else if (data.dataColumn == "circumf" || data.dataColumn == "height") {
+                  spanValue.innerHTML = colDataArray[colData][data.dataColumn] + " cm";
+  
+                }
                 else {
 
                   spanValue.innerHTML = colDataArray[colData][data.dataColumn];
@@ -867,13 +879,20 @@ export class ExtendedBannerComponent implements OnInit, OnDestroy {
 
   };
 
-  removeTimePartIfExists(dateVal: string | null, format?: string | null) : string {
+  removeTimePartIfExists(dateVal: string | null, format?: string | null, inputFormat?: string | null) : string {
     if(!dateVal) return '';
     try {
-      const fmtDt = moment(dateVal).format(format ?? 'DD/MM/YYYY');
+      let fmtDt = moment(moment(dateVal).format('LL')).format(format ?? 'DD/MM/YYYY');
+      console.log('1', dateVal, moment(moment(dateVal).format('LL')).isValid())
       if(moment(fmtDt).isValid())
         return fmtDt;
-      return moment(dateVal, 'DD-MM-YYYY').format('DD/MM/YYYY');
+      fmtDt  = moment(dateVal, inputFormat ??'YYYY-MM-DD').format('DD/MM/YYYY');
+      console.log('2', dateVal, moment(fmtDt).isValid())
+
+      if(moment(fmtDt).isValid())
+        return fmtDt;
+      console.log('3', dateVal, moment(dateVal, inputFormat ?? 'DD-MM-YYYY').isValid())
+    return  moment(dateVal, inputFormat ?? 'DD-MM-YYYY').format('DD/MM/YYYY');
       // let dt: string[] = [dateVal];
       // if(dateVal.includes('T'))
       //   dt = dateVal.split('T');
@@ -976,11 +995,14 @@ export class ExtendedBannerComponent implements OnInit, OnDestroy {
       let msgIndex = 0;
       for (const msg of response.data.messages) {
         if (!msg) continue;
-        const { messageCode, messageText, messageCategory } = msg;
+        const { messageCode, messageText, messageCategory, messageSyncOpCategory } = msg;
         if (msgIndex === 0) {
           const msgCodeAsInt = messageCode != null ? parseInt(messageCode) : 0;
-          if (msgCodeAsInt === 1)
+          if (msgCodeAsInt === 1) {
             this.gpConnect.syncState = GPConnectSyncStatus.PDSVerificationFail;
+            if(messageSyncOpCategory === 'GPC API Error')
+              this.gpConnect.msgs.push(messageText);
+          }
           else if (msgCodeAsInt === 2) {
             this.gpConnect.syncState = GPConnectSyncStatus.Success_With_Warnings;
             this.gpConnect.msgs.push(messageText);

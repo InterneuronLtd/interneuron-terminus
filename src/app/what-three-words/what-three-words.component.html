@@ -18,15 +18,14 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.If not, see<http://www.gnu.org/licenses/>. -->
 <!--END LICENSE BLOCK--> 
-<button type="button" hidden data-toggle="modal" data-target="#wtw" data-backdrop="static" data-keyboard="false"
-#open_wtw></button>
-<div id="wtw" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+<button type="button" hidden data-bs-toggle="modal" data-bs-target="#wtw" #open_wtw></button>
+<div id="wtw" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
 <div class="modal-dialog  modal-dialog-centered modal-lg" role="document">
    
     <div class="modal-content">
       <div class="modal-header" style="padding: 0.5rem 1rem; background-color: #E6E6E6">
         <h6 id="dialog-static-name" class="modal-title">Terminus - What Three Words</h6>
-        <button type="button" class="close pull-right" aria-label="Close" data-dismiss="modal"  >
+        <button type="button" class="close pull-right" aria-label="Close" data-bs-dismiss="modal"  >
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
@@ -37,7 +36,7 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
         </div>
         <div class="modal-footer d-flex justify-content-between" >
             <div class="d-flex justify-content-end">
-                <button type="button" class="btn btn-secondary ml-2" data-dismiss="modal" style="display: none;"
+                <button type="button" class="btn btn-secondary ml-2" data-bs-dismiss="modal" style="display: none;"
                     #close_wtw>Close</button>
             </div>
         </div>

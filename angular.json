@@ -34,12 +34,11 @@
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
-              "node_modules/popper.js/dist/umd/popper.min.js",
-              "node_modules/bootstrap/dist/js/bootstrap.min.js",
+              "node_modules/@popperjs/core/dist/umd/popper.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
               "src/assets/scripts/pace-progress/js/pace.min.js",
               "src/assets/scripts/perfect-scrollbar/js/perfect-scrollbar.min.js",
               "src/assets/scripts/@coreui/coreui/js/coreui.min.js",
-              "node_modules/core-js/client/core.js",
               "src/assets/scripts/terminus.js"
             ],
             "vendorChunk": true,
@@ -82,18 +81,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "interneuron-terminus:build"
+            "buildTarget": "interneuron-terminus:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "interneuron-terminus:build:production"
+              "buildTarget": "interneuron-terminus:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "interneuron-terminus:build"
+            "buildTarget": "interneuron-terminus:build"
           }
         },
         "test": {
@@ -134,6 +133,5 @@
         }
       }
     }
-  },
-  "defaultProject": "interneuron-terminus"
+  }
 }

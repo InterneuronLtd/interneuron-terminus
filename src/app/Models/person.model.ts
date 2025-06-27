@@ -58,11 +58,23 @@ export class Observationevent {
     public observationscaletype_id: string,
     public escalationofcare: boolean,
     public reasonforamend: string,
-    public _createdby: string,
+    public _createdby: string,  
+   
+    public isnews2: boolean,  
+    public isdeleted: boolean,
+    public deletedby: string,
+    public deletedreason: string,
+    public deletedreasonothertext: string,
+  
+    public eventcorrelationid?: string,
+    public incomplete?: boolean,
     public reasonforincompleteobservations?: string,
     public reasonfordelete?: string,
-    public eventcorrelationid?: string,
-    public incomplete?: boolean
+    public observationtypetext?: string,
+    public reasonforamendother?: string,
+    public patientrefused?:boolean,
+    public reasonforpatientrefused?:string
+    
   ) { }
 }
 
@@ -97,3 +109,60 @@ export class PersonObservationScale {
   observationscaletype_id: string;
 
 }
+
+export class Posturalbloodpressure
+	{
+    constructor(
+			 public  posturalbloodpressure_id :string,
+			 public  personid  :string,
+			 public  encounterid  :string,
+			 public  createdby  :string,
+			 public  obsevationeventstanding  :string,
+			 public  obsevationeventsitting   :string,
+			 public  datestarted :any,
+			 public  sbpstanding : number,
+			 public  sbpsitting  : number,
+			 public  dbpstanding  : number,
+			 public  dbpsitting  : number,
+			 public  resonforchange  :string,
+			 public  isdeleted :boolean,
+			 public  changevalue : number,
+			 public  eventcorrelationid  :string,
+       public modifiedon :any
+      ) { }
+      
+		}
+
+    export class ObservationEventMonitoring {
+      constructor(
+        public observationeventmonitoring_id: string,
+        public observationevent_id: string,
+        public observationfrequency: number,
+        public escalationofcare: boolean,
+        public ispatientsick: string,
+        public concernsaboutpatient: string,
+        public couldbeinfection: string,
+        public escalatedtowhom?: string,
+        public reasonfornotescalating?: string,
+        public monitoringcomments?: string,
+        public eventcorrelationid?: string,
+        public hasbeenammended?: boolean,
+        public isobservationfrequencyamended?: boolean,
+        public isescalationofcareamended?: boolean,
+        public frequency_entered?: string,
+        public frequencyunit_entered?: string,
+        public frequency_reason?: string,
+        public frequency_reason_other?: string,
+        public ispause?: boolean,
+        public isstop?: boolean,
+        public isnewstwosuggestestedfreq?: boolean,
+        public observationtype_id?: string,
+        public observationtypetext?: string,
+        public isdeleted?: boolean,
+        public deletedby?: string,
+        public deletedreasonothertext?: string,
+        public monitoringnotrequired?: boolean
+      ) { }
+    }
+
+    

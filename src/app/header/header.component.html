@@ -32,9 +32,10 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.If not, see<http://www.gnu.org/licenses/>. -->
 
-<header class="app-header navbar" [style.background-color]="headertemplatecolour" >
+<header class="app-header navbar" [style.background-color]="headertemplatecolour">
 
-  <div class="nav navbar" style="width: 100%;" [ngStyle]="{'margin-top': desktopDisplayClass == 'display-desktop'?'-15px':'0px'}" >
+  <div class="nav navbar" style="width: 100%;"
+    [ngStyle]="{'margin-top': desktopDisplayClass == 'display-desktop'?'-7px':'0px'}">
 
 
     <!-- <table style="width: 100%;">
@@ -65,18 +66,21 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
         <td class="nav-item">
           <div class="dropdown" style="width: 100% !important;">
             <button class="btn btn-sm btn-default dropdown-toggle btn-info text-white btn-block" type="button"
-              id="appDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+              id="appDropdownMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
               (click)="renderTemplates('applicationstemplate','applicationstemplate_desktop')">
               <span *ngIf="selectedApplication">{{selectedApplication.applicationname}}</span>
             </button>
-            <div #applicationstemplate_desktop>
+            <div>
+              <ul class="dropdown-menu enforce-overflow-scroll" style="width: 100%; text-align: center;"
+                #applicationstemplate_desktop>
+              </ul>
             </div>
           </div>
         </td>
         <!-- <td class="nav-item">
           <div class="dropdown" style="width: 100% !important;">
             <button class="btn btn-sm dropdown-toggle btn-info text-white btn-block" type="button"
-              id="ddlTerminusAppModules" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+              id="ddlTerminusAppModules" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
               (click)="renderTemplates('modulestemplate','modulestemplate_desktop')">
               <span *ngIf="selectedModule">{{selectedModule.modulename}}</span>
               <span *ngIf="!selectedModule">No Modules</span>
@@ -88,11 +92,14 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
         <td class="nav-item" *ngIf="selectedApplication.applicationtype_id != 'STAND_ALONE'">
           <div class="dropdown" style="width: 100% !important;">
             <button class="btn btn-sm btn-default dropdown-toggle btn-info text-white btn-block" type="button"
-              id="personaDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+              id="personaDropdownMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
               (click)="renderTemplates('personatemplate','personatemplate_desktop')">
               {{selectedPersona}}
             </button>
-            <div #personatemplate_desktop>
+            <div>
+              <ul class="dropdown-menu enforce-overflow-scroll" style="width: 100%; text-align: center;"
+                #personatemplate_desktop>
+              </ul>
             </div>
           </div>
         </td>
@@ -100,32 +107,40 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
 
           <div class="dropdown" style="width: 100% !important;">
             <button class="btn btn-sm btn-default dropdown-toggle btn-light text-white btn-block" type="button"
-              id="personaContextDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+              id="personaContextDropdownMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
               (click)="renderTemplates('personacontexttemplate','personacontexttemplate_desktop')">
               {{selectedPersonaContext}}
             </button>
-            <div #personacontexttemplate_desktop>
+            <div>
+              <ul class="dropdown-menu enforce-overflow-scroll" style="width: 100%; text-align: center;"
+                #personacontexttemplate_desktop>
+              </ul>
             </div>
           </div>
         </td>
         <td class="nav-item" *ngIf="selectedApplication.applicationtype_id != 'STAND_ALONE'">
           <div class="dropdown" style="width: 100% !important;">
-            <button  class="btn btn-sm btn-default dropdown-toggle btn-success text-white btn-block" type="button"
-              id="listDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+            <button class="btn btn-sm btn-default dropdown-toggle btn-success text-white btn-block" type="button"
+              id="listDropdownMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
               (click)="renderTemplates('liststemplate','liststemplate_desktop')">
               <span *ngIf="selectedList">{{selectedList}}</span>
             </button>
-            <div #liststemplate_desktop>
+
+            <div>
+              <ul class="dropdown-menu enforce-overflow-scroll" style="width: 100%; text-align: center;"
+                #liststemplate_desktop>
+              </ul>
             </div>
           </div>
 
-        
+
         </td>
       </tr>
       <tr>
         <td colspan="7">
           <div style=" margin-bottom: -28px;    display: flex; flex-direction: row;float:right">
-            <button style="margin-top: -10px;font-size: medium;" data-toggle="dropdown" type="button" aria-haspopup="true" class="btn btn-sm btn-link" aria-expanded="false">
+            <button style="margin-top: -10px;font-size: medium;" data-bs-toggle="dropdown" type="button"
+              aria-haspopup="true" class="btn btn-sm btn-link" aria-expanded="false">
               {{username | titlecase}}</button>
 
             <div class="dropdown-menu dropdown-menu-right" style="text-align: left; overflow-y:hidden;">
@@ -138,20 +153,19 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
                   </button>
                 </ng-container>
                 <hr class="m-1" />
-                <span *ngFor="let a of userRoleList">{{a}}<br/></span>
-                <hr/>
+                <span *ngFor="let a of userRoleList">{{a}}<br /></span>
+                <hr />
                 <button type="button" class="btn btn-sm btn-link" (click)="oidcLogout()">
                   <i class="icon-lock"></i>Logout
                 </button>
               </a>
             </div>
-            <a href="#" role="button" data-toggle="modal" data-target="#aboutscreen" data-backdrop="static" data-keyboard="false"
-            style="padding:0;margin-top: -4px;font-size: medium;">
-             <i class="icon-info"></i>
+            <a href="javascript:(void)" role="button" data-bs-toggle="modal" data-bs-target="#aboutscreen" style="padding:0;margin-top: -4px;font-size: medium;">
+              <i class="icon-info"></i>
             </a>
 
-          <!-- <button type="button" style="padding:0;margin-top: -4px;" class="btn btn-sm btn-link"  data-toggle="modal" data-target="#aboutscreen" data-backdrop="static" data-keyboard="false">About</button> -->
-        </div>
+            <!-- <button type="button" style="padding:0;margin-top: -4px;" class="btn btn-sm btn-link"  data-bs-toggle="modal" data-bs-target="#aboutscreen" data-bs-backdrop="static" data-bs-keyboard="false">About</button> -->
+          </div>
         </td>
       </tr>
     </table>
@@ -185,12 +199,15 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
                   </span>
                   <div class="dropdown" style="width: 100%;">
                     <button class="btn btn-sm btn-default dropdown-toggle btn-info text-white btn-block"
-                      style="width: 100% !important;" type="button" id="appDropdownMenu" data-toggle="dropdown"
+                      style="width: 100% !important;" type="button" id="appDropdownMenu" data-bs-toggle="dropdown"
                       aria-haspopup="true" aria-expanded="false"
                       (click)="renderTemplates('applicationstemplate','applicationstemplate_mobile')">
                       <span *ngIf="selectedApplication">{{selectedApplication.applicationname}}</span>
                     </button>
-                    <div #applicationstemplate_mobile style="width: 100% !important;">
+                    <div style="width: 100% !important;">
+                      <ul class="dropdown-menu enforce-overflow-scroll" style="width: 100%; text-align: center;"
+                        #applicationstemplate_mobile>
+                      </ul>
                     </div>
                   </div>
                 </li>
@@ -200,7 +217,7 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
                   </span>
                   <div class="dropdown" style="width: 100% !important;">
                     <button class="btn btn-sm dropdown-toggle btn-info text-white btn-block" type="button"
-                      id="ddlTerminusAppModules" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                      id="ddlTerminusAppModules" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                       (click)="renderTemplates('modulestemplate','modulestemplate_mobile')">
                       <span *ngIf="selectedModule">{{selectedModule.modulename}}</span>
                       <span *ngIf="!selectedModule">No Modules</span>
@@ -215,11 +232,15 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
                   </span>
                   <div class="dropdown" style="width: 100% !important;">
                     <button class="btn btn-sm btn-default dropdown-toggle btn-success text-white btn-block"
-                      type="button" id="listDropdownMenu" data-toggle="dropdown" aria-haspopup="true"
+                      type="button" id="listDropdownMenu" data-bs-toggle="dropdown" aria-haspopup="true"
                       aria-expanded="false" (click)="renderTemplates('liststemplate','liststemplate_mobile')">
                       <span *ngIf="selectedList">{{selectedList}}</span>
                     </button>
-                    <div #liststemplate_mobile>
+
+                    <div>
+                      <ul class="dropdown-menu enforce-overflow-scroll" style="width: 100%; text-align: center;"
+                        #liststemplate_mobile>
+                      </ul>
                     </div>
                   </div>
                 </li>
@@ -229,11 +250,15 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
                   </span>
                   <div class="dropdown" style="width: 100% !important;">
                     <button class="btn btn-sm btn-default dropdown-toggle btn-info text-white btn-block" type="button"
-                      id="personaDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                      id="personaDropdownMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                       (click)="renderTemplates('personatemplate','personatemplate_mobile')">
                       {{selectedPersona}}
                     </button>
-                    <div #personatemplate_mobile>
+
+                    <div>
+                      <ul class="dropdown-menu enforce-overflow-scroll" style="width: 100%; text-align: center;"
+                        #personatemplate_mobile>
+                      </ul>
                     </div>
                   </div>
                 </li>
@@ -243,11 +268,16 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
                   </span>
                   <div class="dropdown" style="width: 100% !important;">
                     <button class="btn btn-sm btn-default dropdown-toggle btn-light text-white btn-block" type="button"
-                      id="personaContextDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                      id="personaContextDropdownMenu" data-bs-toggle="dropdown" aria-haspopup="true"
+                      aria-expanded="false"
                       (click)="renderTemplates('personacontexttemplate','personacontexttemplate_mobile')">
                       {{selectedPersonaContext}}
                     </button>
-                    <div #personacontexttemplate_mobile>
+
+                    <div>
+                      <ul class="dropdown-menu enforce-overflow-scroll" style="width: 100%; text-align: center;"
+                        #personacontexttemplate_mobile>
+                      </ul>
                     </div>
                   </div>
                 </li>
@@ -262,7 +292,7 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
 
         <!-- <td [className]="desktopDisplayClass">
           <div class="nav-item" style="width:50px;">
-            <a data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"
+            <a data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"
               style=" text-align: center;">
               <span class="img-avatar"><i class="icon-user"></i> </span>
             </a>
@@ -280,7 +310,7 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
 
         <td [className]="mobileDisplayClass">
           <div class="nav-item float-right" style="width:50px;">
-            <span data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"
+            <span data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"
               style=" text-align: center; color: #535e7e;">
               <span class="img-avatar"><i class="icon-user"></i> </span>
             </span>
@@ -295,14 +325,15 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
           </div>
         </td>
         <td  style="padding: 0;width: 25px;">            
-          <button type="button" style="padding:0;" class="btn btn-sm btn-link"  data-toggle="modal" data-target="#aboutscreen" data-backdrop="static" data-keyboard="false">About</button>
+          <button type="button" style="padding:0;" class="btn btn-sm btn-link"  data-bs-toggle="modal" data-bs-target="#aboutscreen" data-bs-backdrop="static" data-bs-keyboard="false">About</button>
         </td> -->
 
       </tr>
       <tr>
         <td colspan="7">
           <div style=" margin-bottom: -28px;    display: flex; flex-direction: row;float:right">
-            <button style="margin-top: -19px;font-size: medium;" data-toggle="dropdown" type="button" aria-haspopup="true" class="btn btn-sm btn-link" aria-expanded="false">
+            <button style="margin-top: -19px;font-size: medium;" data-bs-toggle="dropdown" type="button"
+              aria-haspopup="true" class="btn btn-sm btn-link" aria-expanded="false">
               {{username | titlecase}}</button>
 
             <div class="dropdown-menu dropdown-menu-right" style="text-align: left; overflow-y:hidden;">
@@ -315,8 +346,8 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
                   </button>
                 </ng-container>
                 <hr class="m-1" />
-                <span *ngFor="let a of userRoleList">{{a}}  <br/></span>
-                <hr/>
+                <span *ngFor="let a of userRoleList">{{a}} <br /></span>
+                <hr />
                 <button type="button" class="btn btn-sm btn-link" (click)="oidcLogout()">
                   <i class="icon-lock"></i>Logout
                 </button>
@@ -337,13 +368,12 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
 
 
             </div>
-            <a href="#" role="button" data-toggle="modal" data-target="#aboutscreen" data-backdrop="static" data-keyboard="false"
-            style="padding:0;margin-top: -13px;font-size: medium;">
-             <i class="icon-info"></i>
+            <a href="#" role="button" data-bs-toggle="modal" data-bs-target="#aboutscreen" style="padding:0;margin-top: -13px;font-size: medium;">
+              <i class="icon-info"></i>
             </a>
 
-          <!-- <button type="button" style="padding:0;margin-top: -4px;" class="btn btn-sm btn-link"  data-toggle="modal" data-target="#aboutscreen" data-backdrop="static" data-keyboard="false">About</button> -->
-        </div>
+            <!-- <button type="button" style="padding:0;margin-top: -4px;" class="btn btn-sm btn-link"  data-bs-toggle="modal" data-bs-target="#aboutscreen" data-bs-backdrop="static" data-bs-keyboard="false">About</button> -->
+          </div>
         </td>
       </tr>
     </table>
@@ -414,7 +444,7 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
 
           <td  [className]="desktopDisplayClass">
             <div class="nav-item" style="width:50px;">
-              <a data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" style=" text-align: center;">
+              <a data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" style=" text-align: center;">
                 <span class="img-avatar"><i class="icon-user"></i> </span>
               </a>
 
@@ -430,7 +460,7 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
 
           <td  [className]="mobileDisplayClass">
             <div class="nav-item float-right" style="width:50px;">
-              <span data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" style=" text-align: center; color: #535e7e;">
+              <span data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" style=" text-align: center; color: #535e7e;">
                 <span class="img-avatar"><i class="icon-user"></i> </span>
               </span>
 
@@ -450,30 +480,20 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
 
   </div>
 
-  <div #applicationstemplate>
-    <ul class="dropdown-menu enforce-overflow-scroll" style="width: 100%; text-align: center;">
-      <app-applications></app-applications>
-    </ul>
+  <div #applicationstemplate style="visibility: hidden;">
+    <app-applications></app-applications>
   </div>
-  <div #modulestemplate>
-    <ul class="dropdown-menu enforce-overflow-scroll" style="width: 100%; text-align: center;">
-      <app-module-list></app-module-list>
-    </ul>
+  <div #modulestemplate style="visibility: hidden;">
+    <app-module-list></app-module-list>
   </div>
-  <div #personatemplate>
-    <ul class="dropdown-menu enforce-overflow-scroll" style="width: 100%; text-align: center;">
-      <app-personas></app-personas>
-    </ul>
+  <div #personatemplate style="visibility: hidden;">
+    <app-personas></app-personas>
   </div>
-  <div #personacontexttemplate>
-    <ul class="dropdown-menu enforce-overflow-scroll" style="width: 100%; text-align: center;">
-      <app-persona-contexts></app-persona-contexts>
-    </ul>
+  <div #personacontexttemplate style="visibility: hidden;">
+    <app-persona-contexts></app-persona-contexts>
   </div>
-  <div #liststemplate>
-    <ul class="dropdown-menu enforce-overflow-scroll" style="width: 100%; text-align: center;">
-      <app-lists></app-lists>
-    </ul>
+  <div #liststemplate style="visibility: hidden;">
+    <app-lists></app-lists>
   </div>
 </header>
 
@@ -491,7 +511,7 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
             </div>
           </div>
         </div>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -507,15 +527,15 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
 </div>
 
 
-<button type="button" style="display:none" data-toggle="modal" data-target="#timeoutModal" data-backdrop="static"
-  data-keyboard="false" #openTimeoutModal></button>
+<button type="button" style="display:none" data-bs-toggle="modal" data-bs-target="#timeoutModal" data-bs-backdrop="static"
+  data-bs-keyboard="false" #openTimeoutModal></button>
 
 <div class="modal fade" id="timeoutModal" tabindex="-1" aria-labelledby="timeoutModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -523,7 +543,7 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
       <!-- <div class="modal-header">
       </div> -->
       <div class="modal-body">
-        <button type="button" class="btn btn-default btn-outline-dark" data-dismiss="modal"
+        <button type="button" class="btn btn-default btn-outline-dark" data-bs-dismiss="modal"
           (click)="oidcLogout()">Logout</button>
         <div class="h5 text-secondary" style="text-align: right;">{{username}}</div>
         <br />
@@ -534,7 +554,7 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
         <div class="h4 text-center text-dark">Please click 'Continue' to carry on with your session</div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-info text-white btn-lg btn-block" data-dismiss="modal"
+        <button type="button" class="btn btn-info text-white btn-lg btn-block" data-bs-dismiss="modal"
           (click)="continueSession()">Continue</button>
       </div>
     </div>
@@ -543,26 +563,25 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
 
 
 
-<div id="aboutscreen" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+<div id="aboutscreen" data-bs-backdrop="static" data-bs-keyboard="false" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog  modal-dialog-centered modal-lg" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h6 class="modal-title">About</h6>
-          <div class="close" data-dismiss="modal" >X</div>
-        </div>
-          <div class="modal-body p-0 pt-1 p-3" style="overflow-y: auto;height: 40vw;">
-           
-            <app-about></app-about>
-          </div>
-          <div>
-              <button type="button" hidden data-dismiss="modal" #close_pform>Close</button>
-          </div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title">About</h6>
+        <div class="close" data-bs-dismiss="modal">X</div>
       </div>
+      <div class="modal-body p-0 pt-1 p-3" style="overflow-y: auto;height: 40vw;">
+
+        <app-about></app-about>
+      </div>
+      <div>
+        <button type="button" hidden data-bs-dismiss="modal" #close_pform>Close</button>
+      </div>
+    </div>
   </div>
 </div>
 
 <ng-container *ngIf="showUserProfileForm">
-  <app-userprofile [showUserProfileFormAnyways]="showUserProfileForm" (onClose)="closeUserProfileForm($event)"></app-userprofile>
+  <app-userprofile [showUserProfileFormAnyways]="showUserProfileForm"
+    (onClose)="closeUserProfileForm($event)"></app-userprofile>
 </ng-container>
-
- 

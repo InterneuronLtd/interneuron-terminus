@@ -20,12 +20,12 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
 <!--END LICENSE BLOCK--> 
 <div>
   <!-- Button trigger modal -->
-  <button type="button" #userProfileBtn class="btn btn-primary" style="display:none" data-toggle="modal"
-    data-target="#userProfileModal" data-backdrop="static">
+  <button type="button" #userProfileBtn class="btn btn-primary" style="display:none" data-bs-toggle="modal"
+    data-bs-target="#userProfileModal">
     Proxy trigger</button>
 
   <!-- Modal -->
-  <div class="modal fade" #userProfileModal id="userProfileModal" tabindex="-1" role="dialog"
+  <div class="modal fade" data-bs-backdrop="static" #userProfileModal id="userProfileModal" tabindex="-1" role="dialog"
     aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">

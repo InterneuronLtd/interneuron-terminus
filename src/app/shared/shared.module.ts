@@ -37,32 +37,26 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UserProfileComponent } from './userprofile/userprofile.component';
 import { UserProfilePictureComponent } from './userprofile/profile-picture/userprofile-picture.component';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { PatientconsentComponent } from './patientconsent/patientconsent.component';
 import { TooltipModule, TooltipOptions } from 'ng2-tooltip-directive';
 import { CustomTooltipOptions } from './tooltip-options';
 
 
-@NgModule({
-  declarations: [
-    UserProfileComponent,
-    UserProfilePictureComponent,
-    PatientconsentComponent
-  ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    HttpClientModule,
-    ModalModule.forRoot(),
-    TooltipModule.forRoot(CustomTooltipOptions as TooltipOptions)
-  ],
-  exports: [
-    UserProfileComponent,
-    UserProfilePictureComponent,
-    PatientconsentComponent
-  ],
-  providers: [
-  ]
-})
+@NgModule({ declarations: [
+        UserProfileComponent,
+        UserProfilePictureComponent,
+        PatientconsentComponent
+    ],
+    exports: [
+        UserProfileComponent,
+        UserProfilePictureComponent,
+        PatientconsentComponent
+    ], imports: [CommonModule,
+        FormsModule,
+        ModalModule.forRoot(),
+        TooltipModule.forRoot(CustomTooltipOptions as TooltipOptions)], providers: [
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class SharedModule { }

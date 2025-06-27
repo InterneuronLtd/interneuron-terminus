@@ -41,7 +41,7 @@ import { ApirequestService } from '../../services/apirequest.service';
 import { AuthenticationService } from '../../services/authentication.service';
 import { WebStorageService } from "../../services/webstorage.service";
 import { RbacService } from "../../services/rbac.service";
-import * as jwt_decode from "jwt-decode";
+import  {jwtDecode} from "jwt-decode";
 import { Rbacobject } from '../../Models/Filter.model';
 import { Application } from 'src/app/Models/application.model';
 import { PersonaContext } from 'src/app/Models/personaContext.model';
@@ -101,7 +101,7 @@ export class ListsComponent implements OnInit, OnDestroy {
   }
   decodeAccessToken(token: string): any {
     try {
-      return jwt_decode(token);
+      return jwtDecode(token);
     }
     catch (Error) {
       return null;

@@ -42,9 +42,10 @@ export class GPConnectService {
     //     return null;
     // }
 
-    async syncGPConnectData(nhsNumber) : Promise<GPConnectSyncDataResponse | null> {
-        if(!nhsNumber) return null; 
-        const req = { nhsNumber };
+    async syncGPConnectData(nhsNumber, userId) : Promise<GPConnectSyncDataResponse | null> {
+        if(!nhsNumber  || !userId) return null; 
+
+        const req = { nhsNumber, practitionerIdentifier: userId };
         const gpConnectSyncDataResponse: GPConnectSyncDataResponse = {errorMessage : '', statusCode : 100};
         try {
             const apiResponse =  await this.reqService.postRequest(AppConfig.settings.apiServices.find(x => x.serviceName == 'SyncFromGPConnect').serviceUrl, JSON.stringify(req));

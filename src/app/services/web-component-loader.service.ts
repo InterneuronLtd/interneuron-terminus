@@ -48,6 +48,7 @@ import { AwsS3ServiceService } from './aws-s3-service.service';
 import { RefWeightHeightComponent } from '../ref-weight-height/ref-weight-height.component';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { RecRefHeightComponent } from '../rec-ref-height/rec-ref-height.component';
+import { RefWaistcircumferenceComponent } from '../ref-waistcircumference/ref-waistcircumference.component';
 
 
 @Injectable({
@@ -158,11 +159,11 @@ export class WebComponentLoaderService {
     }
     else if (action.detail == "COLLAPSE_PATIENT_LIST") {
       //Collapses the snapshot list
-      this.headerService.collapsePatientList.next();
+      this.headerService.collapsePatientList.next(true);
     }
     else if (action.detail == "EXPAND_PATIENT_LIST") {
       //Collapses the snapshot list
-      this.headerService.expandPatientList.next();
+      this.headerService.expandPatientList.next(true);
     }
     else if (action.detail.indexOf("LOAD_SECONDARY_MODULE_") != -1) {
       //Load secondary module
@@ -171,7 +172,7 @@ export class WebComponentLoaderService {
     }
     else if (action.detail == "HIDE_SECONDARY_MODULE") {
       //Hide secondary module
-      this.headerService.hideSecondaryModule.next();
+      this.headerService.hideSecondaryModule.next(true);
     }
     // LEGACY ACTIONS
     else if (action.detail == "UPDATE_EWS") {
@@ -184,7 +185,7 @@ export class WebComponentLoaderService {
     }
     else if (action.detail.includes("SEARCH_CLIENT")) {
       //Reloads the person banner
-      this.headerService.hideSecondaryModule.next();
+      this.headerService.hideSecondaryModule.next(true);
       let arraystring = action.detail.split('_')
       let clientid = arraystring[2];
       this.headerService.searchClient.next(clientid);
@@ -197,6 +198,9 @@ export class WebComponentLoaderService {
     }
     else if (action.detail == "OPEN_WEIGHT") {
       this.openRecordWeightModal("")
+    }
+    else if (action.detail == "OPEN_WAIST_CIRCUMFERENCE") {
+      this.openRecordWaistCircumferenceModal("")
     }
   }
   openRecordHeightModal(context: string) {
@@ -234,6 +238,29 @@ export class WebComponentLoaderService {
     };
 
     this.bsModalRef = this.modalService.show(RefWeightHeightComponent, config);
+    this.bsModalRef.content = {
+      saveDone: (isDone) => {
+        this.headerService.loadPatientBanner.next(this.webStorage.getSessionStorageItem("terminus:personcontext"));
+        // if (isDone && context == 'D' && this.appService.isWeightCapturedForToday) {
+        //   //this.LoadModule('app-inpatient-prescribing');
+        // }
+      }
+    };
+
+
+  }
+  openRecordWaistCircumferenceModal(context: string) {
+
+    const config = {
+      backdrop: true,
+      ignoreBackdropClick: true,
+      class: 'modal-dialog-centered',
+      initialState: {
+        errorMessage: ""
+      }
+    };
+
+    this.bsModalRef = this.modalService.show(RefWaistcircumferenceComponent, config);
     this.bsModalRef.content = {
       saveDone: (isDone) => {
         this.headerService.loadPatientBanner.next(this.webStorage.getSessionStorageItem("terminus:personcontext"));

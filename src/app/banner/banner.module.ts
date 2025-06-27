@@ -28,59 +28,50 @@ import { MainBadgesComponent } from './main-badges/main-badges.component';
 import { MainDemographicsComponent } from './main-demographics/main-demographics.component';
 import { MainEncounterComponent } from './main-encounter/main-encounter.component';
 import { MainWarningsComponent } from './main-warnings/main-warnings.component';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { ModalModule, BsModalRef } from 'ngx-bootstrap/modal';
 import { BsDatepickerConfig, BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { AngularWebStorageModule } from 'angular-web-storage';
 import { RecRefHeightComponent } from '../rec-ref-height/rec-ref-height.component';
 import { RefWeightHeightComponent } from '../ref-weight-height/ref-weight-height.component';
 import { SharedModule } from '../shared/shared.module';
 import { TooltipModule, TooltipOptions } from 'ng2-tooltip-directive';
 import { RefWaistcircumferenceComponent } from '../ref-waistcircumference/ref-waistcircumference.component';
-@NgModule({
-  declarations: [
-    BannerComponent,
-    MainDemographicsComponent,
-    MainEncounterComponent,
-    MainAllergiesComponent,
-    MainBadgesComponent,
-    MainWarningsComponent,
-    BannerActionsComponent,
-    ExtendedBannerComponent,
-    RecRefHeightComponent,
-    RefWeightHeightComponent,
-    RefWaistcircumferenceComponent
-
-  ],
-  imports: [
-    CommonModule,
-    BrowserModule,
-    HttpClientModule,
-    ModalModule.forRoot(),
-    BsDatepickerModule.forRoot(),
-    FormsModule,
-    AngularWebStorageModule,
-    FontAwesomeModule,
-    SharedModule,
-    TooltipModule
-  ],
-  exports: [
-    BannerComponent,
-    MainDemographicsComponent,
-    MainEncounterComponent,
-    MainAllergiesComponent,
-    MainBadgesComponent,
-    MainWarningsComponent,
-    BannerActionsComponent,
-    ExtendedBannerComponent
-  ],
-  providers: [
- 
-    BsDatepickerConfig
- 
-  ],
-})
+import { ChartComponent } from '../chart/chart.component';
+@NgModule({ declarations: [
+        BannerComponent,
+        MainDemographicsComponent,
+        MainEncounterComponent,
+        MainAllergiesComponent,
+        MainBadgesComponent,
+        MainWarningsComponent,
+        BannerActionsComponent,
+        ExtendedBannerComponent,
+        RecRefHeightComponent,
+        RefWeightHeightComponent,
+        RefWaistcircumferenceComponent,
+        ChartComponent
+    ],
+    exports: [
+        BannerComponent,
+        MainDemographicsComponent,
+        MainEncounterComponent,
+        MainAllergiesComponent,
+        MainBadgesComponent,
+        MainWarningsComponent,
+        BannerActionsComponent,
+        ExtendedBannerComponent
+    ], imports: [CommonModule,
+        BrowserModule,
+        ModalModule.forRoot(),
+        BsDatepickerModule.forRoot(),
+        FormsModule,
+        FontAwesomeModule,
+        SharedModule,
+        TooltipModule], providers: [
+        BsDatepickerConfig,
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class BannerModule { }

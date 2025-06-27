@@ -34,7 +34,7 @@
 
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { APP_INITIALIZER } from '@angular/core';
 import { AppConfig } from './app.config';
 import { AppRoutingModule } from './app-routing.module';
@@ -48,7 +48,6 @@ import { OidcCallbackComponent } from './oidc-callback/oidc-callback.component';
 import { ErrorHandlerService } from './services/error-handler.service';
 import { OidcLogoutComponent } from './oidc-logout/oidc-logout.component';
 import { UserIdleModule } from 'angular-user-idle';
-import { AngularWebStorageModule } from 'angular-web-storage';
 import { FormsModule } from '@angular/forms';
 import { FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -59,55 +58,64 @@ import { BannerModule } from './banner/banner.module';
 import { SecondaryModuleLoaderComponent } from './container/secondary-module-loader/secondary-module-loader.component'
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { WhatthreewordsLoaderDirective } from './directives/whatthreewords-loader.directive';
 import { WhatThreeWordsComponent } from './what-three-words/what-three-words.component';
+
+import { BsDatepickerConfig, BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { TimepickerModule } from 'ngx-bootstrap/timepicker';
+
+import { ReactiveFormsModule } from '@angular/forms';
+
 
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
 }
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    OidcCallbackComponent,
-    OidcLogoutComponent,
-    SecondaryModuleLoaderComponent,
-    WhatthreewordsLoaderDirective,
-    WhatThreeWordsComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HeaderModule,
-    SidebarModule,
-    ContainerModule,
-    FooterModule,
-    HttpClientModule,
-    UserIdleModule.forRoot({ idle: 3600, timeout: 5, ping: 5 }),
-    FormsModule,
-    AngularWebStorageModule,
-    FontAwesomeModule,
-    BannerModule,
-    BrowserAnimationsModule,
-    ToastrModule.forRoot({
-      timeOut: 10000,
-      preventDuplicates: true,
-    })
-  ],
-  providers: [
-    HeaderService,
-    AppConfig,
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initializeApp,
-      deps: [AppConfig],
-      multi: true
-    },
-    ErrorHandlerService,
-    ResizeService
-  ],
-  bootstrap: [AppComponent]
-})
+@NgModule({ declarations: [
+        AppComponent,
+        OidcCallbackComponent,
+        OidcLogoutComponent,
+        SecondaryModuleLoaderComponent,
+        WhatthreewordsLoaderDirective,
+        WhatThreeWordsComponent
+      
+    ],
+    bootstrap: [AppComponent], 
+    
+    imports: [BrowserModule,
+        AppRoutingModule,
+        HeaderModule,
+        SidebarModule,
+        ContainerModule,
+        FooterModule,
+        UserIdleModule.forRoot({ idle: 3600, timeout: 5, ping: 5 }),
+        BsDatepickerModule.forRoot(),
+        TimepickerModule.forRoot(),
+        FormsModule,
+        FontAwesomeModule,
+        BannerModule,
+        BrowserAnimationsModule,
+        ToastrModule.forRoot({
+            timeOut: 10000,
+            preventDuplicates: true,
+        }),
+        ReactiveFormsModule], providers: [
+        HeaderService,
+        BsDatepickerConfig,
+        AppConfig,
+        {
+            provide: APP_INITIALIZER,
+            useFactory: initializeApp,
+            deps: [AppConfig],
+            multi: true
+        },
+        ErrorHandlerService,
+        ResizeService,
+        BsModalRef,
+        BsModalService,
+        provideHttpClient(withInterceptorsFromDi()),
+    ] })
 export class AppModule {
     constructor() {
       library.add(fas);

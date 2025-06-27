@@ -32,9 +32,13 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.If not, see<http://www.gnu.org/licenses/>. -->
 
-<button type="button" class="btn btn-dark text-white btn-sm btn-block" data-toggle="modal" data-target="#modalSearch" (click)="resetModal()">
+<button type="button" class="btn btn-dark text-white btn-sm btn-block" data-bs-toggle="modal" data-bs-target="#modalSearch" (click)="resetModal()">
   <i class="icon-magnifier"> </i> {{ personLabelText }} Search
 </button>
+
+
+
+
 
 <div class="modal" id="modalSearch">
   <div class="modal-dialog modal-dialog-centered modal-lg" style="overflow-y: initial !important">
@@ -99,7 +103,7 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
             </tr>
             <tr>
               <td style="width: 30%;">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
               </td>
               <td style="width: 70%;">
                 <button class="btn btn-success float-right" type="button" id="btnSearch" (click)="patientSearch()">
@@ -138,13 +142,13 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let person of persons" data-dismiss="modal" (click)="selectedPatient(person)" style="cursor: pointer;">
+                <tr *ngFor="let person of persons" data-bs-dismiss="modal" (click)="selectedPatient(person)" style="cursor: pointer;">
                   <td>{{ person.fullname }}</td>
                   <td>{{ person.dateofbirth }}</td>
                   <td *ngIf="env != 'social_care'">{{ person.mrn }}</td>
                   <td *ngIf="env != 'social_care'">{{ person.empi | slice:0:3 }}  {{ person.empi | slice:3:6 }}  {{ person.empi | slice:6:10 }}</td>
                   <td *ngIf="env == 'social_care'">{{ person.mrn }}</td>
-                  <!-- <td><button class="btn btn-primary text-white" type="button" data-dismiss="modal" (click)="selectedPatient(person)">Select</button></td> -->
+                  <!-- <td><button class="btn btn-primary text-white" type="button" data-bs-dismiss="modal" (click)="selectedPatient(person)">Select</button></td> -->
                 </tr>
               </tbody>
             </table>
@@ -165,3 +169,5 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
     </div>
   </div>
 </div>
+
+

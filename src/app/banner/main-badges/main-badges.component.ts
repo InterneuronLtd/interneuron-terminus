@@ -23,6 +23,7 @@ import { Subscription } from 'rxjs';
 import { AppConfig } from 'src/app/app.config';
 import { BannerMainBadges } from 'src/app/Models/banner/banner.mainbadges';
 import { ApirequestService } from 'src/app/services/apirequest.service';
+import { HeaderService } from 'src/app/services/header.service';
 import { ResizeService } from 'src/app/services/resize.service';
 
 @Component({
@@ -37,13 +38,19 @@ export class MainBadgesComponent  implements OnInit, OnDestroy {
 
   private resizeSubscription: Subscription;
   displayPort: string;
+  env: string = AppConfig.settings.env;
+  badgeIcon: string = 'pending'
 
-  constructor(private reqService: ApirequestService, private resizeService: ResizeService) { }
+  constructor(private reqService: ApirequestService, private resizeService: ResizeService, private headerService: HeaderService) { }
 
   ngOnInit() {
     this.resizeSubscription = this.resizeService.displayPort$.subscribe((value:any) => {
       this.displayPort = value;
     });
+
+    // this.headerService.changeBadgeIcon.subscribe((value: any) => {
+    //   this.badgeIcon = value;
+    // })
   }
 
 
@@ -85,6 +92,8 @@ export class MainBadgesComponent  implements OnInit, OnDestroy {
           this.sendBadgesResponse(false);
         };
   }
+
+ 
 
 
 

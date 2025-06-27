@@ -45,7 +45,7 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
     </li>
     <li class="nav-item">
       <button class="btn btn-sm btn-default dropdown-toggle btn-info text-white btn-block"  *ngIf="RbacService.authoriseAction('show teamlist')" type="button"
-        id="patientlistDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" #patientlistDropdownMenu>
+        id="patientlistDropdownMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" #patientlistDropdownMenu>
         <i class='icon-list'> </i> Team Lists
       </button>
       <ul class="dropdown-menu" style="max-width: 300%; min-width: 100%; text-align: center;">
@@ -61,8 +61,8 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
 <div class="h6 text-dark" style="margin-top:2px; margin-bottom: 2px; padding: 3px;">
   {{personaContext.displayname}}
   <span (click)="onRefresh()" style="margin-right: 20px; cursor: pointer;" class="btn btn-info text-white btn-sm float-right">
-    <i *ngIf="env != 'social_care'" class="icon-refresh" data-toggle="tooltip" title="Refresh Patient List"></i> 
-    <i *ngIf="env == 'social_care'" class="icon-refresh" data-toggle="tooltip" title="Refresh Client List"></i> </span>
+    <i *ngIf="env != 'social_care'" class="icon-refresh" data-bs-toggle="tooltip" title="Refresh Patient List"></i> 
+    <i *ngIf="env == 'social_care'" class="icon-refresh" data-bs-toggle="tooltip" title="Refresh Client List"></i> </span>
   <br />{{selectedApplicationPatientlist}}</div>
 
 <div [ngStyle]="setDisplay()" style="padding: 3px;">

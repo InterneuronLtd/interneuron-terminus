@@ -1,6 +1,10 @@
 {
   "apiServices": [
     {
+      "serviceName": "BaseUri",
+      "serviceUrl": "SYNAPSE_DYNAMIC_URI"
+    },
+    {
       "serviceName": "GetCurrentEncounter",
       "serviceUrl": "SYNAPSE_DYNAMIC_URI/GetBaseViewListByPost/bv_core_inpatientappointments"
     },

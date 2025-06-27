@@ -102,6 +102,10 @@ export class HeaderService {
   moduleAction = new Subject();
   w3w = new Subject();
 
+  
+  // changeBadgeIcon = new Subject();
+
+  closeGraphModal = new Subject();
 
   constructor() { }
 

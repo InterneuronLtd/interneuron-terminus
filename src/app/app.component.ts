@@ -62,6 +62,8 @@ export class AppComponent {
 
   env:string = AppConfig.settings.env;
 
+
+
   constructor(
     private authService: AuthenticationService,
     private headerService: HeaderService,
@@ -95,17 +97,9 @@ export class AppComponent {
 
 
   ngOnInit() {
-    $(document).ready(function(){
-      // $('#btnToggleNav').click(function(){
 
-      //   if ( $('body').is('.sidebar-show') ) {
-      //     $( "body" ).removeClass( "sidebar-show" );
-      //   }
-      //   else {
-      //     $( "body" ).addClass( "sidebar-show" );
-      //   }
-      // });
-    });
+
+
   }
 
   isLoggedIn() {

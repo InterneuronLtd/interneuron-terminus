@@ -35,7 +35,7 @@
 import { Injectable } from '@angular/core';
 import { UserManager, User } from 'oidc-client';
 import { AppConfig } from '../app.config';
-import * as jwt_decode from "jwt-decode";
+import  {jwtDecode} from "jwt-decode";
 
 @Injectable({
   providedIn: 'root'
@@ -82,7 +82,7 @@ export class AuthenticationService {
   }
   decodeAccessToken(token: string): any {
     try {
-      return jwt_decode(token);
+      return jwtDecode(token);
     }
     catch (Error) {
       return null;

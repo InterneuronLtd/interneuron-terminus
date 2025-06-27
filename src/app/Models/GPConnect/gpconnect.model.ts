@@ -22,6 +22,7 @@ export interface SynapseStructuredRecordMessage {
     messageCode: string | null;
     messageCategory: string | null;
     messageText: string | null;
+    messageSyncOpCategory: string | null;
 }
 
 export interface GetSynapseStructuredRecordByAttributesDTO {
@@ -91,8 +92,8 @@ export enum GPConnectSyncStatus {
     Unverified = 0,
     PDSVerificationFail = 1,
     GPCAPIError = 2,
+    Success_With_Warnings = 2,
     Success = 3,
-    Success_With_Warnings = 4,
     UNKNOWNERROR = 5,
   }
 

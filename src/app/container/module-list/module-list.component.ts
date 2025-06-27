@@ -41,7 +41,7 @@ import { Application, Module } from '../../Models/application.model';
 import { filters, filterParams, filterparam, filter, selectstatement, orderbystatement, Rbacobject } from '../../Models/Filter.model';
 import { RbacService } from "../../services/rbac.service";
 import { AuthenticationService } from '../../services/authentication.service';
-import * as jwt_decode from "jwt-decode";
+import  {jwtDecode} from "jwt-decode";
 import { SharedDataContainerService } from 'src/app/services/shared-data-container.service';
 
 @Component({
@@ -92,7 +92,7 @@ export class ModuleListComponent implements OnInit {
   }
   decodeAccessToken(token: string): any {
     try {
-      return jwt_decode(token);
+      return jwtDecode(token);
     }
     catch (Error) {
       return null;

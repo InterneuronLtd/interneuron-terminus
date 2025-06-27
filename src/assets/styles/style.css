@@ -16271,3 +16271,7 @@ body {
   width: 75% !important;
   margin: 0 !important;
 }
+
+.overflow-x-auto {
+  overflow-x: auto !important;
+}

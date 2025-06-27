@@ -1,6 +1,6 @@
 {
   "mainBanner": {
-    "endpointUri": "SYNAPSE_DYNAMIC_URI/GetBaseViewListByAttribute/patientbanner_mainbanner?synapseattributename=person_id&attributevalue=",
+    "endpointUri": "https://synapsedynamicapi.mhc-dev.interneuron.io/GetBaseViewListByAttribute/patientbanner_mainbanner?synapseattributename=person_id&attributevalue=",
     "data": {
       "leftSideTopRow": {
         "label": "",
@@ -55,7 +55,7 @@
       "rightSideBottomRowMiddle": {
         "label": "RISKS",
         "dataColumn": "risk",
-        "endpointUri": "SYNAPSE_DYNAMIC_URI/GetBaseViewListByAttribute/patientbanner_personatrisk?synapseattributename=person_id&attributevalue="
+        "endpointUri": "https://synapsedynamicapi.mhc-dev.interneuron.io/GetBaseViewListByAttribute/patientbanner_personatrisk?synapseattributename=person_id&attributevalue="
       },
       "rightSideBottomRowLast": {
         "label": "",
@@ -118,8 +118,8 @@
               "endpointUri": ""
             }
           ],
-          "endpointUri": "SYNAPSE_DYNAMIC_URI/GetBaseViewListByAttribute/patientbanner_mainbanner?synapseattributename=person_id&attributevalue=",
-          "socialcareURL": "SYNAPSE_DYNAMIC_URI/GetBaseViewListByAttribute/patientbanner_mainbanner?synapseattributename=person_id&attributevalue="
+          "endpointUri": "https://synapsedynamicapi.mhc-dev.interneuron.io/GetBaseViewListByAttribute/patientbanner_mainbanner?synapseattributename=person_id&attributevalue=",
+          "socialcareURL": "https://synapsedynamicapi.mhc-dev.interneuron.io/GetBaseViewListByAttribute/patientbanner_mainbanner?synapseattributename=person_id&attributevalue="
         }
       ]
     },
@@ -145,8 +145,8 @@
               "endpointUri": ""
             }
           ],
-          "endpointUri": "SYNAPSE_DYNAMIC_URI/GetBaseViewListByAttribute/patientbanner_column2?synapseattributename=person_id&attributevalue=",
-          "socialcareURL": "SYNAPSE_DYNAMIC_URI/GetBaseViewListByAttribute/patientbanner_demographisocialcare?synapseattributename=person_id&attributevalue="
+          "endpointUri": "https://synapsedynamicapi.mhc-dev.interneuron.io/GetBaseViewListByAttribute/patientbanner_column2?synapseattributename=person_id&attributevalue=",
+          "socialcareURL": "https://synapsedynamicapi.mhc-dev.interneuron.io/GetBaseViewListByAttribute/patientbanner_demographisocialcare?synapseattributename=person_id&attributevalue="
         }
       ]
     
@@ -195,11 +195,11 @@
             {
               "label": "Procedures",
               "dataColumn": "name",
-              "endpointUri": "CARERECORD_URI/ClinicalSummary/GetProcedures/"
+              "endpointUri": "https://carerecordapi.mhc-dev.interneuron.io/ClinicalSummary/GetProcedures/"
             }
           ],
-          "endpointUri": "SYNAPSE_DYNAMIC_URI/GetBaseViewListByAttribute/patientbanner_clinicalinformation?synapseattributename=person_id&attributevalue=",
-          "socialcareURL": "SYNAPSE_DYNAMIC_URI/GetBaseViewListByAttribute/patientbanner_demographisocialcare?synapseattributename=person_id&attributevalue="
+          "endpointUri": "https://synapsedynamicapi.mhc-dev.interneuron.io/GetBaseViewListByAttribute/patientbanner_clinicalinformation?synapseattributename=person_id&attributevalue=",
+          "socialcareURL": "https://synapsedynamicapi.mhc-dev.interneuron.io/GetBaseViewListByAttribute/patientbanner_demographisocialcare?synapseattributename=person_id&attributevalue="
         }
       ]
     },
@@ -235,8 +235,8 @@
               "endpointUri": ""
             }
           ],
-          "endpointUri": "SYNAPSE_DYNAMIC_URI/GetBaseViewListByAttribute/patientbanner_extendedperson?synapseattributename=person_id&attributevalue=",
-          "socialcareURL": "SYNAPSE_DYNAMIC_URI/GetBaseViewListByAttribute/patientbanner_extendedperson?synapseattributename=person_id&attributevalue="
+          "endpointUri": "https://synapsedynamicapi.mhc-dev.interneuron.io/GetBaseViewListByAttribute/patientbanner_extendedperson?synapseattributename=person_id&attributevalue=",
+          "socialcareURL": "https://synapsedynamicapi.mhc-dev.interneuron.io/GetBaseViewListByAttribute/patientbanner_extendedperson?synapseattributename=person_id&attributevalue="
         },
         {
           "config": [
@@ -266,8 +266,8 @@
               "endpointUri": ""
             }
           ],
-          "endpointUri": "SYNAPSE_DYNAMIC_URI/GetBaseViewListByAttribute/patientbanner_careteam?synapseattributename=person_id&attributevalue=",
-          "socialcareURL": "SYNAPSE_DYNAMIC_URI/GetBaseViewListByAttribute/patientbanner_careteam?synapseattributename=person_id&attributevalue="
+          "endpointUri": "https://synapsedynamicapi.mhc-dev.interneuron.io/GetBaseViewListByAttribute/patientbanner_careteam?synapseattributename=person_id&attributevalue=",
+          "socialcareURL": "https://synapsedynamicapi.mhc-dev.interneuron.io/GetBaseViewListByAttribute/patientbanner_careteam?synapseattributename=person_id&attributevalue="
         }
       ]
     },
@@ -324,8 +324,8 @@
               "endpointUri": ""
             }
           ],
-          "endpointUri": "SYNAPSE_DYNAMIC_URI/GetBaseViewListByAttribute/patientbanner_isnextofkin?synapseattributename=person_id&attributevalue=",
-          "socialcareURL": "SYNAPSE_DYNAMIC_URI/GetBaseViewListByAttribute/patientbanner_isnextofkin?synapseattributename=person_id&attributevalue="
+          "endpointUri": "https://synapsedynamicapi.mhc-dev.interneuron.io/GetBaseViewListByAttribute/patientbanner_isnextofkin?synapseattributename=person_id&attributevalue=",
+          "socialcareURL": "https://synapsedynamicapi.mhc-dev.interneuron.io/GetBaseViewListByAttribute/patientbanner_isnextofkin?synapseattributename=person_id&attributevalue="
         }
       ]
     }
